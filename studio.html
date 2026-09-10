@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>اخبار | Digital Studio</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at 20% 20%, #202020 0%, transparent 25%),
+                radial-gradient(circle at 80% 70%, #151515 0%, transparent 30%),
+                #000000;
+            color: white;
+            font-family: Tahoma, Arial, sans-serif;
+        }
+
+        .top-bar {
+            width: 100%;
+            min-height: 70px;
+            background: #080808;
+            border-bottom: 1px solid #252525;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 12px;
+        }
+
+        .back-button {
+            position: absolute;
+            right: 15px;
+
+            background: #151515;
+            color: white;
+
+            border: 1px solid #444;
+            border-radius: 8px;
+
+            padding: 10px 18px;
+
+            font-size: 15px;
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        .back-button:hover {
+            background: #252525;
+        }
+
+        .section-title {
+            font-size: 27px;
+            font-weight: bold;
+        }
+
+        .all-news-title {
+            text-align: center;
+
+            margin-top: 35px;
+            margin-bottom: 25px;
+
+            font-size: 24px;
+        }
+
+        #newsList {
+            width: 92%;
+            max-width: 1100px;
+
+            margin: auto;
+
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+
+            gap: 20px;
+
+            padding-bottom: 40px;
+        }
+
+        .news-card {
+            background: #090909;
+
+            border: 1px solid #333;
+            border-radius: 12px;
+
+            padding: 20px;
+
+            min-height: 150px;
+
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.03);
+        }
+
+        .news-name {
+            font-size: 20px;
+            font-weight: bold;
+
+            margin-bottom: 8px;
+
+            color: #ffffff;
+        }
+
+        .news-date {
+            font-size: 13px;
+
+            color: #888;
+
+            margin-bottom: 15px;
+        }
+
+        .news-content {
+            font-size: 16px;
+            line-height: 2;
+
+            color: #d0d0d0;
+
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
+
+        .empty-message {
+            grid-column: 1 / -1;
+
+            text-align: center;
+
+            color: #777;
+
+            font-size: 18px;
+
+            padding: 40px 10px;
+        }
+
+        @media (max-width: 700px) {
+
+            #newsList {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 23px;
+            }
+
+            .all-news-title {
+                font-size: 21px;
+            }
+
+            .back-button {
+                padding: 8px 12px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="top-bar">
+
+        <button
+            class="back-button"
+            onclick="window.location.href='index.html'"
+        >
+            بازگشت
+        </button>
+
+        <div class="section-title">
+            اخبار
+        </div>
+
+    </div>
+
+
+    <h1 class="all-news-title">
+        اخبار
+    </h1>
+
+
+    <div id="newsList"></div>
+
+
+    <script>
+
+        const newsListData = [
+
+            {
+                newsName: "اولین روز شروع به ساخت سایت",
+                news: "امروز اولین روزی است که من یعنی حامی یک سایت اعلام خبر ساختم که به شما کمک کنم",
+                date: "1405/6/19",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            },
+
+            {
+                newsName: "no news",
+                news: "no news",
+                date: "",
+                id: ""
+            }
+
+        ];
+
+
+        const newsList =
+            document.getElementById("newsList");
+
+
+        let newsCount = 0;
+
+
+        newsListData.forEach(function(item) {
+
+            if (
+                !item.newsName ||
+                !item.news ||
+                !item.date ||
+
+                item.newsName.toLowerCase() === "no news" ||
+                item.news.toLowerCase() === "no news"
+            ) {
+                return;
+            }
+
+
+            const card =
+                document.createElement("div");
+
+            card.className =
+                "news-card";
+
+
+            if (item.id) {
+                card.id = item.id;
+            }
+
+
+            const name =
+                document.createElement("div");
+
+            name.className =
+                "news-name";
+
+            name.textContent =
+                item.newsName;
+
+
+            const date =
+                document.createElement("div");
+
+            date.className =
+                "news-date";
+
+            date.textContent =
+                item.date;
+
+
+            const content =
+                document.createElement("div");
+
+            content.className =
+                "news-content";
+
+            content.textContent =
+                item.news;
+
+
+            card.appendChild(name);
+
+            card.appendChild(date);
+
+            card.appendChild(content);
+
+
+            newsList.appendChild(card);
+
+
+            newsCount++;
+
+        });
+
+
+        if (newsCount === 0) {
+
+            const emptyMessage =
+                document.createElement("div");
+
+            emptyMessage.className =
+                "empty-message";
+
+            emptyMessage.textContent =
+                "هنوز خبری برای نمایش وجود ندارد.";
+
+            newsList.appendChild(emptyMessage);
+
+        }
+
+    </script>
+
+</body>
+</html>

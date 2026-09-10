@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Digital studio</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100%;
+            background: #000;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            overflow-x: hidden;
+        }
+
+
+        /* ==============================
+           نوار بالای سایت
+           ============================== */
+
+        #topBar {
+            width: 100%;
+            min-height: 100px;
+
+            display: flex;
+            align-items: center;
+
+            background: #080808;
+            border-bottom: 1px solid #222;
+
+            padding: 15px 25px;
+
+            position: relative;
+            z-index: 10;
+        }
+
+
+        /* لوگو */
+
+        #studioLogo {
+            height: 65px;
+            width: auto;
+
+            object-fit: contain;
+        }
+
+
+        /* نام استودیو */
+
+        #studioName {
+            margin-left: 18px;
+
+            font-size: 25px;
+            font-weight: bold;
+
+            white-space: nowrap;
+        }
+
+
+        /* درباره ما */
+
+        #aboutButton {
+            margin-left: 30px;
+
+            padding: 12px 22px;
+
+            background: #111;
+            color: white;
+
+            border: 1px solid #444;
+            border-radius: 8px;
+
+            cursor: pointer;
+
+            font-size: 16px;
+        }
+
+        #aboutButton:hover {
+            background: #1d1d1d;
+        }
+
+
+        /* ==============================
+           تصویر اصلی
+           ============================== */
+
+        #mainArea {
+            width: 100%;
+            position: relative;
+        }
+
+
+        #mainImage {
+            display: block;
+
+            width: 100%;
+            height: auto;
+
+            min-height: 500px;
+
+            object-fit: contain;
+
+            background: #111;
+        }
+
+
+        /* ==============================
+           مربع چهار قسمتی
+           ============================== */
+
+        #gameMenuArea {
+            width: 100%;
+
+            display: flex;
+            justify-content: center;
+
+            padding: 50px 20px 80px;
+
+            background: #050505;
+        }
+
+
+        #gameMenu {
+            width: min(760px, 90vw);
+            aspect-ratio: 1 / 1;
+
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+
+            border: 2px solid #444;
+
+            background: #0b0b0b;
+        }
+
+
+        .gameSection {
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            padding: 25px;
+
+            border: 1px solid #292929;
+        }
+
+
+        .gameButton {
+            width: 80%;
+            min-height: 70px;
+
+            padding: 15px;
+
+            background: #111;
+            color: white;
+
+            border: 1px solid #555;
+            border-radius: 10px;
+
+            cursor: pointer;
+
+            font-size: 17px;
+
+            transition: 0.2s;
+        }
+
+
+        .gameButton:hover {
+            background: #202020;
+
+            transform: scale(1.03);
+        }
+
+
+        /* ==============================
+           عضویت در استودیو
+           ============================== */
+
+        #studioJoinArea {
+            width: 100%;
+
+            display: flex;
+            justify-content: center;
+
+            padding: 0 20px 70px;
+
+            background: #050505;
+        }
+
+
+        #studioJoinButton {
+            min-width: 260px;
+
+            padding: 16px 30px;
+
+            background: #111;
+            color: white;
+
+            border: 1px solid #555;
+            border-radius: 10px;
+
+            cursor: pointer;
+
+            font-size: 18px;
+        }
+
+
+        #studioJoinButton:hover {
+            background: #202020;
+        }
+
+
+        /* ==============================
+           پیام سیستم
+           ============================== */
+
+        #systemMessage {
+            display: none;
+
+            position: fixed;
+
+            left: 50%;
+            top: 50%;
+
+            transform: translate(-50%, -50%);
+
+            width: min(450px, 85vw);
+
+            padding: 25px;
+
+            background: #111;
+
+            border: 1px solid #555;
+            border-radius: 12px;
+
+            text-align: center;
+
+            z-index: 100;
+        }
+
+
+        #systemMessageText {
+            margin: 0 0 20px;
+
+            line-height: 1.8;
+        }
+
+
+        #systemMessageClose {
+            padding: 10px 25px;
+
+            background: #222;
+            color: white;
+
+            border: 1px solid #555;
+            border-radius: 7px;
+
+            cursor: pointer;
+        }
+
+
+        /* ==============================
+           موبایل
+           ============================== */
+
+        @media (max-width: 600px) {
+
+            #topBar {
+                min-height: 80px;
+
+                padding: 10px 15px;
+            }
+
+            #studioLogo {
+                height: 50px;
+            }
+
+            #studioName {
+                margin-left: 10px;
+
+                font-size: 18px;
+            }
+
+            #aboutButton {
+                margin-left: 15px;
+
+                padding: 9px 14px;
+
+                font-size: 14px;
+            }
+
+            #mainImage {
+                min-height: 300px;
+            }
+
+            #gameMenuArea {
+                padding-top: 30px;
+            }
+
+            .gameSection {
+                padding: 12px;
+            }
+
+            .gameButton {
+                width: 95%;
+
+                min-height: 60px;
+
+                font-size: 14px;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+    <!-- ==============================
+         نوار بالای سایت
+         ============================== -->
+
+    <header id="topBar">
+
+        <img
+            id="studioLogo"
+            src="Logo studio.jpg"
+            alt="Digital Studio Logo"
+        >
+
+        <div id="studioName">
+            Digital Studio
+        </div>
+
+        <button
+            id="aboutButton"
+            type="button"
+        >
+            درباره ی ما
+        </button>
+
+    </header>
+
+
+
+    <!-- ==============================
+         تصویر اصلی
+         ============================== -->
+
+    <main id="mainArea">
+
+        <img
+            id="mainImage"
+            alt="Logo Studio"
+        >
+
+    </main>
+
+
+
+    <!-- ==============================
+         مربع چهار قسمتی
+         ============================== -->
+
+    <section id="gameMenuArea">
+
+        <div id="gameMenu">
+
+
+            <!-- قسمت اول -->
+
+            <div class="gameSection">
+
+                <button
+                    class="gameButton"
+                    id="myGamesButton"
+                    type="button"
+                >
+                    بازی های ما
+                </button>
+
+            </div>
+
+
+            <!-- قسمت دوم -->
+
+            <div class="gameSection">
+
+                <button
+                    class="gameButton"
+                    id="betaButton"
+                    type="button"
+                >
+                    دانلود نسخه های بتا
+                </button>
+
+            </div>
+
+
+            <!-- قسمت سوم -->
+
+            <div class="gameSection">
+
+                <button
+                    class="gameButton"
+                    id="buildingGamesButton"
+                    type="button"
+                >
+                    بازی های درحال ساخت
+                </button>
+
+            </div>
+
+
+            <!-- قسمت چهارم -->
+
+            <div class="gameSection">
+
+                <button
+                    class="gameButton"
+                    id="studioInfoButton"
+                    type="button"
+                >
+                    اخبار استودیو
+                </button>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ==============================
+         عضویت در استودیو
+         ============================== -->
+
+    <section id="studioJoinArea">
+
+        <button
+            id="studioJoinButton"
+            type="button"
+        >
+            عضو شدن در استودیو
+        </button>
+
+    </section>
+
+
+
+    <!-- ==============================
+         پیام سیستم
+         ============================== -->
+
+    <div id="systemMessage">
+
+        <p id="systemMessageText"></p>
+
+        <button
+            id="systemMessageClose"
+            type="button"
+        >
+            بستن
+        </button>
+
+    </div>
+
+
+
+    <script>
+
+        /* =================================
+           سیستم تشخیص تصویر فعال
+           ================================= */
+
+        const mainImage =
+            document.getElementById("mainImage");
+
+        const activeImage =
+            "Logo studio.jpg";
+
+        const backupImage =
+            "Your PC error.jpg";
+
+
+        function checkMainImage() {
+
+            const testImage = new Image();
+
+
+            testImage.onload = function () {
+
+                mainImage.src =
+                    activeImage;
+
+            };
+
+
+            testImage.onerror = function () {
+
+                mainImage.src =
+                    backupImage;
+
+            };
+
+
+            testImage.src =
+                activeImage +
+                "?check=" +
+                Date.now();
+
+        }
+
+
+        checkMainImage();
+
+
+        setInterval(
+            checkMainImage,
+            2000
+        );
+
+
+
+        /* =================================
+           سیستم پیام
+           ================================= */
+
+        const systemMessage =
+            document.getElementById(
+                "systemMessage"
+            );
+
+
+        const systemMessageText =
+            document.getElementById(
+                "systemMessageText"
+            );
+
+
+        const systemMessageClose =
+            document.getElementById(
+                "systemMessageClose"
+            );
+
+
+        function showMessage(text) {
+
+            systemMessageText.textContent =
+                text;
+
+            systemMessage.style.display =
+                "block";
+
+        }
+
+
+        systemMessageClose.addEventListener(
+            "click",
+            function () {
+
+                systemMessage.style.display =
+                    "none";
+
+            }
+        );
+
+
+
+        /* =================================
+           درباره ما
+           ================================= */
+
+        document
+            .getElementById("aboutButton")
+            .addEventListener(
+                "click",
+                function () {
+
+                    window.location.href =
+                        "about.html";
+
+                }
+            );
+
+
+
+        /* =================================
+           بازی های ما
+           ================================= */
+
+        document
+            .getElementById("myGamesButton")
+            .addEventListener(
+                "click",
+                function () {
+
+                    window.location.href =
+                        "my game.html";
+
+                }
+            );
+
+
+
+        /* =================================
+           بازی های درحال ساخت
+           ================================= */
+
+        document
+            .getElementById(
+                "buildingGamesButton"
+            )
+            .addEventListener(
+                "click",
+                function () {
+
+                    window.location.href =
+                        "games in development.html";
+
+                }
+            );
+
+
+
+        /* =================================
+           نسخه های بتا
+           ================================= */
+
+        document
+            .getElementById("betaButton")
+            .addEventListener(
+                "click",
+                function () {
+
+                    window.location.href =
+                        "play beta game.html";
+
+                }
+            );
+
+
+
+        /* =================================
+           اطلاعات استودیو
+           ================================= */
+
+document
+    .getElementById("studioInfoButton")
+    .addEventListener(
+        "click",
+        function () {
+            window.location.href = "studio.html";
+        }
+    );
+
+
+
+        /* =================================
+           سیستم عضویت در استودیو
+           ================================= */
+
+        const studioJoinButton =
+            document.getElementById(
+                "studioJoinButton"
+            );
+
+
+        /*
+            lock
+            = سرویس قفل است
+
+            unlock
+            = سرویس فعال است
+        */
+
+        let studioJoinStatus =
+            "lock";
+
+
+        studioJoinButton.addEventListener(
+            "click",
+            function () {
+
+
+                if (
+                    studioJoinStatus ===
+                    "unlock"
+                ) {
+
+                    window.location.href =
+                        "https://rubika.ir/DigitalSupportBot";
+
+                }
+
+
+                else {
+
+                    showMessage(
+                        "این سرویس درحال ساخت است"
+                    );
+
+                }
+
+            }
+        );
+
+    </script>
+
+</body>
+</html>
