@@ -197,9 +197,9 @@
             },
 
             {
-                newsName: "no news",
-                news: "no news",
-                date: "",
+                newsName: "اخبار",
+                news: "درحال صحبت با ادمین ها راجب بازی ی Reality.exe",
+                date: "1405/6/21",
                 id: ""
             },
 
@@ -913,7 +913,7 @@
         let newsCount = 0;
 
 
-        newsListData.forEach(function(item) {
+newsListData.slice().reverse().forEach(function(item) {
 
             if (
                 !item.newsName ||
