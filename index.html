@@ -1,730 +1,1168 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="fa" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Studio</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html,body{
+    width:100%;
+    min-height:100%;
+    background:#02030a;
+    color:white;
+    font-family:Arial,Tahoma,sans-serif;
+    overflow-x:hidden;
+}
+
+/* =========================
+   SPACE BACKGROUND
+========================= */
+
+body{
+    background:
+        radial-gradient(circle at 50% 8%,rgba(65,95,180,.28),transparent 20%),
+        radial-gradient(circle at 15% 55%,rgba(30,80,160,.16),transparent 25%),
+        radial-gradient(circle at 85% 75%,rgba(100,30,150,.14),transparent 25%),
+        linear-gradient(180deg,#070914 0%,#02030a 45%,#000106 100%);
+}
+
+/* نور بالای صفحه - حدود 10 درصد */
+body::before{
+    content:"";
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:10vh;
+    min-height:70px;
+    max-height:100px;
+    background:
+        radial-gradient(
+            ellipse at center top,
+            rgba(100,150,255,.25),
+            rgba(40,70,150,.10) 35%,
+            transparent 75%
+        );
+    pointer-events:none;
+    z-index:20;
+}
+
+/* =========================
+   STARS
+========================= */
+
+#device{
+    position:relative;
+    min-height:100vh;
+    overflow:hidden;
+
+    background-image:
+        radial-gradient(circle,rgba(255,255,255,.9) 1px,transparent 1.5px),
+        radial-gradient(circle,rgba(130,170,255,.75) 1px,transparent 1.5px),
+        radial-gradient(circle,rgba(255,255,255,.5) .7px,transparent 1px);
+
+    background-size:
+        150px 150px,
+        230px 230px,
+        90px 90px;
+
+    background-position:
+        10px 20px,
+        80px 100px,
+        30px 70px;
+}
+
+/* ستاره‌های متحرک */
+#device::after{
+    content:"";
+    position:fixed;
+    inset:0;
+
+    background-image:
+        radial-gradient(circle,rgba(255,255,255,.9) 1px,transparent 2px),
+        radial-gradient(circle,rgba(120,170,255,.7) 1px,transparent 2px);
+
+    background-size:310px 310px,410px 410px;
+
+    animation:starsMove 35s linear infinite;
+    pointer-events:none;
+    z-index:0;
+}
+
+@keyframes starsMove{
+    from{
+        transform:translate3d(0,0,0);
+    }
+    to{
+        transform:translate3d(-120px,180px,0);
+    }
+}
+
+/* =========================
+   SPACE DUST
+========================= */
+
+.spaceDust{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:1;
+
+    background:
+        radial-gradient(circle at 20% 30%,rgba(80,120,255,.10),transparent 8%),
+        radial-gradient(circle at 80% 20%,rgba(180,80,255,.08),transparent 10%),
+        radial-gradient(circle at 70% 80%,rgba(40,130,255,.08),transparent 12%);
+    
+    animation:dustPulse 8s ease-in-out infinite alternate;
+}
+
+@keyframes dustPulse{
+    from{opacity:.55;}
+    to{opacity:1;}
+}
+
+/* =========================
+   TOP BAR
+========================= */
+
+#topBar{
+    position:sticky;
+    top:0;
+    z-index:50;
 
-    <title>Digital studio</title>
+    height:82px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:10px 18px;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(10,18,42,.94),
+            rgba(3,6,17,.82)
+        );
+
+    border-bottom:1px solid rgba(100,150,255,.35);
+
+    box-shadow:
+        0 0 30px rgba(40,90,220,.12),
+        inset 0 -1px 0 rgba(255,255,255,.05);
+
+    backdrop-filter:blur(8px);
+}
+
+.logoArea{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logoArea img{
+    width:50px;
+    height:50px;
+    border-radius:12px;
+    object-fit:cover;
+
+    border:1px solid rgba(130,170,255,.55);
+
+    box-shadow:
+        0 0 15px rgba(70,120,255,.35);
+}
+
+.logoName{
+    font-size:18px;
+    font-weight:bold;
+    letter-spacing:1px;
+
+    text-shadow:
+        0 0 12px rgba(120,170,255,.55);
+}
+
+.aboutButton{
+    border:1px solid rgba(100,150,255,.5);
+    background:rgba(15,25,55,.65);
+    color:white;
+
+    padding:10px 15px;
+    border-radius:10px;
+
+    cursor:pointer;
+
+    box-shadow:
+        inset 0 0 12px rgba(60,100,220,.12),
+        0 0 12px rgba(40,90,220,.12);
+
+    transition:.25s;
+}
+
+.aboutButton:hover{
+    background:rgba(40,65,120,.8);
+    transform:translateY(-2px);
+}
+
+/* =========================
+   RUNNING GAME NAMES
+========================= */
+
+.gameName{
+    position:fixed;
+    z-index:8;
+
+    white-space:nowrap;
+
+    font-size:13px;
+    font-weight:bold;
+    letter-spacing:2px;
+
+    color:rgba(150,190,255,.7);
+
+    text-shadow:
+        0 0 7px rgba(80,140,255,.9),
+        0 0 18px rgba(60,100,255,.5);
+
+    pointer-events:none;
+
+    opacity:0;
+
+    animation-name:spaceFlight;
+    animation-timing-function:linear;
+    animation-iteration-count:infinite;
+}
+
+.game1{
+    top:25%;
+    left:-30%;
+    animation-duration:18s;
+    animation-delay:2s;
+}
+
+.game2{
+    top:48%;
+    left:-40%;
+    animation-duration:23s;
+    animation-delay:8s;
+}
+
+.game3{
+    top:70%;
+    left:-35%;
+    animation-duration:20s;
+    animation-delay:13s;
+}
+
+.game4{
+    top:35%;
+    left:-30%;
+    animation-duration:27s;
+    animation-delay:17s;
+}
+
+@keyframes spaceFlight{
+    0%{
+        transform:
+            translateX(-20vw)
+            rotate(-12deg)
+            scale(.8);
+        opacity:0;
+    }
+
+    10%{
+        opacity:.7;
+    }
+
+    35%{
+        transform:
+            translateX(40vw)
+            rotate(18deg)
+            scale(1);
+        opacity:.9;
+    }
+
+    55%{
+        transform:
+            translateX(90vw)
+            rotate(-25deg)
+            scale(1.1);
+        opacity:.65;
+    }
+
+    80%{
+        transform:
+            translateX(145vw)
+            rotate(35deg)
+            scale(.85);
+        opacity:.25;
+    }
+
+    100%{
+        transform:
+            translateX(175vw)
+            rotate(60deg)
+            scale(.7);
+        opacity:0;
+    }
+}
+
+/* =========================
+   PAGES
+========================= */
+
+#pages{
+    position:relative;
+    z-index:10;
+
+    width:100%;
+    height:760px;
+
+    overflow:hidden;
+
+    touch-action:pan-y;
+
+    background:
+        radial-gradient(
+            ellipse at center,
+            rgba(25,45,100,.12),
+            transparent 60%
+        );
+}
+
+/* خطوط خیلی ظریف فضایی */
+#pages::before{
+    content:"";
+    position:absolute;
+    inset:0;
+
+    background:
+        linear-gradient(
+            rgba(100,150,255,.025) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(100,150,255,.025) 1px,
+            transparent 1px
+        );
+
+    background-size:70px 70px;
+
+    pointer-events:none;
+    z-index:2;
+}
+
+/* =========================
+   EACH PAGE
+========================= */
+
+.page{
+    position:absolute;
+    inset:0;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+
+    padding:30px;
+
+    opacity:0;
+    pointer-events:none;
+
+    transform:translateX(100%) scale(.96);
+
+    transition:
+        transform .65s cubic-bezier(.2,.8,.2,1),
+        opacity .45s ease;
+}
+
+.page.active{
+    opacity:1;
+    pointer-events:auto;
+    transform:translateX(0) scale(1);
+}
+
+.page.exitLeft{
+    opacity:0;
+    transform:translateX(-100%) scale(.96);
+}
+
+.page.exitRight{
+    opacity:0;
+    transform:translateX(100%) scale(.96);
+}
+
+.page.enterLeft{
+    animation:enterLeft .65s forwards;
+}
+
+.page.enterRight{
+    animation:enterRight .65s forwards;
+}
+
+@keyframes enterLeft{
+    from{
+        opacity:0;
+        transform:translateX(100%) scale(.96);
+    }
+    to{
+        opacity:1;
+        transform:translateX(0) scale(1);
+    }
+}
+
+@keyframes enterRight{
+    from{
+        opacity:0;
+        transform:translateX(-100%) scale(.96);
+    }
+    to{
+        opacity:1;
+        transform:translateX(0) scale(1);
+    }
+}
+
+/* =========================
+   SPACE PANEL
+========================= */
+
+.panel{
+    position:relative;
+
+    width:min(430px,88vw);
+    min-height:330px;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+
+    padding:30px 22px;
+
+    border-radius:26px;
+
+    background:
+        radial-gradient(
+            circle at 50% 0%,
+            rgba(60,100,190,.22),
+            transparent 45%
+        ),
+        linear-gradient(
+            145deg,
+            rgba(16,24,52,.95),
+            rgba(4,7,18,.96)
+        );
+
+    border:1px solid rgba(100,150,255,.35);
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.75),
+        0 0 35px rgba(45,90,210,.13),
+        inset 0 0 30px rgba(70,100,190,.07);
+
+    overflow:hidden;
+}
+
+/* خطوط گوشه‌ای پنل */
+
+.panel::before,
+.panel::after{
+    content:"";
+    position:absolute;
+
+    width:70px;
+    height:70px;
+
+    border-color:rgba(110,160,255,.4);
+    border-style:solid;
+
+    pointer-events:none;
+}
+
+.panel::before{
+    top:12px;
+    left:12px;
+
+    border-width:1px 0 0 1px;
+}
+
+.panel::after{
+    bottom:12px;
+    right:12px;
+
+    border-width:0 1px 1px 0;
+}
+
+/* نور داخل پنل */
+
+.panelLight{
+    position:absolute;
+
+    top:-80px;
+    left:50%;
+
+    width:240px;
+    height:140px;
+
+    transform:translateX(-50%);
+
+    background:
+        radial-gradient(
+            ellipse,
+            rgba(80,140,255,.25),
+            transparent 70%
+        );
+
+    filter:blur(10px);
+}
+
+/* شماره صفحه */
+
+.panelNumber{
+    position:absolute;
+    top:22px;
+    left:25px;
+
+    font-size:11px;
+    color:rgba(140,175,230,.45);
+
+    letter-spacing:3px;
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+.menuButton{
+    position:relative;
+    z-index:3;
+
+    min-width:220px;
+
+    padding:18px 25px;
+
+    border-radius:15px;
+
+    border:1px solid rgba(120,170,255,.6);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(35,65,125,.75),
+            rgba(8,15,35,.9)
+        );
+
+    color:white;
 
-    <style>
+    font-size:18px;
+    font-weight:bold;
 
-        * {
-            box-sizing: border-box;
-        }
+    cursor:pointer;
 
-        html,
-        body {
-            margin: 0;
-            padding: 0;
-            min-height: 100%;
-            background: #000;
-            color: white;
-            font-family: Arial, sans-serif;
-        }
+    box-shadow:
+        0 0 25px rgba(60,120,255,.18),
+        inset 0 0 18px rgba(100,150,255,.08);
 
-        body {
-            overflow-x: hidden;
-        }
+    transition:.3s;
+}
 
+.menuButton:hover{
+    transform:translateY(-4px);
 
-        /* ==============================
-           نوار بالای سایت
-           ============================== */
+    border-color:rgba(170,205,255,.9);
 
-        #topBar {
-            width: 100%;
-            min-height: 100px;
+    box-shadow:
+        0 0 30px rgba(80,140,255,.35),
+        inset 0 0 20px rgba(100,160,255,.15);
+}
 
-            display: flex;
-            align-items: center;
+.menuButton:active{
+    transform:scale(.96);
+}
 
-            background: #080808;
-            border-bottom: 1px solid #222;
+/* =========================
+   DESCRIPTION
+========================= */
 
-            padding: 15px 25px;
+.pageDescription{
+    position:relative;
+    z-index:3;
 
-            position: relative;
-            z-index: 10;
-        }
+    max-width:340px;
 
+    margin-top:25px;
 
-        /* لوگو */
+    text-align:center;
 
-        #studioLogo {
-            height: 65px;
-            width: auto;
+    line-height:2;
 
-            object-fit: contain;
-        }
+    font-size:14px;
 
+    color:rgba(220,230,255,.72);
 
-        /* نام استودیو */
+    text-shadow:
+        0 0 8px rgba(60,100,180,.25);
+}
 
-        #studioName {
-            margin-left: 18px;
+/* =========================
+   PAGE INDICATOR
+========================= */
 
-            font-size: 25px;
-            font-weight: bold;
+.pageIndicator{
+    position:absolute;
 
-            white-space: nowrap;
-        }
+    bottom:35px;
+    left:50%;
 
+    transform:translateX(-50%);
 
-        /* درباره ما */
+    z-index:30;
 
-        #aboutButton {
-            margin-left: 30px;
+    display:flex;
+    direction:ltr;
+    gap:9px;
+}
 
-            padding: 12px 22px;
+.dot{
+    width:7px;
+    height:7px;
 
-            background: #111;
-            color: white;
+    border-radius:50%;
 
-            border: 1px solid #444;
-            border-radius: 8px;
+    background:rgba(150,170,210,.25);
 
-            cursor: pointer;
+    box-shadow:0 0 5px rgba(80,120,220,.2);
 
-            font-size: 16px;
-        }
+    transition:.3s;
+}
 
-        #aboutButton:hover {
-            background: #1d1d1d;
-        }
+.dot.active{
+    width:22px;
+    border-radius:8px;
 
+    background:rgba(110,165,255,.9);
 
-        /* ==============================
-           تصویر اصلی
-           ============================== */
+    box-shadow:
+        0 0 12px rgba(80,140,255,.7);
+}
 
-        #mainArea {
-            width: 100%;
-            position: relative;
-        }
+/* =========================
+   SYSTEM MESSAGE
+========================= */
 
+#systemMessage{
+    position:fixed;
 
-        #mainImage {
-            display: block;
+    left:50%;
+    bottom:30px;
 
-            width: 100%;
-            height: auto;
+    transform:translateX(-50%) translateY(20px);
 
-            min-height: 500px;
+    z-index:100;
 
-            object-fit: contain;
+    padding:12px 20px;
 
-            background: #111;
-        }
+    border-radius:12px;
 
+    background:rgba(10,18,40,.95);
 
-        /* ==============================
-           مربع چهار قسمتی
-           ============================== */
+    border:1px solid rgba(100,150,255,.45);
 
-        #gameMenuArea {
-            width: 100%;
+    color:white;
 
-            display: flex;
-            justify-content: center;
+    opacity:0;
+    pointer-events:none;
 
-            padding: 50px 20px 80px;
+    transition:.3s;
 
-            background: #050505;
-        }
+    box-shadow:0 0 25px rgba(40,90,220,.25);
+}
 
+#systemMessage.show{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
+}
 
-        #gameMenu {
-            width: min(760px, 90vw);
-            aspect-ratio: 1 / 1;
+/* فضای پایین برای اسکرول عمودی */
+#bottomSpace{
+    height:500px;
+    position:relative;
+    z-index:5;
+}
 
-            display: grid;
+/* =========================
+   MOBILE
+========================= */
 
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: 1fr 1fr;
+@media(max-width:600px){
 
-            border: 2px solid #444;
+    #topBar{
+        height:74px;
+        padding:8px 12px;
+    }
 
-            background: #0b0b0b;
-        }
+    .logoArea img{
+        width:44px;
+        height:44px;
+    }
 
+    .logoName{
+        font-size:16px;
+    }
 
-        .gameSection {
-            display: flex;
+    .aboutButton{
+        padding:9px 12px;
+        font-size:12px;
+    }
 
-            align-items: center;
-            justify-content: center;
+    #pages{
+        height:700px;
+    }
 
-            padding: 25px;
+    .panel{
+        min-height:300px;
+        padding:25px 18px;
+    }
 
-            border: 1px solid #292929;
-        }
+    .menuButton{
+        min-width:200px;
+        font-size:16px;
+    }
 
-
-        .gameButton {
-            width: 80%;
-            min-height: 70px;
-
-            padding: 15px;
-
-            background: #111;
-            color: white;
-
-            border: 1px solid #555;
-            border-radius: 10px;
-
-            cursor: pointer;
-
-            font-size: 17px;
-
-            transition: 0.2s;
-        }
-
-
-        .gameButton:hover {
-            background: #202020;
-
-            transform: scale(1.03);
-        }
-
-
-        /* ==============================
-           عضویت در استودیو
-           ============================== */
-
-        #studioJoinArea {
-            width: 100%;
-
-            display: flex;
-            justify-content: center;
-
-            padding: 0 20px 70px;
-
-            background: #050505;
-        }
-
-
-        #studioJoinButton {
-            min-width: 260px;
-
-            padding: 16px 30px;
-
-            background: #111;
-            color: white;
-
-            border: 1px solid #555;
-            border-radius: 10px;
-
-            cursor: pointer;
-
-            font-size: 18px;
-        }
-
-
-        #studioJoinButton:hover {
-            background: #202020;
-        }
-
-
-        /* ==============================
-           پیام سیستم
-           ============================== */
-
-        #systemMessage {
-            display: none;
-
-            position: fixed;
-
-            left: 50%;
-            top: 50%;
-
-            transform: translate(-50%, -50%);
-
-            width: min(450px, 85vw);
-
-            padding: 25px;
-
-            background: #111;
-
-            border: 1px solid #555;
-            border-radius: 12px;
-
-            text-align: center;
-
-            z-index: 100;
-        }
-
-
-        #systemMessageText {
-            margin: 0 0 20px;
-
-            line-height: 1.8;
-        }
-
-
-        #systemMessageClose {
-            padding: 10px 25px;
-
-            background: #222;
-            color: white;
-
-            border: 1px solid #555;
-            border-radius: 7px;
-
-            cursor: pointer;
-        }
-
-
-        /* ==============================
-           موبایل
-           ============================== */
-
-        @media (max-width: 600px) {
-
-            #topBar {
-                min-height: 80px;
-
-                padding: 10px 15px;
-            }
-
-            #studioLogo {
-                height: 50px;
-            }
-
-            #studioName {
-                margin-left: 10px;
-
-                font-size: 18px;
-            }
-
-            #aboutButton {
-                margin-left: 15px;
-
-                padding: 9px 14px;
-
-                font-size: 14px;
-            }
-
-            #mainImage {
-                min-height: 300px;
-            }
-
-            #gameMenuArea {
-                padding-top: 30px;
-            }
-
-            .gameSection {
-                padding: 12px;
-            }
-
-            .gameButton {
-                width: 95%;
-
-                min-height: 60px;
-
-                font-size: 14px;
-            }
-
-        }
-
-    </style>
+    .pageDescription{
+        font-size:13px;
+        max-width:300px;
+    }
+}
+</style>
 </head>
-
 
 <body>
 
+<div id="device">
 
-    <!-- ==============================
-         نوار بالای سایت
-         ============================== -->
+    <div class="spaceDust"></div>
 
+    <!-- اسم بازی‌ها که در فضا حرکت می‌کنند -->
+    <div class="gameName game1">Friend chat</div>
+    <div class="gameName game2">REALITY.EXE</div>
+    <div class="gameName game3">CLEANING THE KRUSTY KRAB</div>
+    <div class="gameName game4">POPPY PLAYTIME CHAPTER ?</div>
+    <div class="gameName game5">Beyond the unknown</div>
+
+    <!-- نوار بالا -->
     <header id="topBar">
 
-        <img
-            id="studioLogo"
-            src="Logo studio.jpg"
-            alt="Digital Studio Logo"
-        >
-
-        <div id="studioName">
-            Digital Studio
+        <div class="logoArea">
+            <img src="Logo studio.jpg" alt="Digital Studio">
+            <div class="logoName">Digital Studio</div>
         </div>
 
         <button
-            id="aboutButton"
-            type="button"
-        >
+            class="aboutButton"
+            onclick="location.href='about.html'">
             درباره ی ما
         </button>
 
     </header>
 
 
+    <!-- صفحات قابل کشیدن -->
+    <main id="pages">
 
-    <!-- ==============================
-         تصویر اصلی
-         ============================== -->
+        <!-- PAGE 1 -->
+        <section class="page active">
 
-    <main id="mainArea">
+            <div class="panel">
 
-        <img
-            id="mainImage"
-            alt="Logo Studio"
-        >
+                <div class="panelLight"></div>
+
+                <div class="panelNumber">01 / 05</div>
+
+                <button
+                    class="menuButton"
+                    onclick="location.href='my game.html'">
+                    بازی های ما
+                </button>
+
+                <div class="pageDescription">
+                    اینجا می‌تونی بازی‌هایی که توسط Digital Studio ساخته شده‌اند
+                    رو ببینی و وارد صفحه‌ی بازی‌ها بشی.
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- PAGE 2 -->
+        <section class="page">
+
+            <div class="panel">
+
+                <div class="panelLight"></div>
+
+                <div class="panelNumber">02 / 05</div>
+
+                <button
+                    class="menuButton"
+                    onclick="location.href='games in development.html'">
+                    بازی های درحال ساخت
+                </button>
+
+                <div class="pageDescription">
+                    پروژه‌هایی که هنوز در حال ساخته شدن هستند
+                    و به‌مرور وارد دنیای Digital Studio می‌شوند.
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- PAGE 3 -->
+        <section class="page">
+
+            <div class="panel">
+
+                <div class="panelLight"></div>
+
+                <div class="panelNumber">03 / 05</div>
+
+                <button
+                    class="menuButton"
+                    onclick="location.href='play beta game.html'">
+                    دانلود نسخه های بتا
+                </button>
+
+                <div class="pageDescription">
+                    نسخه‌های آزمایشی بعضی از پروژه‌ها
+                    در این بخش قرار می‌گیرند.
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- PAGE 4 -->
+        <section class="page">
+
+            <div class="panel">
+
+                <div class="panelLight"></div>
+
+                <div class="panelNumber">04 / 05</div>
+
+                <button
+                    class="menuButton"
+                    onclick="location.href='studio.html'">
+                    اخبار استودیو
+                </button>
+
+                <div class="pageDescription">
+                    اخبار، اتفاقات و تغییرات جدید Digital Studio
+                    در این بخش نمایش داده می‌شود.
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- PAGE 5 -->
+        <section class="page">
+
+            <div class="panel">
+
+                <div class="panelLight"></div>
+
+                <div class="panelNumber">05 / 05</div>
+
+                <button
+                    class="menuButton"
+                    onclick="joinStudio()">
+                    عضو شدن در استودیو
+                </button>
+
+                <div class="pageDescription">
+                    اگر می‌خواهی به Digital Studio بپیوندی،
+                    از این بخش اقدام کن.
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- نقطه‌های پایین -->
+        <div class="pageIndicator">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
 
     </main>
 
 
+    <div id="bottomSpace"></div>
 
-    <!-- ==============================
-         مربع چهار قسمتی
-         ============================== -->
+    <div id="systemMessage"></div>
 
-    <section id="gameMenuArea">
+</div>
 
-        <div id="gameMenu">
 
+<script>
 
-            <!-- قسمت اول -->
+/* =========================
+   JOIN STATUS
+========================= */
 
-            <div class="gameSection">
+let studioJoinStatus = "lock";
 
-                <button
-                    class="gameButton"
-                    id="myGamesButton"
-                    type="button"
-                >
-                    بازی های ما
-                </button>
 
-            </div>
+function joinStudio(){
 
+    if(studioJoinStatus === "unlock"){
 
-            <!-- قسمت دوم -->
+        location.href = "https://rubika.ir/DigitalSupportBot";
 
-            <div class="gameSection">
+    }else{
 
-                <button
-                    class="gameButton"
-                    id="betaButton"
-                    type="button"
-                >
-                    دانلود نسخه های بتا
-                </button>
+        showMessage("این سرویس درحال ساخت است");
 
-            </div>
+    }
 
+}
 
-            <!-- قسمت سوم -->
 
-            <div class="gameSection">
+/* =========================
+   MESSAGE
+========================= */
 
-                <button
-                    class="gameButton"
-                    id="buildingGamesButton"
-                    type="button"
-                >
-                    بازی های درحال ساخت
-                </button>
+function showMessage(text){
 
-            </div>
+    const box = document.getElementById("systemMessage");
 
+    box.textContent = text;
 
-            <!-- قسمت چهارم -->
+    box.classList.add("show");
 
-            <div class="gameSection">
+    setTimeout(()=>{
+        box.classList.remove("show");
+    },2500);
 
-                <button
-                    class="gameButton"
-                    id="studioInfoButton"
-                    type="button"
-                >
-                    اخبار استودیو
-                </button>
+}
 
-            </div>
 
+/* =========================
+   PAGE SYSTEM
+========================= */
 
-        </div>
+const pages =
+    Array.from(document.querySelectorAll(".page"));
 
-    </section>
+const dots =
+    Array.from(document.querySelectorAll(".dot"));
 
+let currentPage = 0;
 
+let startX = 0;
+let startY = 0;
+let endX = 0;
+let endY = 0;
 
-    <!-- ==============================
-         عضویت در استودیو
-         ============================== -->
+let isChanging = false;
 
-    <section id="studioJoinArea">
 
-        <button
-            id="studioJoinButton"
-            type="button"
-        >
-            عضو شدن در استودیو
-        </button>
+function updateDots(){
 
-    </section>
+    dots.forEach((dot,index)=>{
 
-
-
-    <!-- ==============================
-         پیام سیستم
-         ============================== -->
-
-    <div id="systemMessage">
-
-        <p id="systemMessageText"></p>
-
-        <button
-            id="systemMessageClose"
-            type="button"
-        >
-            بستن
-        </button>
-
-    </div>
-
-
-
-    <script>
-
-        /* =================================
-           سیستم تشخیص تصویر فعال
-           ================================= */
-
-        const mainImage =
-            document.getElementById("mainImage");
-
-        const activeImage =
-            "Logo studio.jpg";
-
-        const backupImage =
-            "Your PC error.jpg";
-
-
-        function checkMainImage() {
-
-            const testImage = new Image();
-
-
-            testImage.onload = function () {
-
-                mainImage.src =
-                    activeImage;
-
-            };
-
-
-            testImage.onerror = function () {
-
-                mainImage.src =
-                    backupImage;
-
-            };
-
-
-            testImage.src =
-                activeImage +
-                "?check=" +
-                Date.now();
-
-        }
-
-
-        checkMainImage();
-
-
-        setInterval(
-            checkMainImage,
-            2000
+        dot.classList.toggle(
+            "active",
+            index === currentPage
         );
 
+    });
+
+}
 
 
-        /* =================================
-           سیستم پیام
-           ================================= */
+function goToPage(newPage,direction){
 
-        const systemMessage =
-            document.getElementById(
-                "systemMessage"
+    if(
+        newPage < 0 ||
+        newPage >= pages.length ||
+        isChanging ||
+        newPage === currentPage
+    ){
+        return;
+    }
+
+    isChanging = true;
+
+    const oldPage =
+        pages[currentPage];
+
+    const newPageElement =
+        pages[newPage];
+
+
+    oldPage.classList.remove("active");
+
+    if(direction === "left"){
+        oldPage.classList.add("exitLeft");
+        newPageElement.classList.add("enterLeft");
+    }else{
+        oldPage.classList.add("exitRight");
+        newPageElement.classList.add("enterRight");
+    }
+
+    newPageElement.classList.add("active");
+
+    currentPage = newPage;
+
+    updateDots();
+
+
+    setTimeout(()=>{
+
+        pages.forEach(page=>{
+            page.classList.remove(
+                "exitLeft",
+                "exitRight",
+                "enterLeft",
+                "enterRight"
             );
+        });
+
+        isChanging = false;
+
+    },700);
+
+}
 
 
-        const systemMessageText =
-            document.getElementById(
-                "systemMessageText"
-            );
+/* =========================
+   TOUCH SWIPE
+========================= */
+
+const pagesArea =
+    document.getElementById("pages");
 
 
-        const systemMessageClose =
-            document.getElementById(
-                "systemMessageClose"
-            );
+pagesArea.addEventListener(
+    "touchstart",
+    function(event){
+
+        const touch =
+            event.changedTouches[0];
+
+        startX = touch.clientX;
+        startY = touch.clientY;
+
+    },
+    {passive:true}
+);
 
 
-        function showMessage(text) {
+pagesArea.addEventListener(
+    "touchend",
+    function(event){
 
-            systemMessageText.textContent =
-                text;
+        const touch =
+            event.changedTouches[0];
 
-            systemMessage.style.display =
-                "block";
+        endX = touch.clientX;
+        endY = touch.clientY;
 
-        }
+        const deltaX =
+            endX - startX;
 
-
-        systemMessageClose.addEventListener(
-            "click",
-            function () {
-
-                systemMessage.style.display =
-                    "none";
-
-            }
-        );
-
-
-
-        /* =================================
-           درباره ما
-           ================================= */
-
-        document
-            .getElementById("aboutButton")
-            .addEventListener(
-                "click",
-                function () {
-
-                    window.location.href =
-                        "about.html";
-
-                }
-            );
-
-
-
-        /* =================================
-           بازی های ما
-           ================================= */
-
-        document
-            .getElementById("myGamesButton")
-            .addEventListener(
-                "click",
-                function () {
-
-                    window.location.href =
-                        "my game.html";
-
-                }
-            );
-
-
-
-        /* =================================
-           بازی های درحال ساخت
-           ================================= */
-
-        document
-            .getElementById(
-                "buildingGamesButton"
-            )
-            .addEventListener(
-                "click",
-                function () {
-
-                    window.location.href =
-                        "games in development.html";
-
-                }
-            );
-
-
-
-        /* =================================
-           نسخه های بتا
-           ================================= */
-
-        document
-            .getElementById("betaButton")
-            .addEventListener(
-                "click",
-                function () {
-
-                    window.location.href =
-                        "play beta game.html";
-
-                }
-            );
-
-
-
-        /* =================================
-           اطلاعات استودیو
-           ================================= */
-
-document
-    .getElementById("studioInfoButton")
-    .addEventListener(
-        "click",
-        function () {
-            window.location.href = "studio.html";
-        }
-    );
-
-
-
-        /* =================================
-           سیستم عضویت در استودیو
-           ================================= */
-
-        const studioJoinButton =
-            document.getElementById(
-                "studioJoinButton"
-            );
+        const deltaY =
+            endY - startY;
 
 
         /*
-            lock
-            = سرویس قفل است
-
-            unlock
-            = سرویس فعال است
+          فقط حرکت افقی
+          حرکت عمودی صفحه را اسکرول می‌کند
         */
 
-        let studioJoinStatus =
-            "lock";
+        if(
+            Math.abs(deltaX) < 60 ||
+            Math.abs(deltaX) <= Math.abs(deltaY)
+        ){
+            return;
+        }
 
 
-        studioJoinButton.addEventListener(
-            "click",
-            function () {
+        if(deltaX < 0){
+
+            // کشیدن به چپ = صفحه بعد
+            goToPage(
+                currentPage + 1,
+                "left"
+            );
+
+        }else{
+
+            // کشیدن به راست = صفحه قبل
+            goToPage(
+                currentPage - 1,
+                "right"
+            );
+
+        }
+
+    },
+    {passive:true}
+);
 
 
-                if (
-                    studioJoinStatus ===
-                    "unlock"
-                ) {
+/* =========================
+   DESKTOP HORIZONTAL WHEEL
+========================= */
 
-                    window.location.href =
-                        "https://rubika.ir/DigitalSupportBot";
+pagesArea.addEventListener(
+    "wheel",
+    function(event){
 
-                }
+        if(Math.abs(event.deltaX) < 20){
+            return;
+        }
 
+        if(event.deltaX > 0){
 
-                else {
+            goToPage(
+                currentPage + 1,
+                "left"
+            );
 
-                    showMessage(
-                        "این سرویس درحال ساخت است"
-                    );
+        }else{
 
-                }
+            goToPage(
+                currentPage - 1,
+                "right"
+            );
 
-            }
-        );
+        }
 
-    </script>
+    },
+    {passive:true}
+);
+
+</script>
 
 </body>
 </html>
