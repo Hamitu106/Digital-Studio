@@ -1,518 +1,1245 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>بازی‌های ما | Digital Studio</title>
+<meta charset="UTF-8">
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        body {
-            margin: 0;
-            background: #1e73d8;
-            font-family: Arial, Tahoma, sans-serif;
-            color: white;
-            min-height: 100vh;
-        }
+<title>Digital Studio - بازی های ما</title>
 
-        /* نوار بالای صفحه */
-        .top-bar {
-            height: 80px;
-            background: #f1c40f;
-            display: flex;
-            align-items: center;
-            padding: 10px 20px;
-            gap: 20px;
-        }
 
-        .back-button {
-            background: #8b5a2b;
-            color: white;
-            border: none;
-            padding: 12px 22px;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 4px;
-        }
+<style>
 
-        .back-button:hover {
-            background: #70461f;
-        }
+/* =========================
+   BASIC
+========================= */
 
-        .section-title {
-            background: #55b9b9;
-            color: white;
-            padding: 12px 25px;
-            font-size: 22px;
-            font-weight: bold;
-            border-radius: 4px;
-        }
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
 
-        /* محتوای صفحه */
-        .page {
-            width: 100%;
-            padding: 25px;
-        }
+html,
+body{
+    width:100%;
+    min-height:100%;
 
-        .all-games-title {
-            background: #f1c40f;
-            color: #111;
-            width: fit-content;
-            padding: 12px 30px;
-            margin: 0 auto 25px auto;
-            font-size: 25px;
-            font-weight: bold;
-            border-radius: 4px;
-        }
+    background:#02030a;
 
-        /* لیست بازی‌ها */
-        #gamesList {
-            width: 100%;
-            display: grid;
-            grid-template-columns: repeat(2, minmax(280px, 1fr));
-            gap: 25px;
-            max-width: 1100px;
-            margin: auto;
-        }
+    color:white;
 
-        /* کارت هر بازی */
-        .game-card {
-            background: #050505;
-            min-height: 180px;
-            display: flex;
-            align-items: stretch;
-            border: 4px solid #f1c40f;
-            overflow: hidden;
-            cursor: pointer;
-            transition: transform 0.15s;
-        }
+    font-family:Arial,Tahoma,sans-serif;
 
-        .game-card:hover {
-            transform: scale(1.02);
-        }
+    overflow-x:hidden;
+}
 
-        /* اطلاعات بازی */
-        .game-info {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
 
-        .game-name {
-            color: white;
-            font-size: 21px;
-            font-weight: bold;
-            text-align: center;
-        }
+/* =========================
+   SPACE BACKGROUND
+========================= */
 
-        /* عکس بازی */
-        .game-image-box {
-            width: 150px;
-            min-width: 150px;
-            background: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            direction: ltr;
-        }
+body{
 
-        .game-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+    background:
 
-        /* اگر بازی وجود نداشت */
-        .empty-message {
-            background: #000;
-            border: 4px solid #f1c40f;
-            padding: 30px;
-            text-align: center;
-            font-size: 20px;
-            max-width: 700px;
-            margin: 40px auto;
-        }
+        radial-gradient(
+            circle at 50% 8%,
+            rgba(65,95,180,.28),
+            transparent 20%
+        ),
 
-        /* موبایل */
-        @media (max-width: 700px) {
-            #gamesList {
-                grid-template-columns: 1fr;
-            }
+        radial-gradient(
+            circle at 15% 55%,
+            rgba(30,80,160,.16),
+            transparent 25%
+        ),
 
-            .game-card {
-                min-height: 150px;
-            }
+        radial-gradient(
+            circle at 85% 75%,
+            rgba(100,30,150,.14),
+            transparent 25%
+        ),
 
-            .game-image-box {
-                width: 120px;
-                min-width: 120px;
-            }
+        linear-gradient(
+            180deg,
+            #070914 0%,
+            #02030a 45%,
+            #000106 100%
+        );
+}
 
-            .section-title {
-                font-size: 18px;
-            }
-        }
-    </style>
+
+/* =========================
+   TOP LIGHT
+========================= */
+
+body::before{
+
+    content:"";
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:100%;
+
+    height:10vh;
+
+    min-height:70px;
+    max-height:100px;
+
+    background:
+
+        radial-gradient(
+            ellipse at center top,
+            rgba(100,150,255,.25),
+            rgba(40,70,150,.10) 35%,
+            transparent 75%
+        );
+
+    pointer-events:none;
+
+    z-index:20;
+}
+
+
+/* =========================
+   STARS
+========================= */
+
+#device{
+
+    position:relative;
+
+    min-height:100vh;
+
+    overflow:hidden;
+
+    background-image:
+
+        radial-gradient(
+            circle,
+            rgba(255,255,255,.9) 1px,
+            transparent 1.5px
+        ),
+
+        radial-gradient(
+            circle,
+            rgba(130,170,255,.75) 1px,
+            transparent 1.5px
+        ),
+
+        radial-gradient(
+            circle,
+            rgba(255,255,255,.5) .7px,
+            transparent 1px
+        );
+
+    background-size:
+
+        150px 150px,
+        230px 230px,
+        90px 90px;
+
+    background-position:
+
+        10px 20px,
+        80px 100px,
+        30px 70px;
+}
+
+
+#device::after{
+
+    content:"";
+
+    position:fixed;
+
+    inset:0;
+
+    background-image:
+
+        radial-gradient(
+            circle,
+            rgba(255,255,255,.9) 1px,
+            transparent 2px
+        ),
+
+        radial-gradient(
+            circle,
+            rgba(120,170,255,.7) 1px,
+            transparent 2px
+        );
+
+    background-size:
+
+        310px 310px,
+        410px 410px;
+
+    animation:
+        starsMove 35s linear infinite;
+
+    pointer-events:none;
+
+    z-index:0;
+}
+
+
+@keyframes starsMove{
+
+    from{
+        transform:
+            translate3d(0,0,0);
+    }
+
+    to{
+        transform:
+            translate3d(-120px,180px,0);
+    }
+}
+
+
+/* =========================
+   SPACE DUST
+========================= */
+
+.spaceDust{
+
+    position:fixed;
+
+    inset:0;
+
+    pointer-events:none;
+
+    z-index:1;
+
+    background:
+
+        radial-gradient(
+            circle at 20% 30%,
+            rgba(80,120,255,.10),
+            transparent 8%
+        ),
+
+        radial-gradient(
+            circle at 80% 20%,
+            rgba(180,80,255,.08),
+            transparent 10%
+        ),
+
+        radial-gradient(
+            circle at 70% 80%,
+            rgba(40,130,255,.08),
+            transparent 12%
+        );
+
+    animation:
+        dustPulse 8s ease-in-out infinite alternate;
+}
+
+
+@keyframes dustPulse{
+
+    from{
+        opacity:.55;
+    }
+
+    to{
+        opacity:1;
+    }
+}
+
+
+/* =========================
+   TOP BAR
+========================= */
+
+#topBar{
+
+    position:sticky;
+
+    top:0;
+
+    z-index:50;
+
+    height:82px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:10px 18px;
+
+    background:
+
+        linear-gradient(
+            180deg,
+            rgba(10,18,42,.94),
+            rgba(3,6,17,.82)
+        );
+
+    border-bottom:
+        1px solid
+        rgba(100,150,255,.35);
+
+    box-shadow:
+
+        0 0 30px
+        rgba(40,90,220,.12),
+
+        inset 0 -1px 0
+        rgba(255,255,255,.05);
+
+    backdrop-filter:
+        blur(8px);
+}
+
+
+/* =========================
+   LOGO
+========================= */
+
+.logoArea{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+}
+
+
+.logoArea img{
+
+    width:50px;
+
+    height:50px;
+
+    border-radius:12px;
+
+    object-fit:cover;
+
+    border:
+        1px solid
+        rgba(130,170,255,.55);
+
+    box-shadow:
+
+        0 0 15px
+        rgba(70,120,255,.35);
+}
+
+
+.logoName{
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    letter-spacing:1px;
+
+    text-shadow:
+
+        0 0 12px
+        rgba(120,170,255,.55);
+}
+
+
+/* =========================
+   BACK BUTTON
+   SAME STYLE AS INDEX ABOUT
+========================= */
+
+.backButton{
+
+    border:
+        1px solid
+        rgba(100,150,255,.5);
+
+    background:
+        rgba(15,25,55,.65);
+
+    color:white;
+
+    padding:
+        10px 15px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    text-decoration:none;
+
+    display:inline-block;
+
+    box-shadow:
+
+        inset 0 0 12px
+        rgba(60,100,220,.12),
+
+        0 0 12px
+        rgba(40,90,220,.12);
+
+    transition:.25s;
+}
+
+
+.backButton:hover{
+
+    background:
+        rgba(40,65,120,.8);
+
+    transform:
+        translateY(-2px);
+}
+
+
+/* =========================
+   MAIN
+========================= */
+
+main{
+
+    position:relative;
+
+    z-index:10;
+
+    width:100%;
+
+    min-height:calc(100vh - 82px);
+
+    padding:
+        45px 5% 70px;
+
+    background:
+
+        radial-gradient(
+            ellipse at center,
+            rgba(25,45,100,.12),
+            transparent 60%
+        );
+}
+
+
+/* =========================
+   TITLE
+========================= */
+
+.pageTitle{
+
+    text-align:center;
+
+    margin-bottom:40px;
+}
+
+
+.pageTitle h2{
+
+    font-size:
+        clamp(
+            30px,
+            6vw,
+            48px
+        );
+
+    color:white;
+
+    text-shadow:
+
+        0 0 10px
+        rgba(100,150,255,.55),
+
+        0 0 25px
+        rgba(60,100,220,.3);
+}
+
+
+.pageTitle p{
+
+    margin-top:12px;
+
+    color:
+        rgba(220,230,255,.65);
+
+    font-size:14px;
+}
+
+
+/* =========================
+   GAMES GRID
+========================= */
+
+.gamesList{
+
+    width:min(
+        1100px,
+        100%
+    );
+
+    margin:auto;
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(
+            2,
+            minmax(0,1fr)
+        );
+
+    gap:25px;
+}
+
+
+/* =========================
+   GAME CARD
+========================= */
+
+.gameCard{
+
+    position:relative;
+
+    overflow:hidden;
+
+    border-radius:20px;
+
+    background:
+
+        radial-gradient(
+            circle at 50% 0%,
+            rgba(60,100,190,.18),
+            transparent 45%
+        ),
+
+        linear-gradient(
+            145deg,
+            rgba(16,24,52,.95),
+            rgba(4,7,18,.96)
+        );
+
+    border:
+        1px solid
+        rgba(100,150,255,.35);
+
+    box-shadow:
+
+        0 20px 50px
+        rgba(0,0,0,.65),
+
+        0 0 30px
+        rgba(45,90,210,.12),
+
+        inset 0 0 25px
+        rgba(70,100,190,.05);
+
+    transition:.3s;
+}
+
+
+.gameCard:hover{
+
+    transform:
+        translateY(-4px);
+
+    border-color:
+        rgba(130,175,255,.65);
+
+    box-shadow:
+
+        0 25px 60px
+        rgba(0,0,0,.75),
+
+        0 0 35px
+        rgba(60,110,230,.2);
+}
+
+
+/* =========================
+   IMAGE
+========================= */
+
+.gameImage{
+
+    width:100%;
+
+    height:250px;
+
+    background:#ffffff;
+
+    overflow:hidden;
+}
+
+
+.gameImage img{
+
+    width:100%;
+
+    height:100%;
+
+    display:block;
+
+    object-fit:cover;
+}
+
+
+/* =========================
+   GAME INFO
+========================= */
+
+.gameInfo{
+
+    padding:20px;
+}
+
+
+.gameName{
+
+    text-align:center;
+
+    font-size:23px;
+
+    color:white;
+
+    margin-bottom:17px;
+
+    text-shadow:
+
+        0 0 8px
+        rgba(100,150,255,.3);
+}
+
+
+/* =========================
+   PLAY BUTTON
+========================= */
+
+.playButton{
+
+    display:block;
+
+    width:100%;
+
+    padding:12px;
+
+    text-align:center;
+
+    text-decoration:none;
+
+    color:white;
+
+    border-radius:10px;
+
+    background:
+        rgba(15,25,55,.65);
+
+    border:
+        1px solid
+        rgba(100,150,255,.5);
+
+    box-shadow:
+
+        inset 0 0 12px
+        rgba(60,100,220,.12),
+
+        0 0 12px
+        rgba(40,90,220,.12);
+
+    transition:.25s;
+}
+
+
+.playButton:hover{
+
+    background:
+        rgba(40,65,120,.8);
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+
+        inset 0 0 14px
+        rgba(60,100,220,.16),
+
+        0 0 18px
+        rgba(40,90,220,.2);
+}
+
+
+/* =========================
+   EMPTY MESSAGE
+========================= */
+
+.emptyMessage{
+
+    display:none;
+
+    text-align:center;
+
+    padding:60px 20px;
+
+    color:
+        rgba(220,230,255,.6);
+
+    font-size:16px;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:700px){
+
+    #topBar{
+
+        height:74px;
+
+        padding:
+            8px 12px;
+    }
+
+
+    .logoArea img{
+
+        width:44px;
+
+        height:44px;
+    }
+
+
+    .logoName{
+
+        font-size:16px;
+    }
+
+
+    .backButton{
+
+        padding:
+            9px 12px;
+
+        font-size:12px;
+    }
+
+
+    main{
+
+        padding:
+            35px 15px 60px;
+    }
+
+
+    .gamesList{
+
+        grid-template-columns:1fr;
+
+        gap:20px;
+    }
+
+
+    .gameImage{
+
+        height:220px;
+    }
+
+
+    .gameName{
+
+        font-size:20px;
+    }
+
+}
+
+</style>
+
 </head>
+
 
 <body>
 
-    <!-- نوار بالای صفحه -->
-    <header class="top-bar">
 
-        <button class="back-button" id="backButton">
-            بازگشت
-        </button>
+<div id="device">
 
-        <div class="section-title">
-            بازی‌های ما
+
+    <div class="spaceDust"></div>
+
+
+    <!-- =========================
+         TOP BAR
+    ========================= -->
+
+    <header id="topBar">
+
+
+        <div class="logoArea">
+
+            <img
+                src="Logo studio.jpg"
+                alt="Digital Studio"
+            >
+
+            <div class="logoName">
+                Digital Studio
+            </div>
+
         </div>
+
+
+        <a
+            class="backButton"
+            href="index.html"
+        >
+            برگشت
+        </a>
+
 
     </header>
 
 
-    <main class="page">
 
-        <div class="all-games-title">
-            تمام بازی‌ها
+    <!-- =========================
+         MAIN
+    ========================= -->
+
+    <main>
+
+
+        <section class="pageTitle">
+
+            <h2>
+                بازی های ما
+            </h2>
+
+
+            <p>
+                بازی های ساخته شده توسط Digital Studio
+            </p>
+
+        </section>
+
+
+
+        <section
+            class="gamesList"
+            id="gamesList"
+        ></section>
+
+
+
+        <div
+            class="emptyMessage"
+            id="emptyMessage"
+        >
+
+            در حال حاضر بازی‌ای برای نمایش وجود ندارد.
+
         </div>
 
-        <!--
-            سیستم بازی‌ها کارت‌ها را اینجا قرار می‌دهد.
-        -->
-        <section id="gamesList"></section>
 
     </main>
 
 
-    <script>
-
-        /*
-        ==========================================================
-        سیستم اطلاعات بازی‌ها
-        ==========================================================
-
-        برای هر بازی فقط این سه اطلاعات را تعیین کن:
-
-        name  = اسم بازی
-        image = اسم فایل عکس بازی
-        url   = آدرسی که با کلیک روی بازی باز می‌شود
-
-        اگر هر سه اطلاعات وجود داشته باشند،
-        بازی وارد لیست می‌شود.
-
-        اگر حتی یکی از آنها no game باشد،
-        بازی نمایش داده نمی‌شود.
-
-        فعلاً 25 جای بازی داریم.
-        اگر بعداً بیشتر خواستی، می‌توانیم تعداد را بیشتر کنیم.
-        ==========================================================
-        */
-
-
-        const games = [
-
-            {
-                name: "no game",
-                image: "no game",
-                url: "no game"
-            },
-
-            {
-                name: "no game",
-                image: "no game",
-                url: "no game"
-            },
-
-            {
-                name: "no game",
-                image: "no game",
-                url: "no game"
-            },
-
-            {
-                name: "no game",
-                image: "no game",
-                url: "no game"
-            },
-
-            {
-                name: "no game",
-                image: "no game",
-                url: "no game"
-            },
-
-            {
-                name: "no game",
-                image: "no game",
-                url: "no game"
-            },
-
-            {
-                name: "no game",
-                image: "no game",
-                url: "no game"
-            },
-
-            {
-                name: "no game",
-                image: "no game",
-                url: "no game"
-            },
-
-            {
-                name: "no game",
-                image: "no game",
-                url: "no game"
-            },
-
-            {
-                name: "no game",
-                image: "no game",
-                url: "no game"
-            },
-
-            {
-                name: "no game",
-                image: "no game",
-                url: "no game"
-            },
-
-            {
-                name: "no game",
-                image: "no game",
-                url: "no game"
-            },
-
-            {
-                name: "no game",
-                image: "no game",
-                url: "no game"
-            },
-
-            {
-                name: "no game",
-                image: "no game",
-                url: "no game"
-            },
-
-            {
-                name: "no game",
-                image: "no game",
-                url: "no game"
-            },
-
-            {
-                name: "no game",
-                image: "no game",
-                url: "no game"
-            },
-
-            {
-                name: "no game",
-                image: "no game",
-                url: "no game"
-            },
-
-            {
-                name: "no game",
-                image: "no game",
-                url: "no game"
-            },
+</div>
 
-            {
-                name: "no game",
-                image: "no game",
-                url: "no game"
-            },
 
-            {
-                name: "no game",
-                image: "no game",
-                url: "no game"
-            },
 
-            {
-                name: "no game",
-                image: "no game",
-                url: "no game"
-            },
+<script>
 
-            {
-                name: "no game",
-                image: "no game",
-                url: "no game"
-            },
 
-            {
-                name: "no game",
-                image: "no game",
-                url: "no game"
-            },
+/*
+==================================================
+بازی 1
+==================================================
+*/
 
-            {
-                name: "no game",
-                image: "no game",
-                url: "no game"
-            },
+const game1 = {
 
-            {
-                name: "no game",
-                image: "no game",
-                url: "no game"
-            }
+    "Game image": "",
 
-        ];
+    "Game name": "",
 
+    "Game link": ""
 
-        /*
-        ==========================================================
-        بررسی اطلاعات و ساخت لیست
-        ==========================================================
-        */
+};
 
-        const gamesList = document.getElementById("gamesList");
 
-        let addedGames = 0;
 
+/*
+==================================================
+بازی 2
+==================================================
+*/
 
-        games.forEach(function(game) {
+const game2 = {
 
-            /*
-            اگر هر سه اطلاعات وجود نداشته باشند،
-            این بازی اصلاً وارد صفحه نمی‌شود.
-            */
+    "Game image": "",
 
-            if (
-                !game.name ||
-                !game.image ||
-                !game.url ||
-                game.name.toLowerCase() === "no game" ||
-                game.image.toLowerCase() === "no game" ||
-                game.url.toLowerCase() === "no game"
-            ) {
-                return;
-            }
+    "Game name": "",
 
+    "Game link": ""
 
-            /*
-            ساخت کارت بازی
-            */
+};
 
-            const card = document.createElement("article");
 
-            card.className = "game-card";
 
+/*
+==================================================
+بازی 3
+==================================================
+*/
 
-            /*
-            بخش اسم بازی
-            */
+const game3 = {
 
-            const info = document.createElement("div");
+    "Game image": "",
 
-            info.className = "game-info";
+    "Game name": "",
 
+    "Game link": ""
 
-            const name = document.createElement("div");
+};
 
-            name.className = "game-name";
 
-            name.textContent = game.name;
 
+/*
+==================================================
+بازی 4
+==================================================
+*/
 
-            info.appendChild(name);
+const game4 = {
 
+    "Game image": "",
 
-            /*
-            بخش عکس
-            */
+    "Game name": "",
 
-            const imageBox = document.createElement("div");
+    "Game link": ""
 
-            imageBox.className = "game-image-box";
+};
 
 
-            const image = document.createElement("img");
 
-            image.className = "game-image";
+/*
+==================================================
+بازی 5
+==================================================
+*/
 
-            image.src = game.image;
+const game5 = {
 
-            image.alt = game.name;
+    "Game image": "",
 
+    "Game name": "",
 
-            imageBox.appendChild(image);
+    "Game link": ""
 
+};
 
-            /*
-            اضافه کردن قسمت‌ها به کارت
-            */
 
-            card.appendChild(info);
 
-            card.appendChild(imageBox);
+/*
+==================================================
+بازی 6
+==================================================
+*/
 
+const game6 = {
 
-            /*
-            کلیک روی بازی
-            */
+    "Game image": "",
 
-            card.addEventListener("click", function() {
+    "Game name": "",
 
-                window.location.href = game.url;
+    "Game link": ""
 
-            });
+};
 
 
-            /*
-            اضافه کردن کارت به لیست
-            */
 
-            gamesList.appendChild(card);
+/*
+==================================================
+بازی 7
+==================================================
+*/
 
-            addedGames++;
+const game7 = {
 
-        });
+    "Game image": "",
 
+    "Game name": "",
 
-        /*
-        اگر هیچ بازی کاملی وجود نداشت،
-        پیام مخصوص نمایش داده می‌شود.
-        */
+    "Game link": ""
 
-        if (addedGames === 0) {
+};
 
-            gamesList.innerHTML = `
-                <div class="empty-message">
-                    هنوز بازی‌ای برای نمایش وجود ندارد.
-                </div>
-            `;
 
-        }
 
+/*
+==================================================
+بازی 8
+==================================================
+*/
 
-        /*
-        ==========================================================
-        دکمه بازگشت به منوی اصلی
-        ==========================================================
-        */
+const game8 = {
 
-        document.getElementById("backButton").addEventListener(
-            "click",
-            function() {
+    "Game image": "",
 
-                window.location.href = "index.html";
+    "Game name": "",
 
-            }
+    "Game link": ""
+
+};
+
+
+
+/*
+==================================================
+بازی 9
+==================================================
+*/
+
+const game9 = {
+
+    "Game image": "",
+
+    "Game name": "",
+
+    "Game link": ""
+
+};
+
+
+
+/*
+==================================================
+بازی 10
+==================================================
+*/
+
+const game10 = {
+
+    "Game image": "",
+
+    "Game name": "",
+
+    "Game link": ""
+
+};
+
+
+
+/*
+==================================================
+همه بازی ها
+==================================================
+*/
+
+const allGames = [
+
+    game1,
+    game2,
+    game3,
+    game4,
+    game5,
+    game6,
+    game7,
+    game8,
+    game9,
+    game10
+
+];
+
+
+
+/*
+==================================================
+قانون نمایش بازی ها
+
+هر بازی فقط زمانی نمایش داده می‌شود
+که هر سه مورد زیر کامل باشند:
+
+1. Game image
+2. Game name
+3. Game link
+
+هر سه مورد اجباری هستند.
+
+Game image باید نام فایل عکس باشد.
+
+مثال:
+
+"Game image": "Reality.exe.jpg"
+
+فایل عکس باید داخل پوشه DigitalStudio
+یا در مسیر نوشته شده قرار داشته باشد.
+
+تاریخ برای بازی‌ها وجود ندارد.
+
+==================================================
+*/
+
+
+const gamesList =
+    document.getElementById(
+        "gamesList"
+    );
+
+
+const emptyMessage =
+    document.getElementById(
+        "emptyMessage"
+    );
+
+
+let displayedGames = 0;
+
+
+
+/*
+==================================================
+ترتیب نمایش
+
+هر بازی که پایین‌تر در کد قرار داشته باشد،
+بالاتر در صفحه نمایش داده می‌شود.
+
+game10
+game9
+game8
+...
+game1
+
+==================================================
+*/
+
+
+for(
+    let i =
+        allGames.length - 1;
+
+    i >= 0;
+
+    i--
+){
+
+
+    const game =
+        allGames[i];
+
+
+    const image =
+        String(
+            game["Game image"] || ""
+        ).trim();
+
+
+    const name =
+        String(
+            game["Game name"] || ""
+        ).trim();
+
+
+    const link =
+        String(
+            game["Game link"] || ""
+        ).trim();
+
+
+
+    /*
+    اگر حتی یکی از سه مورد خالی باشد،
+    بازی نمایش داده نمی‌شود.
+    */
+
+    if(
+        !image ||
+        !name ||
+        !link
+    ){
+
+        continue;
+
+    }
+
+
+
+    const card =
+        document.createElement(
+            "article"
         );
 
-    </script>
+
+    card.className =
+        "gameCard";
+
+
+
+    card.innerHTML = `
+
+        <div class="gameImage">
+
+            <img
+                src="${image}"
+                alt="${name}"
+            >
+
+        </div>
+
+
+        <div class="gameInfo">
+
+            <h3 class="gameName">
+                ${name}
+            </h3>
+
+
+            <a
+                class="playButton"
+                href="${link}"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                اجرای بازی
+            </a>
+
+        </div>
+
+    `;
+
+
+
+    gamesList.appendChild(
+        card
+    );
+
+
+    displayedGames++;
+
+}
+
+
+
+/*
+اگر هیچ بازی‌ای کامل نشده باشد،
+پیام خالی نمایش داده می‌شود.
+*/
+
+if(
+    displayedGames === 0
+){
+
+    emptyMessage.style.display =
+        "block";
+
+}
+
+
+</script>
+
 
 </body>
+
 </html>
