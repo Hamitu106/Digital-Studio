@@ -21,10 +21,6 @@ html,body{
     overflow-x:hidden;
 }
 
-/* =========================
-   SPACE BACKGROUND
-========================= */
-
 body{
     background:
         radial-gradient(circle at 50% 8%,rgba(65,95,180,.28),transparent 20%),
@@ -33,7 +29,6 @@ body{
         linear-gradient(180deg,#070914 0%,#02030a 45%,#000106 100%);
 }
 
-/* نور بالای صفحه - حدود 10 درصد */
 body::before{
     content:"";
     position:fixed;
@@ -54,72 +49,45 @@ body::before{
     z-index:20;
 }
 
-/* =========================
-   STARS
-========================= */
-
 #device{
     position:relative;
     min-height:100vh;
     overflow:hidden;
-
     background-image:
         radial-gradient(circle,rgba(255,255,255,.9) 1px,transparent 1.5px),
         radial-gradient(circle,rgba(130,170,255,.75) 1px,transparent 1.5px),
         radial-gradient(circle,rgba(255,255,255,.5) .7px,transparent 1px);
-
-    background-size:
-        150px 150px,
-        230px 230px,
-        90px 90px;
-
-    background-position:
-        10px 20px,
-        80px 100px,
-        30px 70px;
+    background-size:150px 150px,230px 230px,90px 90px;
+    background-position:10px 20px,80px 100px,30px 70px;
 }
 
-/* ستاره‌های متحرک */
 #device::after{
     content:"";
     position:fixed;
     inset:0;
-
     background-image:
         radial-gradient(circle,rgba(255,255,255,.9) 1px,transparent 2px),
         radial-gradient(circle,rgba(120,170,255,.7) 1px,transparent 2px);
-
     background-size:310px 310px,410px 410px;
-
     animation:starsMove 35s linear infinite;
     pointer-events:none;
     z-index:0;
 }
 
 @keyframes starsMove{
-    from{
-        transform:translate3d(0,0,0);
-    }
-    to{
-        transform:translate3d(-120px,180px,0);
-    }
+    from{transform:translate3d(0,0,0);}
+    to{transform:translate3d(-120px,180px,0);}
 }
-
-/* =========================
-   SPACE DUST
-========================= */
 
 .spaceDust{
     position:fixed;
     inset:0;
     pointer-events:none;
     z-index:1;
-
     background:
         radial-gradient(circle at 20% 30%,rgba(80,120,255,.10),transparent 8%),
         radial-gradient(circle at 80% 20%,rgba(180,80,255,.08),transparent 10%),
         radial-gradient(circle at 70% 80%,rgba(40,130,255,.08),transparent 12%);
-    
     animation:dustPulse 8s ease-in-out infinite alternate;
 }
 
@@ -128,36 +96,25 @@ body::before{
     to{opacity:1;}
 }
 
-/* =========================
-   TOP BAR
-========================= */
-
 #topBar{
     position:sticky;
     top:0;
     z-index:50;
-
     height:82px;
-
     display:flex;
     align-items:center;
     justify-content:space-between;
-
     padding:10px 18px;
-
     background:
         linear-gradient(
             180deg,
             rgba(10,18,42,.94),
             rgba(3,6,17,.82)
         );
-
     border-bottom:1px solid rgba(100,150,255,.35);
-
     box-shadow:
         0 0 30px rgba(40,90,220,.12),
         inset 0 -1px 0 rgba(255,255,255,.05);
-
     backdrop-filter:blur(8px);
 }
 
@@ -172,36 +129,33 @@ body::before{
     height:50px;
     border-radius:12px;
     object-fit:cover;
-
     border:1px solid rgba(130,170,255,.55);
-
-    box-shadow:
-        0 0 15px rgba(70,120,255,.35);
+    box-shadow:0 0 15px rgba(70,120,255,.35);
 }
 
 .logoName{
     font-size:18px;
     font-weight:bold;
     letter-spacing:1px;
+    text-shadow:0 0 12px rgba(120,170,255,.55);
+}
 
-    text-shadow:
-        0 0 12px rgba(120,170,255,.55);
+.topButtons{
+    display:flex;
+    align-items:center;
+    gap:8px;
 }
 
 .aboutButton{
     border:1px solid rgba(100,150,255,.5);
     background:rgba(15,25,55,.65);
     color:white;
-
     padding:10px 15px;
     border-radius:10px;
-
     cursor:pointer;
-
     box-shadow:
         inset 0 0 12px rgba(60,100,220,.12),
         0 0 12px rgba(40,90,220,.12);
-
     transition:.25s;
 }
 
@@ -210,175 +164,108 @@ body::before{
     transform:translateY(-2px);
 }
 
-/* =========================
-   RUNNING GAME NAMES
-========================= */
+.accountAvatar{
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    border:1px solid rgba(100,150,255,.5);
+    background:
+        radial-gradient(
+            circle at 35% 30%,
+            rgba(100,150,255,.35),
+            rgba(15,25,55,.9) 60%,
+            rgba(3,6,17,.98)
+        );
+    box-shadow:
+        0 0 15px rgba(70,120,255,.25),
+        inset 0 0 12px rgba(60,100,220,.12);
+    font-size:24px;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.accountAvatar:hover{
+    transform:scale(1.05);
+    border-color:rgba(150,190,255,.8);
+    box-shadow:0 0 20px rgba(70,120,255,.4);
+}
+
+.accountAvatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
 
 .gameName{
     position:fixed;
     z-index:8;
-
     white-space:nowrap;
-
     font-size:13px;
     font-weight:bold;
     letter-spacing:2px;
-
     color:rgba(150,190,255,.7);
-
     text-shadow:
         0 0 7px rgba(80,140,255,.9),
         0 0 18px rgba(60,100,255,.5);
-
     pointer-events:none;
-
     opacity:0;
-
     animation-name:spaceFlight;
     animation-timing-function:linear;
     animation-iteration-count:infinite;
 }
 
-.game1{
-    top:25%;
-    left:-30%;
-    animation-duration:18s;
-    animation-delay:2s;
-}
-
-.game2{
-    top:48%;
-    left:-40%;
-    animation-duration:23s;
-    animation-delay:8s;
-}
-
-.game3{
-    top:70%;
-    left:-35%;
-    animation-duration:20s;
-    animation-delay:13s;
-}
-
-.game4{
-    top:35%;
-    left:-30%;
-    animation-duration:27s;
-    animation-delay:17s;
-}
+.game1{top:25%;left:-30%;animation-duration:18s;animation-delay:2s;}
+.game2{top:48%;left:-40%;animation-duration:23s;animation-delay:8s;}
+.game3{top:70%;left:-35%;animation-duration:20s;animation-delay:13s;}
+.game4{top:35%;left:-30%;animation-duration:27s;animation-delay:17s;}
+.game5{top:58%;left:-35%;animation-duration:25s;animation-delay:20s;}
 
 @keyframes spaceFlight{
-    0%{
-        transform:
-            translateX(-20vw)
-            rotate(-12deg)
-            scale(.8);
-        opacity:0;
-    }
-
-    10%{
-        opacity:.7;
-    }
-
-    35%{
-        transform:
-            translateX(40vw)
-            rotate(18deg)
-            scale(1);
-        opacity:.9;
-    }
-
-    55%{
-        transform:
-            translateX(90vw)
-            rotate(-25deg)
-            scale(1.1);
-        opacity:.65;
-    }
-
-    80%{
-        transform:
-            translateX(145vw)
-            rotate(35deg)
-            scale(.85);
-        opacity:.25;
-    }
-
-    100%{
-        transform:
-            translateX(175vw)
-            rotate(60deg)
-            scale(.7);
-        opacity:0;
-    }
+    0%{transform:translateX(-20vw) rotate(-12deg) scale(.8);opacity:0;}
+    10%{opacity:.7;}
+    35%{transform:translateX(40vw) rotate(18deg) scale(1);opacity:.9;}
+    55%{transform:translateX(90vw) rotate(-25deg) scale(1.1);opacity:.65;}
+    80%{transform:translateX(145vw) rotate(35deg) scale(.85);opacity:.25;}
+    100%{transform:translateX(175vw) rotate(60deg) scale(.7);opacity:0;}
 }
-
-/* =========================
-   PAGES
-========================= */
 
 #pages{
     position:relative;
     z-index:10;
-
     width:100%;
     height:760px;
-
     overflow:hidden;
-
     touch-action:pan-y;
-
-    background:
-        radial-gradient(
-            ellipse at center,
-            rgba(25,45,100,.12),
-            transparent 60%
-        );
+    background:radial-gradient(ellipse at center,rgba(25,45,100,.12),transparent 60%);
 }
 
-/* خطوط خیلی ظریف فضایی */
 #pages::before{
     content:"";
     position:absolute;
     inset:0;
-
     background:
-        linear-gradient(
-            rgba(100,150,255,.025) 1px,
-            transparent 1px
-        ),
-        linear-gradient(
-            90deg,
-            rgba(100,150,255,.025) 1px,
-            transparent 1px
-        );
-
+        linear-gradient(rgba(100,150,255,.025) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(100,150,255,.025) 1px,transparent 1px);
     background-size:70px 70px;
-
     pointer-events:none;
     z-index:2;
 }
 
-/* =========================
-   EACH PAGE
-========================= */
-
 .page{
     position:absolute;
     inset:0;
-
     display:flex;
     flex-direction:column;
     align-items:center;
     justify-content:center;
-
     padding:30px;
-
     opacity:0;
     pointer-events:none;
-
     transform:translateX(100%) scale(.96);
-
     transition:
         transform .65s cubic-bezier(.2,.8,.2,1),
         opacity .45s ease;
@@ -400,232 +287,129 @@ body::before{
     transform:translateX(100%) scale(.96);
 }
 
-.page.enterLeft{
-    animation:enterLeft .65s forwards;
-}
-
-.page.enterRight{
-    animation:enterRight .65s forwards;
-}
+.page.enterLeft{animation:enterLeft .65s forwards;}
+.page.enterRight{animation:enterRight .65s forwards;}
 
 @keyframes enterLeft{
-    from{
-        opacity:0;
-        transform:translateX(100%) scale(.96);
-    }
-    to{
-        opacity:1;
-        transform:translateX(0) scale(1);
-    }
+    from{opacity:0;transform:translateX(100%) scale(.96);}
+    to{opacity:1;transform:translateX(0) scale(1);}
 }
 
 @keyframes enterRight{
-    from{
-        opacity:0;
-        transform:translateX(-100%) scale(.96);
-    }
-    to{
-        opacity:1;
-        transform:translateX(0) scale(1);
-    }
+    from{opacity:0;transform:translateX(-100%) scale(.96);}
+    to{opacity:1;transform:translateX(0) scale(1);}
 }
-
-/* =========================
-   SPACE PANEL
-========================= */
 
 .panel{
     position:relative;
-
     width:min(430px,88vw);
     min-height:330px;
-
     display:flex;
     flex-direction:column;
     align-items:center;
     justify-content:center;
-
     padding:30px 22px;
-
     border-radius:26px;
-
     background:
-        radial-gradient(
-            circle at 50% 0%,
-            rgba(60,100,190,.22),
-            transparent 45%
-        ),
-        linear-gradient(
-            145deg,
-            rgba(16,24,52,.95),
-            rgba(4,7,18,.96)
-        );
-
+        radial-gradient(circle at 50% 0%,rgba(60,100,190,.22),transparent 45%),
+        linear-gradient(145deg,rgba(16,24,52,.95),rgba(4,7,18,.96));
     border:1px solid rgba(100,150,255,.35);
-
     box-shadow:
         0 25px 70px rgba(0,0,0,.75),
         0 0 35px rgba(45,90,210,.13),
         inset 0 0 30px rgba(70,100,190,.07);
-
     overflow:hidden;
 }
-
-/* خطوط گوشه‌ای پنل */
 
 .panel::before,
 .panel::after{
     content:"";
     position:absolute;
-
     width:70px;
     height:70px;
-
     border-color:rgba(110,160,255,.4);
     border-style:solid;
-
     pointer-events:none;
 }
 
 .panel::before{
     top:12px;
     left:12px;
-
     border-width:1px 0 0 1px;
 }
 
 .panel::after{
     bottom:12px;
     right:12px;
-
     border-width:0 1px 1px 0;
 }
 
-/* نور داخل پنل */
-
 .panelLight{
     position:absolute;
-
     top:-80px;
     left:50%;
-
     width:240px;
     height:140px;
-
     transform:translateX(-50%);
-
-    background:
-        radial-gradient(
-            ellipse,
-            rgba(80,140,255,.25),
-            transparent 70%
-        );
-
+    background:radial-gradient(ellipse,rgba(80,140,255,.25),transparent 70%);
     filter:blur(10px);
 }
-
-/* شماره صفحه */
 
 .panelNumber{
     position:absolute;
     top:22px;
     left:25px;
-
     font-size:11px;
     color:rgba(140,175,230,.45);
-
     letter-spacing:3px;
 }
-
-/* =========================
-   BUTTON
-========================= */
 
 .menuButton{
     position:relative;
     z-index:3;
-
     min-width:220px;
-
     padding:18px 25px;
-
     border-radius:15px;
-
     border:1px solid rgba(120,170,255,.6);
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(35,65,125,.75),
-            rgba(8,15,35,.9)
-        );
-
+    background:linear-gradient(135deg,rgba(35,65,125,.75),rgba(8,15,35,.9));
     color:white;
-
     font-size:18px;
     font-weight:bold;
-
     cursor:pointer;
-
     box-shadow:
         0 0 25px rgba(60,120,255,.18),
         inset 0 0 18px rgba(100,150,255,.08);
-
     transition:.3s;
 }
 
 .menuButton:hover{
     transform:translateY(-4px);
-
     border-color:rgba(170,205,255,.9);
-
     box-shadow:
         0 0 30px rgba(80,140,255,.35),
         inset 0 0 20px rgba(100,160,255,.15);
 }
 
-.menuButton:active{
-    transform:scale(.96);
-}
-
-/* =========================
-   DESCRIPTION
-========================= */
+.menuButton:active{transform:scale(.96);}
 
 .pageDescription{
     position:relative;
     z-index:3;
-
     max-width:340px;
-
     margin-top:25px;
-
     text-align:center;
-
     line-height:2;
-
     font-size:14px;
-
     color:rgba(220,230,255,.72);
-
-    text-shadow:
-        0 0 8px rgba(60,100,180,.25);
+    text-shadow:0 0 8px rgba(60,100,180,.25);
 }
-
-/* =========================
-   PAGE INDICATOR
-========================= */
 
 .pageIndicator{
     position:absolute;
-
     bottom:35px;
     left:50%;
-
     transform:translateX(-50%);
-
     z-index:30;
-
     display:flex;
     direction:ltr;
     gap:9px;
@@ -634,55 +418,33 @@ body::before{
 .dot{
     width:7px;
     height:7px;
-
     border-radius:50%;
-
     background:rgba(150,170,210,.25);
-
     box-shadow:0 0 5px rgba(80,120,220,.2);
-
     transition:.3s;
 }
 
 .dot.active{
     width:22px;
     border-radius:8px;
-
     background:rgba(110,165,255,.9);
-
-    box-shadow:
-        0 0 12px rgba(80,140,255,.7);
+    box-shadow:0 0 12px rgba(80,140,255,.7);
 }
-
-/* =========================
-   SYSTEM MESSAGE
-========================= */
 
 #systemMessage{
     position:fixed;
-
     left:50%;
     bottom:30px;
-
     transform:translateX(-50%) translateY(20px);
-
-    z-index:100;
-
+    z-index:1000;
     padding:12px 20px;
-
     border-radius:12px;
-
-    background:rgba(10,18,40,.95);
-
+    background:rgba(10,18,40,.97);
     border:1px solid rgba(100,150,255,.45);
-
     color:white;
-
     opacity:0;
     pointer-events:none;
-
     transition:.3s;
-
     box-shadow:0 0 25px rgba(40,90,220,.25);
 }
 
@@ -691,41 +453,220 @@ body::before{
     transform:translateX(-50%) translateY(0);
 }
 
-/* فضای پایین برای اسکرول عمودی */
 #bottomSpace{
     height:500px;
     position:relative;
     z-index:5;
 }
 
-/* =========================
-   MOBILE
-========================= */
+/* ACCOUNT MODAL */
+
+#accountModal{
+    position:fixed;
+    inset:0;
+    z-index:99999;
+
+    display:none;
+    align-items:center;
+    justify-content:center;
+
+    padding:20px;
+    box-sizing:border-box;
+
+    background:rgba(0,0,15,.78);
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+}
+
+#accountModal.show{
+    display:flex !important;
+}
+
+#accountModal > div{
+    position:relative;
+    width:min(440px,100%);
+    max-height:90vh;
+    overflow-y:auto;
+
+    box-sizing:border-box;
+    padding:25px;
+
+    border:1px solid rgba(100,150,255,.55);
+    border-radius:18px;
+
+    background:
+        radial-gradient(circle at 50% 0%,rgba(70,110,255,.18),transparent 45%),
+        linear-gradient(145deg,rgba(12,20,48,.98),rgba(5,8,25,.98));
+
+    box-shadow:
+        0 0 35px rgba(40,90,255,.25),
+        inset 0 0 25px rgba(80,120,255,.08);
+
+    color:white;
+}
+
+.accountBox{
+    width:min(430px,94vw);
+    max-height:90vh;
+    overflow:auto;
+    border-radius:24px;
+    padding:25px;
+    background:
+        radial-gradient(circle at 50% 0%,rgba(60,100,190,.22),transparent 45%),
+        linear-gradient(145deg,rgba(16,24,52,.98),rgba(4,7,18,.99));
+    border:1px solid rgba(100,150,255,.45);
+    box-shadow:0 25px 80px rgba(0,0,0,.8),0 0 35px rgba(45,90,210,.18);
+}
+
+.accountBox h2{
+    text-align:center;
+    margin-bottom:8px;
+}
+
+.accountSub{
+    text-align:center;
+    color:rgba(220,230,255,.65);
+    font-size:13px;
+    margin-bottom:20px;
+    line-height:1.8;
+}
+
+.authButtons{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.authButton{
+    width:100%;
+    padding:13px;
+    border-radius:12px;
+    border:1px solid rgba(100,150,255,.45);
+    background:rgba(15,25,55,.75);
+    color:white;
+    cursor:pointer;
+    font-size:14px;
+    transition:.2s;
+}
+
+.authButton:hover{
+    background:rgba(40,65,120,.85);
+}
+
+.authButton.github{
+    background:linear-gradient(135deg,#252525,#111);
+    border-color:rgba(255,255,255,.25);
+}
+
+.authButton.otp{
+    background:linear-gradient(135deg,rgba(40,80,150,.8),rgba(15,25,55,.9));
+}
+
+.authButton.danger{
+    border-color:rgba(255,80,100,.45);
+}
+
+.authForm{
+    display:none;
+    margin-top:15px;
+}
+
+.authForm.show{
+    display:block;
+}
+
+.authForm input{
+    width:100%;
+    padding:12px;
+    margin-top:9px;
+    border-radius:10px;
+    border:1px solid rgba(100,150,255,.35);
+    outline:none;
+    background:rgba(2,5,15,.85);
+    color:white;
+    direction:ltr;
+}
+
+.authForm input:focus{
+    border-color:rgba(130,180,255,.8);
+    box-shadow:0 0 12px rgba(70,130,255,.15);
+}
+
+.authSmall{
+    color:rgba(220,230,255,.55);
+    font-size:12px;
+    line-height:1.8;
+    margin-top:9px;
+}
+
+.closeButton{
+    width:100%;
+    margin-top:15px;
+    padding:11px;
+    border-radius:10px;
+    border:1px solid rgba(150,170,210,.3);
+    background:rgba(10,15,30,.7);
+    color:white;
+    cursor:pointer;
+}
+
+.userInfo{
+    text-align:center;
+}
+
+.userInfo img{
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    object-fit:cover;
+    border:2px solid rgba(110,165,255,.65);
+    box-shadow:0 0 25px rgba(70,120,255,.3);
+    margin-bottom:12px;
+}
+
+.userName{
+    font-size:18px;
+    font-weight:bold;
+}
+
+.userEmail{
+    margin-top:7px;
+    color:rgba(220,230,255,.6);
+    font-size:12px;
+    direction:ltr;
+    word-break:break-all;
+}
+
+/* MOBILE */
 
 @media(max-width:600px){
-
     #topBar{
         height:74px;
         padding:8px 12px;
     }
+
+    .logoArea{gap:8px;}
 
     .logoArea img{
         width:44px;
         height:44px;
     }
 
-    .logoName{
-        font-size:16px;
-    }
+    .logoName{font-size:16px;}
+
+    .topButtons{gap:5px;}
 
     .aboutButton{
-        padding:9px 12px;
+        padding:9px 10px;
         font-size:12px;
     }
 
-    #pages{
-        height:700px;
+    .accountAvatar{
+        width:44px;
+        height:44px;
     }
+
+    #pages{height:700px;}
 
     .panel{
         min-height:300px;
@@ -749,180 +690,754 @@ body::before{
 
 <div id="device">
 
-    <div class="spaceDust"></div>
+<div class="spaceDust"></div>
 
-    <!-- اسم بازی‌ها که در فضا حرکت می‌کنند -->
-    <div class="gameName game1">Friend chat</div>
-    <div class="gameName game2">REALITY.EXE</div>
-    <div class="gameName game3">CLEANING THE KRUSTY KRAB</div>
-    <div class="gameName game4">POPPY PLAYTIME CHAPTER ?</div>
-    <div class="gameName game5">Beyond the unknown</div>
+<div class="gameName game1">Friend chat</div>
+<div class="gameName game2">REALITY.EXE</div>
+<div class="gameName game3">CLEANING THE KRUSTY KRAB</div>
+<div class="gameName game4">POPPY PLAYTIME CHAPTER ?</div>
+<div class="gameName game5">Beyond the unknown</div>
 
-    <!-- نوار بالا -->
-    <header id="topBar">
+<header id="topBar">
 
-        <div class="logoArea">
-            <img src="Logo studio.jpg" alt="Digital Studio">
-            <div class="logoName">Digital Studio</div>
-        </div>
+<div class="logoArea">
+<img src="Logo studio.jpg" alt="Digital Studio">
+<div class="logoName">Digital Studio</div>
+</div>
 
-        <button
-            class="aboutButton"
-            onclick="location.href='about.html'">
-            درباره ی ما
-        </button>
+<div class="topButtons">
 
-    </header>
+<div id="accountAvatar"
+class="accountAvatar"
+title="حساب کاربری"
+onclick="openAccount()">
+</div>
 
+<button
+id="accountButton"
+class="aboutButton"
+onclick="openAccount()">
+ثبت نام
+</button>
 
-    <!-- صفحات قابل کشیدن -->
-    <main id="pages">
-
-        <!-- PAGE 1 -->
-        <section class="page active">
-
-            <div class="panel">
-
-                <div class="panelLight"></div>
-
-                <div class="panelNumber">01 / 05</div>
-
-                <button
-                    class="menuButton"
-                    onclick="location.href='my game.html'">
-                    بازی های ما
-                </button>
-
-                <div class="pageDescription">
-                    اینجا می‌تونی بازی‌هایی که توسط Digital Studio ساخته شده‌اند
-                    رو ببینی و وارد صفحه‌ی بازی‌ها بشی.
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- PAGE 2 -->
-        <section class="page">
-
-            <div class="panel">
-
-                <div class="panelLight"></div>
-
-                <div class="panelNumber">02 / 05</div>
-
-                <button
-                    class="menuButton"
-                    onclick="location.href='games in development.html'">
-                    بازی های درحال ساخت
-                </button>
-
-                <div class="pageDescription">
-                    پروژه‌هایی که هنوز در حال ساخته شدن هستند
-                    و به‌مرور وارد دنیای Digital Studio می‌شوند.
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- PAGE 3 -->
-        <section class="page">
-
-            <div class="panel">
-
-                <div class="panelLight"></div>
-
-                <div class="panelNumber">03 / 05</div>
-
-                <button
-                    class="menuButton"
-                    onclick="location.href='play beta game.html'">
-                    دانلود نسخه های بتا
-                </button>
-
-                <div class="pageDescription">
-                    نسخه‌های آزمایشی بعضی از پروژه‌ها
-                    در این بخش قرار می‌گیرند.
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- PAGE 4 -->
-        <section class="page">
-
-            <div class="panel">
-
-                <div class="panelLight"></div>
-
-                <div class="panelNumber">04 / 05</div>
-
-                <button
-                    class="menuButton"
-                    onclick="location.href='studio.html'">
-                    اخبار استودیو
-                </button>
-
-                <div class="pageDescription">
-                    اخبار، اتفاقات و تغییرات جدید Digital Studio
-                    در این بخش نمایش داده می‌شود.
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- PAGE 5 -->
-        <section class="page">
-
-            <div class="panel">
-
-                <div class="panelLight"></div>
-
-                <div class="panelNumber">05 / 05</div>
-
-                <button
-                    class="menuButton"
-                    onclick="joinStudio()">
-                    عضو شدن در استودیو
-                </button>
-
-                <div class="pageDescription">
-                    اگر می‌خواهی به Digital Studio بپیوندی،
-                    از این بخش اقدام کن.
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- نقطه‌های پایین -->
-        <div class="pageIndicator">
-            <span class="dot active"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
-        </div>
-
-    </main>
-
-
-    <div id="bottomSpace"></div>
-
-    <div id="systemMessage"></div>
+<button
+class="aboutButton"
+onclick="location.href='about.html'">
+درباره ی ما
+</button>
 
 </div>
 
+</header>
+
+<main id="pages">
+
+<section class="page active">
+<div class="panel">
+<div class="panelLight"></div>
+<div class="panelNumber">01 / 05</div>
+
+<button class="menuButton" onclick="location.href='my game.html'">
+بازی های ما
+</button>
+
+<div class="pageDescription">
+اینجا می‌تونی بازی‌هایی که توسط Digital Studio ساخته شده‌اند
+رو ببینی و وارد صفحه‌ی بازی‌ها بشی.
+</div>
+</div>
+</section>
+
+<section class="page">
+<div class="panel">
+<div class="panelLight"></div>
+<div class="panelNumber">02 / 05</div>
+
+<button class="menuButton" onclick="location.href='games in development.html'">
+بازی های درحال ساخت
+</button>
+
+<div class="pageDescription">
+پروژه‌هایی که هنوز در حال ساخته شدن هستند
+و به‌مرور وارد دنیای Digital Studio می‌شوند.
+</div>
+</div>
+</section>
+
+<section class="page">
+<div class="panel">
+<div class="panelLight"></div>
+<div class="panelNumber">03 / 05</div>
+
+<button class="menuButton" onclick="location.href='play beta game.html'">
+دانلود نسخه های بتا
+</button>
+
+<div class="pageDescription">
+نسخه‌های آزمایشی بعضی از پروژه‌ها
+در این بخش قرار می‌گیرند.
+</div>
+</div>
+</section>
+
+<section class="page">
+<div class="panel">
+<div class="panelLight"></div>
+<div class="panelNumber">04 / 05</div>
+
+<button class="menuButton" onclick="location.href='studio.html'">
+اخبار استودیو
+</button>
+
+<div class="pageDescription">
+اخبار، اتفاقات و تغییرات جدید Digital Studio
+در این بخش نمایش داده می‌شود.
+</div>
+</div>
+</section>
+
+<section class="page">
+<div class="panel">
+<div class="panelLight"></div>
+<div class="panelNumber">05 / 05</div>
+
+<button class="menuButton" onclick="joinStudio()">
+عضو شدن در استودیو
+</button>
+
+<div class="pageDescription">
+اگر می‌خواهی به Digital Studio بپیوندی،
+از این بخش اقدام کن.
+</div>
+</div>
+</section>
+
+<div class="pageIndicator">
+<span class="dot active"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+</div>
+
+</main>
+
+<div id="bottomSpace"></div>
+<div id="systemMessage"></div>
+
+</div>
+
+<!-- ACCOUNT MODAL -->
+
+<div id="accountModal">
+
+<div class="accountBox">
+
+<div id="loggedOutView">
+
+<h2>حساب Digital Studio</h2>
+
+<div class="accountSub">
+برای استفاده از حساب Digital Studio یکی از روش‌های ورود را انتخاب کن.
+</div>
+
+<div class="authButtons">
+
+<button class="authButton github" onclick="loginGithub()">
+ادامه با گیت‌هاب
+</button>
+
+<button class="authButton" onclick="toggleAuthForm('passwordForm')">
+ورود / ثبت نام با ایمیل و رمز عبور
+</button>
+
+<button class="authButton otp" onclick="toggleAuthForm('otpForm')">
+ورود با کد ایمیل
+</button>
+
+</div>
+
+<div id="passwordForm" class="authForm">
+
+<input
+id="emailInput"
+type="email"
+placeholder="ایمیل"
+autocomplete="email">
+
+<input
+id="passwordInput"
+type="password"
+placeholder="رمز عبور"
+autocomplete="current-password">
+
+<div style="display:flex;gap:8px;margin-top:10px">
+
+<button
+class="authButton"
+style="margin:0"
+onclick="loginPassword()">
+ورود
+</button>
+
+<button
+class="authButton"
+style="margin:0"
+onclick="registerPassword()">
+ثبت نام
+</button>
+
+</div>
+
+<div class="authSmall">
+برای ثبت نام، حداقل رمز عبور مورد قبول Supabase را وارد کن.
+اگر تأیید ایمیل فعال باشد، بعد از ثبت نام باید ایمیل را تأیید کنی.
+</div>
+
+</div>
+
+<div id="otpForm" class="authForm">
+
+<input
+id="otpEmailInput"
+type="email"
+placeholder="ایمیل"
+autocomplete="email">
+
+<button
+class="authButton otp"
+onclick="sendEmailCode()"
+style="margin-top:10px">
+ارسال کد به ایمیل
+</button>
+
+<div id="otpVerifyArea" style="display:none">
+
+<input
+id="otpCodeInput"
+inputmode="numeric"
+maxlength="8"
+placeholder="کد ارسال‌شده">
+
+<button
+class="authButton"
+onclick="verifyEmailCode()"
+style="margin-top:10px">
+تأیید کد
+</button>
+
+</div>
+
+<div class="authSmall">
+کد یک‌بارمصرف از طریق ایمیل ارسال می‌شود.
+</div>
+
+</div>
+
+</div>
+
+<div id="loggedInView" style="display:none">
+
+<div class="userInfo">
+
+<img id="userPhoto" src="" alt="Account">
+
+<div id="userName" class="userName"></div>
+<div id="userEmail" class="userEmail"></div>
+
+</div>
+
+<button class="authButton" onclick="showMessage('تنظیمات حساب به‌زودی کامل می‌شود')">
+تنظیمات حساب
+</button>
+
+<button class="authButton danger" onclick="logoutAccount()">
+خروج از حساب
+</button>
+
+</div>
+
+<button class="closeButton" onclick="closeAccount()">
+بستن
+</button>
+
+</div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
+
+const SUPABASE_URL =
+    "https://ltzymbvfntkmgqpjbhof.supabase.co";
+
+const SUPABASE_KEY =
+    "";
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+let currentUser = null;
+
+
+/* =========================
+   ACCOUNT UI
+========================= */
+
+function updateAccount(){
+
+    const button =
+        document.getElementById("accountButton");
+
+    const avatar =
+        document.getElementById("accountAvatar");
+
+    if(currentUser){
+
+        button.textContent =
+            "تنظیمات حساب";
+
+        avatar.style.display =
+            "flex";
+
+        const metadata =
+            currentUser.user_metadata || {};
+
+        const photo =
+            metadata.avatar_url ||
+            metadata.picture ||
+            "";
+
+        avatar.innerHTML = "";
+
+        if(photo){
+
+            const img =
+                document.createElement("img");
+
+            img.src = photo;
+            img.alt = "Account";
+
+            avatar.appendChild(img);
+
+        }else{
+
+            avatar.textContent = "👤";
+
+        }
+
+    }else{
+
+        button.textContent =
+            "ثبت نام";
+
+        avatar.style.display =
+            "none";
+
+        avatar.innerHTML =
+            "";
+
+    }
+
+}
+
+
+function updateAccountModal(){
+
+    const loggedOut =
+        document.getElementById("loggedOutView");
+
+    const loggedIn =
+        document.getElementById("loggedInView");
+
+    if(currentUser){
+
+        loggedOut.style.display =
+            "none";
+
+        loggedIn.style.display =
+            "block";
+
+        const metadata =
+            currentUser.user_metadata || {};
+
+        const photo =
+            metadata.avatar_url ||
+            metadata.picture ||
+            "";
+
+        const photoElement =
+            document.getElementById("userPhoto");
+
+        if(photo){
+            photoElement.src = photo;
+            photoElement.style.display = "inline-block";
+        }else{
+            photoElement.style.display = "none";
+        }
+
+        document.getElementById("userName").textContent =
+            metadata.full_name ||
+            metadata.name ||
+            metadata.user_name ||
+            currentUser.email ||
+            "کاربر";
+
+        document.getElementById("userEmail").textContent =
+            currentUser.email || "";
+
+    }else{
+
+        loggedOut.style.display =
+            "block";
+
+        loggedIn.style.display =
+            "none";
+
+    }
+
+}
+
+
+function openAccount(){
+
+    updateAccountModal();
+
+    document
+        .getElementById("accountModal")
+        .classList.add("show");
+
+}
+
+
+function closeAccount(){
+
+    document
+        .getElementById("accountModal")
+        .classList.remove("show");
+
+}
+
+
+function toggleAuthForm(id){
+
+    document.querySelectorAll(".authForm")
+        .forEach(form=>{
+            form.classList.remove("show");
+        });
+
+    document
+        .getElementById(id)
+        .classList.add("show");
+
+}
+
+
+/* =========================
+   GITHUB LOGIN
+========================= */
+
+async function loginGithub(){
+
+    const {error} =
+        await supabaseClient.auth.signInWithOAuth({
+            provider:"github",
+            options:{
+                redirectTo:
+                    window.location.origin +
+                    window.location.pathname
+            }
+        });
+
+    if(error){
+
+        showMessage(
+            "خطا در ورود با گیت‌هاب: " +
+            error.message
+        );
+
+    }
+
+}
+
+
+/* =========================
+   PASSWORD LOGIN
+========================= */
+
+async function loginPassword(){
+
+    const email =
+        document.getElementById("emailInput")
+        .value.trim();
+
+    const password =
+        document.getElementById("passwordInput")
+        .value;
+
+    if(!email || !password){
+
+        showMessage(
+            "ایمیل و رمز عبور را وارد کن."
+        );
+
+        return;
+
+    }
+
+    const {error} =
+        await supabaseClient.auth.signInWithPassword({
+            email,
+            password
+        });
+
+    if(error){
+
+        showMessage(
+            "ورود ناموفق بود: " +
+            error.message
+        );
+
+        return;
+
+    }
+
+    showMessage("ورود موفق بود ✅");
+
+    closeAccount();
+
+}
+
+
+/* =========================
+   PASSWORD REGISTER
+========================= */
+
+async function registerPassword(){
+
+    const email =
+        document.getElementById("emailInput")
+        .value.trim();
+
+    const password =
+        document.getElementById("passwordInput")
+        .value;
+
+    if(!email || !password){
+
+        showMessage(
+            "ایمیل و رمز عبور را وارد کن."
+        );
+
+        return;
+
+    }
+
+    const {data,error} =
+        await supabaseClient.auth.signUp({
+            email,
+            password
+        });
+
+    if(error){
+
+        showMessage(
+            "ثبت نام ناموفق بود: " +
+            error.message
+        );
+
+        return;
+
+    }
+
+    if(data.session){
+
+        showMessage(
+            "حساب ساخته شد و وارد شدی ✅"
+        );
+
+        closeAccount();
+
+    }else{
+
+        showMessage(
+            "حساب ساخته شد؛ ایمیلت را تأیید کن ✉️"
+        );
+
+    }
+
+}
+
+
+/* =========================
+   EMAIL OTP
+========================= */
+
+async function sendEmailCode(){
+
+    const email =
+        document.getElementById("otpEmailInput")
+        .value.trim();
+
+    if(!email){
+
+        showMessage(
+            "ایمیل را وارد کن."
+        );
+
+        return;
+
+    }
+
+    const {error} =
+        await supabaseClient.auth.signInWithOtp({
+            email,
+            options:{
+                shouldCreateUser:true
+            }
+        });
+
+    if(error){
+
+        showMessage(
+            "ارسال کد ناموفق بود: " +
+            error.message
+        );
+
+        return;
+
+    }
+
+    document
+        .getElementById("otpVerifyArea")
+        .style.display = "block";
+
+    showMessage(
+        "کد ورود به ایمیلت ارسال شد ✉️"
+    );
+
+}
+
+
+/* =========================
+   VERIFY EMAIL OTP
+========================= */
+
+async function verifyEmailCode(){
+
+    const email =
+        document.getElementById("otpEmailInput")
+        .value.trim();
+
+    const token =
+        document.getElementById("otpCodeInput")
+        .value.trim();
+
+    if(!email || !token){
+
+        showMessage(
+            "ایمیل و کد را وارد کن."
+        );
+
+        return;
+
+    }
+
+    const {data,error} =
+        await supabaseClient.auth.verifyOtp({
+            email,
+            token,
+            type:"email"
+        });
+
+    if(error){
+
+        showMessage(
+            "کد اشتباه یا منقضی شده است."
+        );
+
+        return;
+
+    }
+
+    if(data.session){
+
+        showMessage(
+            "ورود با کد موفق بود ✅"
+        );
+
+        closeAccount();
+
+    }
+
+}
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+async function logoutAccount(){
+
+    const {error} =
+        await supabaseClient.auth.signOut();
+
+    if(error){
+
+        showMessage(
+            "خروج ناموفق بود."
+        );
+
+        return;
+
+    }
+
+    showMessage(
+        "از حساب خارج شدی."
+    );
+
+    closeAccount();
+
+}
+
+
+/* =========================
+   AUTH STATE
+========================= */
+
+supabaseClient.auth.onAuthStateChange(
+    (event,session)=>{
+
+        currentUser =
+            session?.user || null;
+
+        updateAccount();
+        updateAccountModal();
+
+    }
+);
+
+
+async function loadSession(){
+
+    const {data} =
+        await supabaseClient.auth.getSession();
+
+    currentUser =
+        data.session?.user || null;
+
+    updateAccount();
+
+}
+
+
+loadSession();
+
 
 /* =========================
    JOIN STATUS
@@ -935,11 +1450,14 @@ function joinStudio(){
 
     if(studioJoinStatus === "unlock"){
 
-        location.href = "https://rubika.ir/DigitalSupportBot";
+        location.href =
+            "https://rubika.ir/DigitalSupportBot";
 
     }else{
 
-        showMessage("این سرویس درحال ساخت است");
+        showMessage(
+            "این سرویس درحال ساخت است"
+        );
 
     }
 
@@ -952,15 +1470,17 @@ function joinStudio(){
 
 function showMessage(text){
 
-    const box = document.getElementById("systemMessage");
+    const box =
+        document.getElementById("systemMessage");
 
-    box.textContent = text;
+    box.textContent =
+        text;
 
     box.classList.add("show");
 
     setTimeout(()=>{
         box.classList.remove("show");
-    },2500);
+    },3000);
 
 }
 
@@ -970,10 +1490,14 @@ function showMessage(text){
 ========================= */
 
 const pages =
-    Array.from(document.querySelectorAll(".page"));
+    Array.from(
+        document.querySelectorAll(".page")
+    );
 
 const dots =
-    Array.from(document.querySelectorAll(".dot"));
+    Array.from(
+        document.querySelectorAll(".dot")
+    );
 
 let currentPage = 0;
 
@@ -1018,33 +1542,52 @@ function goToPage(newPage,direction){
     const newPageElement =
         pages[newPage];
 
-
-    oldPage.classList.remove("active");
+    oldPage.classList.remove(
+        "active"
+    );
 
     if(direction === "left"){
-        oldPage.classList.add("exitLeft");
-        newPageElement.classList.add("enterLeft");
+
+        oldPage.classList.add(
+            "exitLeft"
+        );
+
+        newPageElement.classList.add(
+            "enterLeft"
+        );
+
     }else{
-        oldPage.classList.add("exitRight");
-        newPageElement.classList.add("enterRight");
+
+        oldPage.classList.add(
+            "exitRight"
+        );
+
+        newPageElement.classList.add(
+            "enterRight"
+        );
+
     }
 
-    newPageElement.classList.add("active");
+    newPageElement.classList.add(
+        "active"
+    );
 
-    currentPage = newPage;
+    currentPage =
+        newPage;
 
     updateDots();
-
 
     setTimeout(()=>{
 
         pages.forEach(page=>{
+
             page.classList.remove(
                 "exitLeft",
                 "exitRight",
                 "enterLeft",
                 "enterRight"
             );
+
         });
 
         isChanging = false;
@@ -1069,8 +1612,11 @@ pagesArea.addEventListener(
         const touch =
             event.changedTouches[0];
 
-        startX = touch.clientX;
-        startY = touch.clientY;
+        startX =
+            touch.clientX;
+
+        startY =
+            touch.clientY;
 
     },
     {passive:true}
@@ -1084,20 +1630,17 @@ pagesArea.addEventListener(
         const touch =
             event.changedTouches[0];
 
-        endX = touch.clientX;
-        endY = touch.clientY;
+        endX =
+            touch.clientX;
+
+        endY =
+            touch.clientY;
 
         const deltaX =
             endX - startX;
 
         const deltaY =
             endY - startY;
-
-
-        /*
-          فقط حرکت افقی
-          حرکت عمودی صفحه را اسکرول می‌کند
-        */
 
         if(
             Math.abs(deltaX) < 60 ||
@@ -1106,10 +1649,8 @@ pagesArea.addEventListener(
             return;
         }
 
-
         if(deltaX < 0){
 
-            // کشیدن به چپ = صفحه بعد
             goToPage(
                 currentPage + 1,
                 "left"
@@ -1117,7 +1658,6 @@ pagesArea.addEventListener(
 
         }else{
 
-            // کشیدن به راست = صفحه قبل
             goToPage(
                 currentPage - 1,
                 "right"
