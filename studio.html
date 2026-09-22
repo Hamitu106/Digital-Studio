@@ -8,118 +8,202 @@
 <style>
 *{
     box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
 html,body{
-    margin:0;
-    padding:0;
+    width:100%;
     min-height:100%;
+    background:#02030a;
+    color:white;
+    font-family:Arial,Tahoma,sans-serif;
+    overflow-x:hidden;
 }
+
+/* =========================
+   SPACE BACKGROUND
+========================= */
 
 body{
-    font-family:Tahoma,Arial,sans-serif;
-    color:white;
-    overflow-x:hidden;
-
     background:
-        radial-gradient(circle at 50% 0%, rgba(100,150,255,.18), transparent 35%),
-        radial-gradient(circle at 0% 50%, rgba(30,70,150,.12), transparent 40%),
-        radial-gradient(circle at 100% 50%, rgba(30,70,150,.12), transparent 40%),
-        linear-gradient(180deg,#02040a 0%,#050914 50%,#02040a 100%);
+        radial-gradient(circle at 50% 8%,rgba(65,95,180,.28),transparent 20%),
+        radial-gradient(circle at 15% 55%,rgba(30,80,160,.16),transparent 25%),
+        radial-gradient(circle at 85% 75%,rgba(100,30,150,.14),transparent 25%),
+        linear-gradient(180deg,#070914 0%,#02030a 45%,#000106 100%);
 }
 
-/* نور بالای صفحه */
+/* =========================
+   TOP LIGHT
+========================= */
+
 body::before{
     content:"";
     position:fixed;
-    top:10vh;
-    left:50%;
-    transform:translateX(-50%);
-    width:90%;
+    top:0;
+    left:0;
+    width:100%;
+    height:10vh;
     min-height:70px;
     max-height:100px;
+
+    background:
+        radial-gradient(
+            ellipse at center top,
+            rgba(100,150,255,.25),
+            rgba(40,70,150,.10) 35%,
+            transparent 75%
+        );
+
     pointer-events:none;
-
-    background:radial-gradient(
-        ellipse at center,
-        rgba(100,150,255,.25),
-        rgba(40,70,150,.10) 35%,
-        transparent 75%
-    );
-
-    z-index:0;
+    z-index:20;
 }
 
-/* ستاره ها */
-body::after{
-    content:"";
-    position:fixed;
-    inset:0;
-    pointer-events:none;
+/* =========================
+   STARS
+========================= */
+
+#device{
+    position:relative;
+    min-height:100vh;
+    overflow:hidden;
 
     background-image:
-        radial-gradient(circle,rgba(255,255,255,.8) 1px,transparent 1px),
-        radial-gradient(circle,rgba(120,170,255,.5) 1px,transparent 1px);
+        radial-gradient(circle,rgba(255,255,255,.9) 1px,transparent 1.5px),
+        radial-gradient(circle,rgba(130,170,255,.75) 1px,transparent 1.5px),
+        radial-gradient(circle,rgba(255,255,255,.5) .7px,transparent 1px);
 
     background-size:
-        95px 95px,
-        145px 145px;
+        150px 150px,
+        230px 230px,
+        90px 90px;
 
     background-position:
         10px 20px,
-        50px 80px;
+        80px 100px,
+        30px 70px;
+}
 
-    opacity:.25;
+#device::after{
+    content:"";
+    position:fixed;
+    inset:0;
+
+    background-image:
+        radial-gradient(circle,rgba(255,255,255,.9) 1px,transparent 2px),
+        radial-gradient(circle,rgba(120,170,255,.7) 1px,transparent 2px);
+
+    background-size:310px 310px,410px 410px;
+
+    animation:starsMove 35s linear infinite;
+
+    pointer-events:none;
     z-index:0;
 }
 
-/* نوار بالا */
+@keyframes starsMove{
+    from{
+        transform:translate3d(0,0,0);
+    }
+
+    to{
+        transform:translate3d(-120px,180px,0);
+    }
+}
+
+/* =========================
+   SPACE DUST
+========================= */
+
+.spaceDust{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:1;
+
+    background:
+        radial-gradient(circle at 20% 30%,rgba(80,120,255,.10),transparent 8%),
+        radial-gradient(circle at 80% 20%,rgba(180,80,255,.08),transparent 10%),
+        radial-gradient(circle at 70% 80%,rgba(40,130,255,.08),transparent 12%);
+
+    animation:dustPulse 8s ease-in-out infinite alternate;
+}
+
+@keyframes dustPulse{
+    from{opacity:.55;}
+    to{opacity:1;}
+}
+
+/* =========================
+   TOP BAR
+========================= */
+
 #topBar{
     position:sticky;
     top:0;
-    z-index:20;
+    z-index:50;
 
     height:82px;
+
     display:flex;
     align-items:center;
     justify-content:space-between;
 
-    padding:0 20px;
+    padding:10px 18px;
 
     background:
         linear-gradient(
             180deg,
-            rgba(8,14,32,.96),
-            rgba(5,9,22,.92)
+            rgba(10,18,42,.94),
+            rgba(3,6,17,.82)
         );
 
     border-bottom:1px solid rgba(100,150,255,.35);
 
     box-shadow:
-        0 4px 25px rgba(30,80,200,.18),
-        inset 0 -1px 8px rgba(80,130,255,.08);
+        0 0 30px rgba(40,90,220,.12),
+        inset 0 -1px 0 rgba(255,255,255,.05);
+
+    backdrop-filter:blur(8px);
 }
 
-.logo{
-    width:55px;
-    height:55px;
-    object-fit:cover;
+.logoArea{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logoArea img{
+    width:50px;
+    height:50px;
     border-radius:12px;
+    object-fit:cover;
+
+    border:1px solid rgba(130,170,255,.55);
 
     box-shadow:
-        0 0 15px rgba(80,130,255,.25);
+        0 0 15px rgba(70,120,255,.35);
 }
 
-/* دکمه برگشت */
+.logoName{
+    font-size:18px;
+    font-weight:bold;
+    letter-spacing:1px;
+
+    text-shadow:
+        0 0 12px rgba(120,170,255,.55);
+}
+
+/* =========================
+   BACK BUTTON
+========================= */
+
 .backButton{
     border:1px solid rgba(100,150,255,.5);
-
     background:rgba(15,25,55,.65);
-
     color:white;
 
     padding:10px 15px;
-
     border-radius:10px;
 
     cursor:pointer;
@@ -137,189 +221,313 @@ body::after{
     transform:translateY(-2px);
 }
 
-/* عنوان */
-.pageTitle{
+/* =========================
+   PAGE
+========================= */
+
+#newsPage{
     position:relative;
-    z-index:2;
+    z-index:10;
 
+    min-height:calc(100vh - 82px);
+
+    padding:35px 20px 80px;
+
+    background:
+        radial-gradient(
+            ellipse at center,
+            rgba(25,45,100,.12),
+            transparent 60%
+        );
+}
+
+/* =========================
+   TITLE
+========================= */
+
+.pageTitle{
     text-align:center;
-
-    margin:45px 20px 30px;
 
     font-size:32px;
     font-weight:bold;
 
+    margin:15px 0 35px;
+
     text-shadow:
-        0 0 10px rgba(100,150,255,.5),
-        0 0 25px rgba(50,100,220,.25);
+        0 0 12px rgba(120,170,255,.55),
+        0 0 28px rgba(60,100,255,.25);
 }
 
-/* لیست خبرها */
+/* =========================
+   NEWS GRID
+========================= */
+
 #newsList{
-    position:relative;
-    z-index:2;
+    width:min(1000px,92vw);
 
-    width:min(1100px,92%);
-
-    margin:0 auto 60px;
+    margin:auto;
 
     display:grid;
-    grid-template-columns:repeat(2,1fr);
+    grid-template-columns:repeat(2,minmax(0,1fr));
 
-    gap:20px;
+    gap:22px;
 }
 
-/* کارت خبر */
+/* =========================
+   NEWS CARD
+========================= */
+
 .newsCard{
     position:relative;
 
-    padding:22px;
+    min-height:210px;
 
-    border-radius:16px;
+    padding:25px;
+
+    border-radius:26px;
 
     background:
+        radial-gradient(
+            circle at 50% 0%,
+            rgba(60,100,190,.22),
+            transparent 45%
+        ),
         linear-gradient(
             145deg,
-            rgba(15,25,55,.88),
-            rgba(4,8,20,.92)
+            rgba(16,24,52,.95),
+            rgba(4,7,18,.96)
         );
 
-    border:1px solid rgba(100,150,255,.28);
+    border:1px solid rgba(100,150,255,.35);
 
     box-shadow:
-        inset 0 0 20px rgba(50,90,180,.08),
-        0 0 18px rgba(20,60,150,.12);
-
-    transition:.25s;
+        0 25px 70px rgba(0,0,0,.55),
+        0 0 35px rgba(45,90,210,.13),
+        inset 0 0 30px rgba(70,100,190,.07);
 
     overflow:hidden;
+
+    transition:.3s;
 }
 
-.newsCard::before{
+.newsCard:hover{
+    transform:translateY(-5px);
+
+    border-color:rgba(150,190,255,.65);
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.65),
+        0 0 35px rgba(60,120,255,.22),
+        inset 0 0 30px rgba(70,100,190,.10);
+}
+
+/* گوشه‌های پنل */
+
+.newsCard::before,
+.newsCard::after{
     content:"";
-
     position:absolute;
-    top:-50px;
-    left:50%;
-    transform:translateX(-50%);
 
-    width:80%;
-    height:80px;
+    width:55px;
+    height:55px;
 
-    background:radial-gradient(
-        ellipse,
-        rgba(100,150,255,.12),
-        transparent 70%
-    );
+    border-color:rgba(110,160,255,.4);
+    border-style:solid;
 
     pointer-events:none;
 }
 
-.newsCard:hover{
-    transform:translateY(-4px);
+.newsCard::before{
+    top:12px;
+    left:12px;
 
-    border-color:rgba(100,150,255,.55);
-
-    box-shadow:
-        inset 0 0 25px rgba(50,90,180,.12),
-        0 0 25px rgba(30,80,200,.2);
+    border-width:1px 0 0 1px;
 }
+
+.newsCard::after{
+    bottom:12px;
+    right:12px;
+
+    border-width:0 1px 1px 0;
+}
+
+/* نور کارت */
+
+.newsLight{
+    position:absolute;
+
+    top:-65px;
+    left:50%;
+
+    width:220px;
+    height:120px;
+
+    transform:translateX(-50%);
+
+    background:
+        radial-gradient(
+            ellipse,
+            rgba(80,140,255,.22),
+            transparent 70%
+        );
+
+    filter:blur(10px);
+
+    pointer-events:none;
+}
+
+/* نام خبر */
 
 .newsName{
     position:relative;
+    z-index:2;
 
     font-size:21px;
     font-weight:bold;
 
-    margin-bottom:15px;
+    margin-bottom:17px;
 
-    color:#dce8ff;
+    color:white;
+
+    text-shadow:
+        0 0 10px rgba(100,150,255,.35);
 }
+
+/* متن */
 
 .newsText{
     position:relative;
+    z-index:2;
 
-    line-height:1.9;
+    color:rgba(225,232,250,.82);
 
-    color:#e8edf8;
+    font-size:14px;
 
-    margin-bottom:15px;
+    line-height:2;
+
+    margin-bottom:18px;
 }
+
+/* تاریخ */
 
 .newsData{
     position:relative;
+    z-index:2;
 
-    color:#91b7ff;
+    color:rgba(140,180,255,.75);
 
-    font-size:14px;
+    font-size:12px;
 }
+
+/* لینک */
 
 .newsLink{
     position:relative;
+    z-index:3;
 
     display:inline-block;
 
-    margin-top:15px;
+    margin-top:18px;
 
-    padding:8px 13px;
+    padding:9px 14px;
 
-    border-radius:9px;
+    border-radius:10px;
+
+    border:1px solid rgba(100,150,255,.45);
+
+    background:rgba(15,25,55,.65);
 
     color:white;
+
     text-decoration:none;
 
-    background:rgba(15,30,70,.7);
+    box-shadow:
+        0 0 12px rgba(40,90,220,.10);
 
-    border:1px solid rgba(100,150,255,.4);
-
-    transition:.2s;
+    transition:.25s;
 }
 
 .newsLink:hover{
-    background:rgba(40,70,130,.8);
+    background:rgba(40,65,120,.8);
+    transform:translateY(-2px);
 }
 
-.empty{
-    grid-column:1/-1;
+/* =========================
+   EMPTY
+========================= */
+
+.emptyNews{
+    grid-column:1 / -1;
 
     text-align:center;
 
-    padding:50px 20px;
+    padding:60px 20px;
 
-    color:#9daac5;
+    border-radius:26px;
 
-    border:1px solid rgba(100,150,255,.18);
+    background:
+        linear-gradient(
+            145deg,
+            rgba(16,24,52,.9),
+            rgba(4,7,18,.95)
+        );
 
-    border-radius:15px;
+    border:1px solid rgba(100,150,255,.3);
 
-    background:rgba(8,14,30,.65);
+    color:rgba(220,230,255,.65);
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.5),
+        0 0 30px rgba(45,90,210,.10);
 }
 
-/* موبایل */
+/* =========================
+   MOBILE
+========================= */
+
 @media(max-width:700px){
 
     #topBar{
-        height:75px;
-        padding:0 14px;
+        height:74px;
+        padding:8px 12px;
     }
 
-    .logo{
-        width:48px;
-        height:48px;
+    .logoArea img{
+        width:44px;
+        height:44px;
+    }
+
+    .logoName{
+        font-size:16px;
+    }
+
+    .backButton{
+        padding:9px 12px;
+        font-size:12px;
+    }
+
+    #newsPage{
+        padding:30px 12px 60px;
     }
 
     .pageTitle{
         font-size:26px;
-        margin-top:35px;
+        margin-bottom:28px;
     }
 
     #newsList{
+        width:94vw;
         grid-template-columns:1fr;
-        width:92%;
+        gap:18px;
     }
 
     .newsCard{
-        padding:18px;
+        min-height:190px;
+        padding:22px 18px;
+    }
+
+    .newsName{
+        font-size:19px;
     }
 }
 </style>
@@ -327,460 +535,790 @@ body::after{
 
 <body>
 
-<header id="topBar">
+<div id="device">
 
-    <img
-        src="Logo studio.jpg"
-        class="logo"
-        alt="Digital Studio"
-    >
+    <div class="spaceDust"></div>
 
-    <a
-        href="index.html"
-        class="backButton"
-    >
-        برگشت
-    </a>
+    <!-- TOP BAR -->
+    <header id="topBar">
 
-</header>
+        <div class="logoArea">
 
-<h1 class="pageTitle">
-    اخبار استودیو
-</h1>
+            <img
+                src="Logo studio.jpg"
+                alt="Digital Studio"
+            >
 
-<div id="newsList"></div>
+            <div class="logoName">
+                Digital Studio
+            </div>
+
+        </div>
+
+        <a
+            href="index.html"
+            class="backButton">
+            برگشت
+        </a>
+
+    </header>
+
+
+    <!-- NEWS PAGE -->
+    <main id="newsPage">
+
+        <h1 class="pageTitle">
+            اخبار استودیو
+        </h1>
+
+        <div id="newsList"></div>
+
+    </main>
+
+</div>
+
 
 <script>
 
 /* =========================
-   اخبار استودیو
-   ========================= */
+   NEWS 1
+========================= */
 
 const news1 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news2 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news3 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news4 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news5 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news6 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news7 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news8 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news9 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news10 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news11 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news12 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news13 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news14 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news15 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news16 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news17 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news18 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news19 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news20 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news21 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news22 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news23 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news24 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news25 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news26 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news27 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news28 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news29 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news30 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news31 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news32 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news33 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news34 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news35 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news36 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news37 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news38 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news39 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news40 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news41 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news42 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news43 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news44 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news45 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news46 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news47 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news48 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news49 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
-};
-
-const news50 = {
-    "News name": "",
-    "News": "",
-    "Data": "",
-    "Link": ""
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
 };
 
 
 /* =========================
-   نمایش اخبار
-   ========================= */
+   NEWS 2
+========================= */
+
+const news2 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 3
+========================= */
+
+const news3 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 4
+========================= */
+
+const news4 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 5
+========================= */
+
+const news5 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 6
+========================= */
+
+const news6 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 7
+========================= */
+
+const news7 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 8
+========================= */
+
+const news8 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 9
+========================= */
+
+const news9 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 10
+========================= */
+
+const news10 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 11
+========================= */
+
+const news11 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 12
+========================= */
+
+const news12 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 13
+========================= */
+
+const news13 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 14
+========================= */
+
+const news14 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 15
+========================= */
+
+const news15 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 16
+========================= */
+
+const news16 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 17
+========================= */
+
+const news17 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 18
+========================= */
+
+const news18 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 19
+========================= */
+
+const news19 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 20
+========================= */
+
+const news20 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 21
+========================= */
+
+const news21 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 22
+========================= */
+
+const news22 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 23
+========================= */
+
+const news23 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 24
+========================= */
+
+const news24 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 25
+========================= */
+
+const news25 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 26
+========================= */
+
+const news26 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 27
+========================= */
+
+const news27 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 28
+========================= */
+
+const news28 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 29
+========================= */
+
+const news29 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 30
+========================= */
+
+const news30 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 31
+========================= */
+
+const news31 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 32
+========================= */
+
+const news32 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 33
+========================= */
+
+const news33 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 34
+========================= */
+
+const news34 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 35
+========================= */
+
+const news35 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 36
+========================= */
+
+const news36 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 37
+========================= */
+
+const news37 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 38
+========================= */
+
+const news38 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 39
+========================= */
+
+const news39 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 40
+========================= */
+
+const news40 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 41
+========================= */
+
+const news41 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 42
+========================= */
+
+const news42 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 43
+========================= */
+
+const news43 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 44
+========================= */
+
+const news44 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 45
+========================= */
+
+const news45 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 46
+========================= */
+
+const news46 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 47
+========================= */
+
+const news47 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 48
+========================= */
+
+const news48 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 49
+========================= */
+
+const news49 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   NEWS 50
+========================= */
+
+const news50 = {
+    "News name":"",
+    "News":"",
+    "Data":"",
+    "Link":""
+};
+
+
+/* =========================
+   ALL NEWS
+========================= */
 
 const allNews = [
-    news1,news2,news3,news4,news5,
-    news6,news7,news8,news9,news10,
-    news11,news12,news13,news14,news15,
-    news16,news17,news18,news19,news20,
-    news21,news22,news23,news24,news25,
-    news26,news27,news28,news29,news30,
-    news31,news32,news33,news34,news35,
-    news36,news37,news38,news39,news40,
-    news41,news42,news43,news44,news45,
-    news46,news47,news48,news49,news50
+    news1,
+    news2,
+    news3,
+    news4,
+    news5,
+    news6,
+    news7,
+    news8,
+    news9,
+    news10,
+    news11,
+    news12,
+    news13,
+    news14,
+    news15,
+    news16,
+    news17,
+    news18,
+    news19,
+    news20,
+    news21,
+    news22,
+    news23,
+    news24,
+    news25,
+    news26,
+    news27,
+    news28,
+    news29,
+    news30,
+    news31,
+    news32,
+    news33,
+    news34,
+    news35,
+    news36,
+    news37,
+    news38,
+    news39,
+    news40,
+    news41,
+    news42,
+    news43,
+    news44,
+    news45,
+    news46,
+    news47,
+    news48,
+    news49,
+    news50
 ];
 
-const validNews = allNews.filter(news =>
-    news["News name"] &&
-    news["News"] &&
-    news["Data"]
-);
 
-const newsList = document.getElementById("newsList");
+/* =========================
+   DISPLAY NEWS
+========================= */
+
+const newsList =
+    document.getElementById("newsList");
+
+const validNews =
+    allNews.filter(news =>
+        news["News name"] &&
+        news["News"] &&
+        news["Data"]
+    );
+
+
+/*
+   هر خبری که پایین‌تر در کد باشد،
+   بالاتر در سایت نمایش داده می‌شود.
+*/
+
+for(
+    let i = validNews.length - 1;
+    i >= 0;
+    i--
+){
+
+    const news = validNews[i];
+
+    const card =
+        document.createElement("article");
+
+    card.className = "newsCard";
+
+    card.innerHTML = `
+
+        <div class="newsLight"></div>
+
+        <div class="newsName">
+            ${news["News name"]}
+        </div>
+
+        <div class="newsText">
+            ${news["News"]}
+        </div>
+
+        <div class="newsData">
+            ${news["Data"]}
+        </div>
+
+        ${
+            news["Link"]
+            ?
+            `
+            <a
+                class="newsLink"
+                href="${news["Link"]}"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                مشاهده لینک
+            </a>
+            `
+            :
+            ""
+        }
+
+    `;
+
+    newsList.appendChild(card);
+}
+
+
+/* اگر هیچ خبری وجود نداشت */
 
 if(validNews.length === 0){
 
     newsList.innerHTML = `
-        <div class="empty">
+        <div class="emptyNews">
             در حال حاضر خبری برای نمایش وجود ندارد.
         </div>
     `;
-
-}else{
-
-    for(let i = validNews.length - 1; i >= 0; i--){
-
-        const news = validNews[i];
-
-        const card = document.createElement("article");
-
-        card.className = "newsCard";
-
-        card.innerHTML = `
-            <div class="newsName">
-                ${news["News name"]}
-            </div>
-
-            <div class="newsText">
-                ${news["News"]}
-            </div>
-
-            <div class="newsData">
-                تاریخ: ${news["Data"]}
-            </div>
-
-            ${
-                news["Link"]
-                ?
-                `<a
-                    class="newsLink"
-                    href="${news["Link"]}"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    مشاهده لینک
-                </a>`
-                :
-                ""
-            }
-        `;
-
-        newsList.appendChild(card);
-    }
 }
 
 </script>

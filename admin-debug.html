@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Digital Studio Admin Diagnostic</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+body {
+    margin: 0;
+    padding: 20px;
+
+    background: #050509;
+    color: white;
+
+    font-family: sans-serif;
+}
+
+h1 {
+    text-align: center;
+}
+
+#status {
+    max-width: 700px;
+
+    margin: 20px auto;
+
+    padding: 20px;
+
+    border-radius: 16px;
+
+    background: #111;
+
+    white-space: pre-wrap;
+
+    line-height: 2;
+}
+
+.ok {
+    color: #00ff88;
+}
+
+.bad {
+    color: #ff4444;
+}
+
+.info {
+    color: #4da6ff;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>🔧 Digital Studio Admin Diagnostic</h1>
+
+<div id="status">
+در حال بررسی...
+</div>
+
+
+<script>
+
+const output =
+    document.getElementById("status");
+
+
+let logs = [];
+
+
+function log(type, message) {
+
+    logs.push(
+        `${type} ${message}`
+    );
+
+    output.textContent =
+        logs.join("\n");
+
+}
+
+
+function ok(message) {
+
+    log(
+        "✅",
+        message
+    );
+
+}
+
+
+function bad(message) {
+
+    log(
+        "❌",
+        message
+    );
+
+}
+
+
+function info(message) {
+
+    log(
+        "🔎",
+        message
+    );
+
+}
+
+
+/* ==================================================
+   1. بررسی URL
+================================================== */
+
+info(
+    "مرحله 1: بررسی آدرس صفحه..."
+);
+
+
+const params =
+    new URLSearchParams(
+        window.location.search
+    );
+
+
+const adminToken =
+    params.get(
+        "admin_token"
+    );
+
+
+if (adminToken) {
+
+    ok(
+        "admin_token از URL دریافت شد."
+    );
+
+    info(
+        "طول توکن: " +
+        adminToken.length
+    );
+
+}
+else {
+
+    bad(
+        "هیچ admin_token ای در URL پیدا نشد."
+    );
+
+}
+
+
+/* ==================================================
+   2. بررسی Supabase
+================================================== */
+
+info(
+    "مرحله 2: بررسی Supabase..."
+);
+
+
+const SUPABASE_URL =
+    "https://ltzymbvfntkmgqpjbhof.supabase.co";
+
+
+const SUPABASE_KEY =
+    "sb_publishable_JO6nHjAfwTP4ZL_mgIvNHw_UZ7YJRI7";
+
+
+let client;
+
+
+try {
+
+    client =
+        window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        );
+
+    ok(
+        "Supabase Client ساخته شد."
+    );
+
+}
+catch (error) {
+
+    bad(
+        "ساخت Supabase Client شکست خورد."
+    );
+
+    console.error(error);
+
+}
+
+
+/* ==================================================
+   3. بررسی جدول
+================================================== */
+
+async function checkDatabase() {
+
+    if (!client) {
+
+        bad(
+            "Client وجود ندارد؛ بررسی دیتابیس متوقف شد."
+        );
+
+        return;
+
+    }
+
+
+    info(
+        "مرحله 3: بررسی جدول admin_access..."
+    );
+
+
+    try {
+
+        const result =
+            await client
+                .from("admin_access")
+                .select(
+                    "id, access_key, device_token, created_at, expires_at"
+                )
+                .limit(10);
+
+
+        const data =
+            result.data;
+
+
+        const error =
+            result.error;
+
+
+        if (error) {
+
+            bad(
+                "Supabase نتوانست جدول admin_access را بخواند."
+            );
+
+            info(
+                "Code: " +
+                (error.code || "ندارد")
+            );
+
+            info(
+                "Message: " +
+                (error.message || "ندارد")
+            );
+
+            info(
+                "Details: " +
+                (error.details || "ندارد")
+            );
+
+            info(
+                "Hint: " +
+                (error.hint || "ندارد")
+            );
+
+            return;
+
+        }
+
+
+        ok(
+            "جدول admin_access قابل خواندن است."
+        );
+
+
+        info(
+            "تعداد رکوردهای دریافت‌شده: " +
+            (data ? data.length : 0)
+        );
+
+
+        if (!data || data.length === 0) {
+
+            bad(
+                "هیچ رکوردی در admin_access پیدا نشد."
+            );
+
+            return;
+
+        }
+
+
+        /* ==========================================
+           4. بررسی توکن
+        ========================================== */
+
+        info(
+            "مرحله 4: جستجوی توکن..."
+        );
+
+
+        if (!adminToken) {
+
+            bad(
+                "چون URL توکن ندارد، تطبیق توکن ممکن نیست."
+            );
+
+            return;
+
+        }
+
+
+        const matchingRows =
+            data.filter(
+                row =>
+                    row.device_token ===
+                    adminToken
+            );
+
+
+        if (
+            matchingRows.length === 0
+        ) {
+
+            bad(
+                "هیچ رکوردی با admin_token این صفحه مطابقت ندارد."
+            );
+
+            info(
+                "تعداد رکوردهای موجود: " +
+                data.length
+            );
+
+            return;
+
+        }
+
+
+        ok(
+            "رکورد مربوط به این admin_token پیدا شد."
+        );
+
+
+        const row =
+            matchingRows[0];
+
+
+        /* ==========================================
+           5. بررسی access_key
+        ========================================== */
+
+        info(
+            "مرحله 5: بررسی access_key..."
+        );
+
+
+        if (
+            row.access_key ===
+            "ADMIN"
+        ) {
+
+            ok(
+                "access_key برابر ADMIN است."
+            );
+
+        }
+        else {
+
+            bad(
+                "access_key برابر ADMIN نیست."
+            );
+
+            info(
+                "مقدار فعلی: " +
+                row.access_key
+            );
+
+            return;
+
+        }
+
+
+        /* ==========================================
+           6. بررسی زمان
+        ========================================== */
+
+        info(
+            "مرحله 6: بررسی زمان انقضا..."
+        );
+
+
+        const expires =
+            new Date(
+                row.expires_at
+            ).getTime();
+
+
+        if (
+            Number.isNaN(expires)
+        ) {
+
+            bad(
+                "expires_at قابل تشخیص نیست."
+            );
+
+            return;
+
+        }
+
+
+        if (
+            expires <=
+            Date.now()
+        ) {
+
+            bad(
+                "مجوز ادمین منقضی شده است."
+            );
+
+            return;
+
+        }
+
+
+        ok(
+            "مجوز هنوز معتبر است."
+        );
+
+
+        /* ==========================================
+           7. شبیه‌سازی فعال‌سازی
+        ========================================== */
+
+        info(
+            "مرحله 7: بررسی چیزهایی که باید فعال شوند..."
+        );
+
+
+        window.digitalStudioIsAdmin =
+            true;
+
+
+        ok(
+            "window.digitalStudioIsAdmin = true"
+        );
+
+
+        const adminElements =
+            document.querySelectorAll(
+                ".admin-only"
+            );
+
+
+        info(
+            "تعداد عناصر .admin-only در این صفحه: " +
+            adminElements.length
+        );
+
+
+        const badge =
+            document.getElementById(
+                "adminBadge"
+            );
+
+
+        if (badge) {
+
+            ok(
+                "adminBadge در صفحه وجود دارد."
+            );
+
+        }
+        else {
+
+            bad(
+                "adminBadge در این صفحه وجود ندارد."
+            );
+
+        }
+
+
+        /* ==========================================
+           8. گزارش نهایی
+        ========================================== */
+
+        info(
+            "مرحله 8: نتیجه نهایی..."
+        );
+
+
+        ok(
+            "احراز هویت ادمین از نظر داده‌ها موفق است."
+        );
+
+
+        info(
+            "توکن دریافت شد."
+        );
+
+        info(
+            "توکن در Supabase پیدا شد."
+        );
+
+        info(
+            "access_key صحیح است."
+        );
+
+        info(
+            "مجوز منقضی نشده است."
+        );
+
+        info(
+            "digitalStudioIsAdmin فعال شد."
+        );
+
+
+        info(
+            "⚠️ این صفحه فقط سیستم را آزمایش می‌کند؛ پنل واقعی index.html را تغییر نمی‌دهد."
+        );
+
+
+    }
+    catch (error) {
+
+        bad(
+            "خطای غیرمنتظره هنگام بررسی."
+        );
+
+        console.error(error);
+
+        info(
+            error.message ||
+            String(error)
+        );
+
+    }
+
+}
+
+
+checkDatabase();
+
+</script>
+
+</body>
+
+</html>
