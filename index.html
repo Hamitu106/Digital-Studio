@@ -3203,6 +3203,21 @@ showMessage(
 
 }
 
+}catch(error){
+
+console.error(
+"❌ خطای غیرمنتظره در بررسی Admin Token:",
+error
+);
+
+showMessage(
+"❌ خطای غیرمنتظره در سیستم ادمین"
+);
+
+}
+
+}
+
 
 /* =========================
 ADMIN ACTION
