@@ -2218,8 +2218,6 @@ sessionStorage.removeItem(
 "digital_studio_admin_token"
 );
 
-window.digitalStudioIsAdmin = false;
-
 
 const adminPanel =
 document.getElementById("adminPanel");
@@ -2753,514 +2751,347 @@ console.log(
 
 
 <!-- DIGITAL_STUDIO_ADMIN_ACCESS -->
-
 <script>
 
-console.log(
-"👑 Admin system started"
-);
-
+console.log("👑 Admin system started");
 
 const ADMIN_SUPABASE_URL =
 "https://ltzymbvfntkmgqpjbhof.supabase.co";
 
-
 const ADMIN_SUPABASE_KEY =
 "sb_publishable_JO6nHjAfwTP4ZL_mgIvNHw_UZ7YJRI7";
 
-
 const adminSupabase =
 window.supabase.createClient(
-ADMIN_SUPABASE_URL,
-ADMIN_SUPABASE_KEY
+    ADMIN_SUPABASE_URL,
+    ADMIN_SUPABASE_KEY
 );
 
-
-/* =========================
-گرفتن Token
-========================= */
+window.digitalStudioIsAdmin = false;
 
 const adminURL =
-new URLSearchParams(
-window.location.search
-);
-
-
-/*
-اول Token از URL
-اگر نبود از sessionStorage
-*/
+new URLSearchParams(window.location.search);
 
 let adminToken =
 adminURL.get("admin_token");
 
-
-if(!adminToken){
-
-adminToken =
-sessionStorage.getItem(
-"digital_studio_admin_token"
-);
-
+if (!adminToken) {
+    adminToken =
+        sessionStorage.getItem(
+            "digital_studio_admin_token"
+        );
 }
 
+function activateAdminPanel(expiresAt) {
 
-if(adminToken){
+    window.digitalStudioIsAdmin = true;
 
-console.log(
-"🔑 Admin Token دریافت شد"
-);
+    console.log("👑 ADMIN PANEL ACTIVATED");
 
-}else{
+    const adminPanel =
+        document.getElementById("adminPanel");
 
-console.log(
-"❌ هیچ Admin Token ای وجود ندارد"
-);
+    if (adminPanel) {
+        adminPanel.classList.add("admin-active");
+        adminPanel.style.display = "flex";
+    }
 
+    const badge =
+        document.getElementById("adminBadge");
+
+    if (badge) {
+        badge.classList.add("show");
+    }
+
+    const registerButton =
+        document.getElementById("registerButton");
+
+    if (registerButton) {
+        registerButton.style.display = "none";
+    }
+
+    const status =
+        document.getElementById("adminStatus");
+
+    if (status) {
+
+        let statusText =
+            "🟢 پنل ادمین فعال است";
+
+        if (expiresAt) {
+
+            const date =
+                new Date(expiresAt);
+
+            if (!Number.isNaN(date.getTime())) {
+
+                statusText +=
+                    " • اعتبار تا " +
+                    date.toLocaleString("fa-IR");
+            }
+        }
+
+        status.textContent =
+            statusText;
+    }
+
+    const message =
+        document.createElement("div");
+
+    message.textContent =
+        "👑 پنل ادمین فعال شد";
+
+    message.style.position = "fixed";
+    message.style.top = "20px";
+    message.style.left = "50%";
+    message.style.transform = "translateX(-50%)";
+    message.style.zIndex = "999999";
+    message.style.padding = "14px 22px";
+    message.style.borderRadius = "14px";
+    message.style.background = "#111";
+    message.style.color = "#fff";
+    message.style.fontWeight = "bold";
+    message.style.boxShadow =
+        "0 0 25px rgba(255,255,255,.25)";
+
+    document.body.appendChild(message);
+
+    setTimeout(() => {
+
+        message.style.opacity = "0";
+        message.style.transition =
+            "opacity 1s ease";
+
+        setTimeout(() => {
+
+            if (message.parentNode) {
+                message.parentNode.removeChild(message);
+            }
+
+        }, 1000);
+
+    }, 3000);
+
+    if (
+        window.location.search.includes(
+            "admin_token"
+        )
+    ) {
+
+        window.history.replaceState(
+            {},
+            document.title,
+            window.location.pathname +
+            window.location.hash
+        );
+    }
+
+    window.dispatchEvent(
+        new CustomEvent(
+            "digitalStudioAdminActivated"
+        )
+    );
 }
 
+async function verifyAdminToken() {
 
-/* =========================
-فعال کردن پنل
-========================= */
+    if (!adminToken) {
 
-function activateAdminPanel(expiresAt){
+        console.log(
+            "❌ هیچ Admin Token ای وجود ندارد"
+        );
 
-window.digitalStudioIsAdmin =
-true;
+        return;
+    }
 
+    console.log(
+        "🔎 در حال بررسی Admin Token..."
+    );
 
-console.log(
-"👑 ADMIN PANEL ACTIVATED"
-);
+    try {
 
+        const { data, error } =
+            await adminSupabase.rpc(
+                "verify_admin_token",
+                {
+                    p_token: adminToken
+                }
+            );
 
-/* نمایش پنل */
+        console.log(
+            "📦 RPC result:",
+            data,
+            error
+        );
 
-const adminPanel =
-document.getElementById(
-"adminPanel"
-);
+        if (error) {
 
+            console.error(
+                "❌ خطای RPC:",
+                error
+            );
 
-if(adminPanel){
+            showMessage(
+                "❌ خطا در بررسی مجوز ادمین"
+            );
 
-adminPanel.classList.add(
-"admin-active"
-);
+            return;
+        }
 
-adminPanel.style.display =
-"flex";
+        const result =
+            Array.isArray(data)
+                ? data[0]
+                : data;
 
+        if (!result || !result.valid) {
+
+            console.log(
+                "❌ Admin Token نامعتبر یا منقضی است"
+            );
+
+            sessionStorage.removeItem(
+                "digital_studio_admin_token"
+            );
+
+            showMessage(
+                "❌ مجوز ادمین معتبر نیست"
+            );
+
+            return;
+        }
+
+        console.log(
+            "✅ Admin Token معتبر است"
+        );
+
+        sessionStorage.setItem(
+            "digital_studio_admin_token",
+            adminToken
+        );
+
+        activateAdminPanel(
+            result.expires_at
+        );
+
+        const expires =
+            new Date(
+                result.expires_at
+            ).getTime();
+
+        const remaining =
+            expires - Date.now();
+
+        if (remaining > 0) {
+
+            setTimeout(() => {
+
+                window.digitalStudioIsAdmin =
+                    false;
+
+                sessionStorage.removeItem(
+                    "digital_studio_admin_token"
+                );
+
+                const panel =
+                    document.getElementById(
+                        "adminPanel"
+                    );
+
+                if (panel) {
+
+                    panel.style.display =
+                        "none";
+
+                    panel.classList.remove(
+                        "admin-active"
+                    );
+                }
+
+                const badge =
+                    document.getElementById(
+                        "adminBadge"
+                    );
+
+                if (badge) {
+                    badge.classList.remove("show");
+                }
+
+                console.log(
+                    "⌛ Admin session expired"
+                );
+
+                showMessage(
+                    "⌛ دسترسی ادمین منقضی شد"
+                );
+
+            }, remaining);
+        }
+
+    } catch (error) {
+
+        console.error(
+            "❌ خطای غیرمنتظره:",
+            error
+        );
+
+        showMessage(
+            "❌ خطای غیرمنتظره در سیستم ادمین"
+        );
+    }
 }
 
+function toggleAdminMenu(menuId, arrowId) {
 
-/* نمایش badge */
+    if (!window.digitalStudioIsAdmin) {
 
-const badge =
-document.getElementById(
-"adminBadge"
-);
+        showMessage(
+            "⛔ دسترسی ادمین ندارید"
+        );
 
+        return;
+    }
 
-if(badge){
+    const menu =
+        document.getElementById(menuId);
 
-badge.classList.add(
-"show"
-);
+    const arrow =
+        document.getElementById(arrowId);
 
+    if (!menu) return;
+
+    menu.classList.toggle("open");
+
+    if (arrow) {
+        arrow.classList.toggle("rotate");
+    }
 }
 
+function adminAction(action) {
 
-/* مخفی کردن ثبت نام */
+    if (!window.digitalStudioIsAdmin) {
 
-const registerButton =
-document.getElementById(
-"registerButton"
-);
+        showMessage(
+            "⛔ دسترسی ادمین ندارید"
+        );
 
+        return;
+    }
 
-if(registerButton){
+    console.log(
+        "👑 Admin Action:",
+        action
+    );
 
-registerButton.style.display =
-"none";
-
+    showMessage(
+        "👑 بخش «" +
+        action +
+        "» انتخاب شد"
+    );
 }
-
-
-/* وضعیت پنل */
-
-const status =
-document.getElementById(
-"adminStatus"
-);
-
-
-if(status){
-
-let statusText =
-"🟢 پنل ادمین فعال است";
-
-
-if(expiresAt){
-
-const date =
-new Date(expiresAt);
-
-
-if(!Number.isNaN(
-date.getTime()
-)){
-
-statusText +=
-" • اعتبار تا " +
-date.toLocaleString(
-"fa-IR"
-);
-
-}
-
-}
-
-
-status.textContent =
-statusText;
-
-}
-
-
-/* =========================
-پیام فعال شدن
-========================= */
-
-const message =
-document.createElement(
-"div"
-);
-
-
-message.textContent =
-"👑 پنل ادمین فعال شد";
-
-
-message.style.position =
-"fixed";
-
-
-message.style.top =
-"20px";
-
-
-message.style.left =
-"50%";
-
-
-message.style.transform =
-"translateX(-50%)";
-
-
-message.style.zIndex =
-"999999";
-
-
-message.style.padding =
-"14px 22px";
-
-
-message.style.borderRadius =
-"14px";
-
-
-message.style.background =
-"#111";
-
-
-message.style.color =
-"#fff";
-
-
-message.style.fontWeight =
-"bold";
-
-
-message.style.boxShadow =
-"0 0 25px rgba(255,255,255,.25)";
-
-
-document.body.appendChild(
-message
-);
-
-
-/*
-پیام 10 ثانیه باقی می‌ماند
-*/
-
-setTimeout(function(){
-
-message.style.animation =
-"adminMessageFade 1.5s ease forwards";
-
-
-setTimeout(function(){
-
-if(message.parentNode){
-
-message.parentNode.removeChild(
-message
-);
-
-}
-
-},1500);
-
-},10000);
-
-
-/* =========================
-حذف Token از URL
-========================= */
-
-if(
-window.location.search.includes(
-"admin_token"
-)
-){
-
-window.history.replaceState(
-{},
-document.title,
-window.location.pathname +
-window.location.hash
-);
-
-}
-
-
-/* =========================
-اسکرول به پنل
-========================= */
-
-setTimeout(function(){
-
-if(adminPanel){
-
-adminPanel.scrollIntoView({
-
-behavior:"smooth",
-
-block:"center"
-
-});
-
-}
-
-},300);
-
-
-/* اعلام فعال شدن */
-
-window.dispatchEvent(
-
-new CustomEvent(
-"digitalStudioAdminActivated"
-)
-
-);
-
-}
-
-
-/* =========================
-بررسی Token
-========================= */
-
-async function verifyAdminToken(){
-
-if(!adminToken){
-
-console.log("❌ هیچ Admin Token ای وجود ندارد");
-
-return;
-
-}
-
-console.log("🔎 در حال بررسی مجوز ادمین...");
-
-try{
-
-const { data, error } =
-await adminSupabase
-.from("admin_access")
-.select("id, access_key, device_token, expires_at")
-.eq("access_key","ADMIN")
-.eq("device_token",adminToken)
-.order("created_at",{ascending:false})
-.limit(1);
-
-console.log("📦 Supabase result:",data,error);
-
-if(error){
-
-console.error("❌ خطای Supabase:",error);
-
-showMessage("❌ خطا در بررسی مجوز ادمین");
-
-return;
-
-}
-
-if(!data || data.length === 0){
-
-console.log("❌ این Admin Token در admin_access پیدا نشد");
-
-sessionStorage.removeItem(
-"digital_studio_admin_token"
-);
-
-showMessage("❌ مجوز ادمین معتبر نیست");
-
-return;
-
-}
-
-const row = data[0];
-
-const expires =
-new Date(row.expires_at).getTime();
-
-if(Number.isNaN(expires)){
-
-console.error("❌ تاریخ انقضای مجوز خراب است");
-
-return;
-
-}
-
-if(expires <= Date.now()){
-
-console.log("⏱️ مجوز ادمین منقضی شده");
-
-sessionStorage.removeItem(
-"digital_studio_admin_token"
-);
-
-showMessage("⏱️ مجوز ادمین منقضی شده");
-
-return;
-
-}
-
-console.log("✅ Admin Token معتبر است");
-
-sessionStorage.setItem(
-"digital_studio_admin_token",
-adminToken
-);
-
-activateAdminPanel(
-row.expires_at
-);
-
-const remaining =
-expires - Date.now();
-
-setTimeout(function(){
-
-window.digitalStudioIsAdmin = false;
-
-sessionStorage.removeItem(
-"digital_studio_admin_token"
-);
-
-const panel =
-document.getElementById("adminPanel");
-
-if(panel){
-
-panel.style.display = "none";
-
-panel.classList.remove("admin-active");
-
-}
-
-const badge =
-document.getElementById("adminBadge");
-
-if(badge){
-
-badge.classList.remove("show");
-
-}
-
-console.log("⌛ Admin session expired");
-
-showMessage(
-"⌛ دسترسی ادمین منقضی شد"
-);
-
-},remaining);
-
-}
-
-}catch(error){
-
-console.error(
-"❌ خطای غیرمنتظره در بررسی Admin Token:",
-error
-);
-
-showMessage(
-"❌ خطای غیرمنتظره در سیستم ادمین"
-);
-
-}
-
-}
-
-
-/* =========================
-ADMIN ACTION
-========================= */
-
-function toggleAdminMenu(menuId, arrowId){
- if(!window.digitalStudioIsAdmin){
-   showMessage("⛔ دسترسی ادمین ندارید");
-   return;
- }
-
- const menu = document.getElementById(menuId);
- const arrow = document.getElementById(arrowId);
-
- if(!menu) return;
-
- menu.classList.toggle("open");
-
- if(arrow){
-   arrow.classList.toggle("rotate");
- }
-}
-
-function adminAction(action){
- if(!window.digitalStudioIsAdmin){
-   showMessage("⛔ دسترسی ادمین ندارید");
-   return;
- }
-
- console.log("👑 Admin Action:", action);
-
- showMessage("👑 بخش «"+action+"» انتخاب شد");
-}
-
-
-/* =========================
-اجرا
-========================= */
 
 verifyAdminToken();
 
 </script>
-
 <!-- /DIGITAL_STUDIO_ADMIN_ACCESS -->
 
 </body>
