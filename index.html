@@ -1338,6 +1338,109 @@ font-size:14px;
 
 }
 
+
+/* ===== Digital Studio Admin Nested Menu ===== */
+
+.adminMenu{
+position:relative;
+z-index:3;
+width:100%;
+display:flex;
+flex-direction:column;
+gap:10px;
+}
+
+.adminMainButton{
+width:100%;
+min-width:0;
+font-size:15px;
+padding:15px 12px;
+}
+
+.adminSubMenu{
+display:none;
+width:100%;
+padding:8px 0 4px;
+flex-direction:column;
+gap:8px;
+}
+
+.adminSubMenu.open{
+display:flex;
+}
+
+.adminSubButton{
+width:92%;
+min-width:0;
+margin:0 auto;
+padding:12px 10px;
+font-size:13px;
+background:linear-gradient(
+135deg,
+rgba(25,45,90,.65),
+rgba(6,12,28,.9)
+);
+border-color:rgba(100,150,255,.4);
+}
+
+.adminSubSubMenu{
+display:none;
+width:100%;
+padding:5px 0;
+flex-direction:column;
+gap:7px;
+}
+
+.adminSubSubMenu.open{
+display:flex;
+}
+
+.adminSubSubButton{
+width:85%;
+min-width:0;
+margin:0 auto;
+padding:10px;
+font-size:12px;
+background:linear-gradient(
+135deg,
+rgba(20,40,75,.55),
+rgba(5,10,24,.9)
+);
+border-color:rgba(100,150,255,.3);
+}
+
+.adminArrow{
+float:left;
+font-size:12px;
+opacity:.7;
+transition:.25s;
+}
+
+.adminArrow.rotate{
+transform:rotate(180deg);
+}
+
+
+/* Admin mobile menu */
+@media (max-width:600px){
+
+.adminMainButton{
+font-size:14px;
+padding:14px 11px;
+}
+
+.adminSubButton{
+width:94%;
+font-size:13px;
+}
+
+.adminSubSubButton{
+width:88%;
+font-size:12px;
+}
+
+}
+
 </style>
 
 </head>
@@ -1660,69 +1763,112 @@ onclick="partyLocked()"
 ADMIN PANEL
 ========================= -->
 
-<section
-id="adminPanel"
-class="admin-only"
->
-
+<section id="adminPanel" class="admin-only">
 <div class="panel adminPanelBox">
-
 <div class="panelLight"></div>
+<div class="panelNumber">ADMIN</div>
+<div class="adminPanelTitle">👑 پنل مدیریت Digital Studio</div>
 
-<div class="panelNumber">
-ADMIN
-</div>
+<div class="adminMenu">
 
-<div class="adminPanelTitle">
-👑 پنل مدیریت Digital Studio
-</div>
-
-
-<div class="adminPanelGrid">
-
-<button
-class="menuButton adminAction"
-onclick="adminAction('اخبار')"
->
+<button class="menuButton adminMainButton"
+onclick="adminAction('مدیریت اخبار')">
 📰 مدیریت اخبار
 </button>
 
-
-<button
-class="menuButton adminAction"
-onclick="adminAction('بازی ها')"
->
-🎮 مدیریت بازی ها
+<button class="menuButton adminMainButton"
+onclick="toggleAdminMenu('partyMenu','partyArrow')">
+🎉 پارتی <span id="partyArrow" class="adminArrow">▼</span>
 </button>
 
+<div id="partyMenu" class="adminSubMenu">
 
-<button
-class="menuButton adminAction"
-onclick="adminAction('گزارش ها')"
->
-🧾 دیدن گزارش ها
+<button class="menuButton adminSubButton"
+onclick="toggleAdminMenu('partyManageMenu','partyManageArrow')">
+🎛️ مدیریت پارتی <span id="partyManageArrow" class="adminArrow">▼</span>
 </button>
 
+<div id="partyManageMenu" class="adminSubSubMenu">
 
-<button
-class="menuButton adminAction"
-onclick="adminAction('تنظیمات')"
->
+<button class="menuButton adminSubSubButton"
+onclick="adminAction('فعال کردن پارتی')">
+▶️ فعال کردن پارتی
+</button>
+
+<button class="menuButton adminSubSubButton"
+onclick="adminAction('غیرفعال کردن پارتی')">
+⏹️ غیرفعال کردن پارتی
+</button>
+
+</div>
+
+<button class="menuButton adminSubButton"
+onclick="adminAction('اعضای پارتی')">
+👥 اعضای پارتی
+</button>
+
+<button class="menuButton adminSubButton"
+onclick="adminAction('جدول رتبه‌بندی پارتی')">
+🏆 جدول رتبه‌بندی پارتی
+</button>
+
+</div>
+
+<button class="menuButton adminMainButton"
+onclick="toggleAdminMenu('gamesMenu','gamesArrow')">
+🎮 مدیریت بازی‌ها <span id="gamesArrow" class="adminArrow">▼</span>
+</button>
+
+<div id="gamesMenu" class="adminSubMenu">
+
+<button class="menuButton adminSubButton"
+onclick="adminAction('اضافه کردن بازی')">
+➕ اضافه کردن بازی
+</button>
+
+<button class="menuButton adminSubButton"
+onclick="adminAction('ویرایش بازی')">
+✏️ ویرایش بازی
+</button>
+
+<button class="menuButton adminSubButton"
+onclick="adminAction('حذف بازی')">
+🗑️ حذف بازی
+</button>
+
+</div>
+
+<button class="menuButton adminMainButton"
+onclick="toggleAdminMenu('reportsMenu','reportsArrow')">
+🧾 گزارش‌ها <span id="reportsArrow" class="adminArrow">▼</span>
+</button>
+
+<div id="reportsMenu" class="adminSubMenu">
+
+<button class="menuButton adminSubButton"
+onclick="adminAction('دیدن گزارش‌ها')">
+📋 دیدن گزارش‌ها
+</button>
+
+<button class="menuButton adminSubButton"
+onclick="adminAction('مدیریت گزارش‌ها')">
+🗑️ مدیریت گزارش‌ها
+</button>
+
+</div>
+
+<button class="menuButton adminMainButton"
+onclick="adminAction('تنظیمات')">
 ⚙️ تنظیمات
 </button>
 
 </div>
 
-
-<div
-id="adminStatus"
-class="adminStatus"
->
+<div id="adminStatus" class="adminStatus">
 🟢 پنل ادمین فعال است
 </div>
 
 </div>
-
 </section>
 
 
@@ -3195,18 +3341,33 @@ error
 ADMIN ACTION
 ========================= */
 
+function toggleAdminMenu(menuId, arrowId){
+ if(!window.digitalStudioIsAdmin){
+   showMessage("⛔ دسترسی ادمین ندارید");
+   return;
+ }
+
+ const menu = document.getElementById(menuId);
+ const arrow = document.getElementById(arrowId);
+
+ if(!menu) return;
+
+ menu.classList.toggle("open");
+
+ if(arrow){
+   arrow.classList.toggle("rotate");
+ }
+}
+
 function adminAction(action){
+ if(!window.digitalStudioIsAdmin){
+   showMessage("⛔ دسترسی ادمین ندارید");
+   return;
+ }
 
-if(
-!window.digitalStudioIsAdmin
-){
+ console.log("👑 Admin Action:", action);
 
-showMessage(
-"⛔ دسترسی ادمین ندارید"
-);
-
-return;
-
+ showMessage("👑 بخش «"+action+"» انتخاب شد");
 }
 
 
