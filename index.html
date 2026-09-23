@@ -1743,11 +1743,6 @@ onclick="partyLocked()"
 
 <br>
 
-این بخش فعلاً بسته است و بعد از آماده شدن سیستم
-پارتی قابل ورود خواهد بود.
-
-<br>
-
 داخل پارتی می‌توان فعالیت‌های گروهی،
 بازی‌های چندنفره و رویدادهای مخصوص Digital Studio
 انجام داد.
@@ -2267,9 +2262,7 @@ PARTY
 
 function partyLocked(){
 
-showMessage(
-"سیستم پارتی فعلاً درحال ساخت است"
-);
+location.href = "party.html";
 
 }
 
@@ -2682,42 +2675,8 @@ avatar:avatar
 };
 
 
-/* اگر ایمیل ادمین باشد */
-
-if(
-email.toLowerCase()
-===
-"hamirastgoo93@gmail.com"
-){
-
-window.digitalStudioIsAdmin = true;
-
-
-const adminElements =
-document.querySelectorAll(
-".admin-only"
-);
-
-
-adminElements.forEach(
-el => {
-
-el.style.display = "";
-
-}
-);
-
-
-console.log(
-"Digital Studio: ADMIN"
-);
-
-
-}else{
-
+/* دسترسی ادمین فقط از طریق Admin Token انجام می‌شود. */
 window.digitalStudioIsAdmin = false;
-
-}
 
 
 /* اعلام آماده بودن حساب */
@@ -3120,219 +3079,127 @@ async function verifyAdminToken(){
 
 if(!adminToken){
 
+console.log("❌ هیچ Admin Token ای وجود ندارد");
+
 return;
 
 }
 
-
-console.log(
-"🔎 در حال بررسی مجوز ادمین..."
-);
-
+console.log("🔎 در حال بررسی مجوز ادمین...");
 
 try{
 
-const result =
+const { data, error } =
 await adminSupabase
 .from("admin_access")
-.select(
-"id, access_key, device_token, expires_at"
-)
-.eq(
-"access_key",
-"ADMIN"
-)
-.eq(
-"device_token",
-adminToken
-)
-.order(
-"created_at",
-{
-ascending:false
-}
-)
+.select("id, access_key, device_token, expires_at")
+.eq("access_key","ADMIN")
+.eq("device_token",adminToken)
+.order("created_at",{ascending:false})
 .limit(1);
 
-
-const data =
-result.data;
-
-
-const error =
-result.error;
-
-
-console.log(
-"📦 Supabase result:",
-data,
-error
-);
-
+console.log("📦 Supabase result:",data,error);
 
 if(error){
 
-console.error(
-"❌ خطای Supabase:",
-error
-);
+console.error("❌ خطای Supabase:",error);
+
+showMessage("❌ خطا در بررسی مجوز ادمین");
 
 return;
 
 }
 
+if(!data || data.length === 0){
 
-if(
-!data ||
-data.length === 0
-){
-
-console.log(
-"❌ این توکن در admin_access پیدا نشد"
-);
+console.log("❌ این Admin Token در admin_access پیدا نشد");
 
 sessionStorage.removeItem(
 "digital_studio_admin_token"
 );
 
+showMessage("❌ مجوز ادمین معتبر نیست");
+
 return;
 
 }
 
-
-const row =
-data[0];
-
+const row = data[0];
 
 const expires =
-new Date(
-row.expires_at
-).getTime();
+new Date(row.expires_at).getTime();
 
+if(Number.isNaN(expires)){
 
-if(
-Number.isNaN(expires)
-){
-
-console.log(
-"❌ تاریخ انقضا خراب است"
-);
+console.error("❌ تاریخ انقضای مجوز خراب است");
 
 return;
 
 }
 
+if(expires <= Date.now()){
 
-if(
-expires <= Date.now()
-){
-
-console.log(
-"⏱️ مجوز ادمین منقضی شده"
-);
+console.log("⏱️ مجوز ادمین منقضی شده");
 
 sessionStorage.removeItem(
 "digital_studio_admin_token"
 );
 
+showMessage("⏱️ مجوز ادمین منقضی شده");
+
 return;
 
 }
 
-
-console.log(
-"✅ توکن معتبر است"
-);
-
-
-/* ذخیره Token */
+console.log("✅ Admin Token معتبر است");
 
 sessionStorage.setItem(
 "digital_studio_admin_token",
 adminToken
 );
 
-
-/* فعال کردن پنل */
-
 activateAdminPanel(
 row.expires_at
 );
 
-
-/* =========================
-مدیریت انقضای Session
-========================= */
-
 const remaining =
 expires - Date.now();
 
-
 setTimeout(function(){
 
-window.digitalStudioIsAdmin =
-false;
-
+window.digitalStudioIsAdmin = false;
 
 sessionStorage.removeItem(
 "digital_studio_admin_token"
 );
 
-
 const panel =
-document.getElementById(
-"adminPanel"
-);
-
+document.getElementById("adminPanel");
 
 if(panel){
 
-panel.style.display =
-"none";
+panel.style.display = "none";
 
-panel.classList.remove(
-"admin-active"
-);
+panel.classList.remove("admin-active");
 
 }
 
-
 const badge =
-document.getElementById(
-"adminBadge"
-);
-
+document.getElementById("adminBadge");
 
 if(badge){
 
-badge.classList.remove(
-"show"
-);
+badge.classList.remove("show");
 
 }
 
-
-console.log(
-"⌛ Admin session expired"
-);
-
+console.log("⌛ Admin session expired");
 
 showMessage(
 "⌛ دسترسی ادمین منقضی شد"
 );
 
-
 },remaining);
-
-}
-catch(error){
-
-console.error(
-"❌ Admin verification failed:",
-error
-);
-
-}
 
 }
 
