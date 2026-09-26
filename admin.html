@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>اعضای تیم | Digital Studio</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+html,body{
+width:100%;
+min-height:100%;
+background:#02030a;
+color:white;
+font-family:Arial,Tahoma,sans-serif;
+overflow-x:hidden;
+}
+
+body{
+background:
+radial-gradient(circle at 50% 8%,rgba(65,95,180,.28),transparent 20%),
+radial-gradient(circle at 15% 55%,rgba(30,80,160,.16),transparent 25%),
+radial-gradient(circle at 85% 75%,rgba(100,30,150,.14),transparent 25%),
+linear-gradient(180deg,#070914 0%,#02030a 45%,#000106 100%);
+}
+
+body::before{
+content:"";
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:10vh;
+min-height:70px;
+max-height:100px;
+background:
+radial-gradient(
+ellipse at center top,
+rgba(100,150,255,.25),
+rgba(40,70,150,.10) 35%,
+transparent 75%
+);
+pointer-events:none;
+z-index:20;
+}
+
+
+/* =========================
+STARS
+========================= */
+
+#device{
+position:relative;
+min-height:100vh;
+overflow:hidden;
+
+background-image:
+radial-gradient(circle,rgba(255,255,255,.9) 1px,transparent 1.5px),
+radial-gradient(circle,rgba(130,170,255,.75) 1px,transparent 1.5px),
+radial-gradient(circle,rgba(255,255,255,.5) .7px,transparent 1px);
+
+background-size:
+150px 150px,
+230px 230px,
+90px 90px;
+
+background-position:
+10px 20px,
+80px 100px,
+30px 70px;
+}
+
+#device::after{
+content:"";
+position:fixed;
+inset:0;
+
+background-image:
+radial-gradient(circle,rgba(255,255,255,.9) 1px,transparent 2px),
+radial-gradient(circle,rgba(120,170,255,.7) 1px,transparent 2px);
+
+background-size:310px 310px,410px 410px;
+
+animation:starsMove 35s linear infinite;
+
+pointer-events:none;
+z-index:0;
+}
+
+@keyframes starsMove{
+
+from{
+transform:translate3d(0,0,0);
+}
+
+to{
+transform:translate3d(-120px,180px,0);
+}
+
+}
+
+
+/* =========================
+SPACE DUST
+========================= */
+
+.spaceDust{
+position:fixed;
+inset:0;
+pointer-events:none;
+z-index:1;
+
+background:
+radial-gradient(circle at 20% 30%,rgba(80,120,255,.10),transparent 8%),
+radial-gradient(circle at 80% 20%,rgba(180,80,255,.08),transparent 10%),
+radial-gradient(circle at 70% 80%,rgba(40,130,255,.08),transparent 12%);
+
+animation:dustPulse 8s ease-in-out infinite alternate;
+}
+
+@keyframes dustPulse{
+
+from{
+opacity:.55;
+}
+
+to{
+opacity:1;
+}
+
+}
+
+
+/* =========================
+TOP BAR
+========================= */
+
+#topBar{
+position:sticky;
+top:0;
+z-index:50;
+
+min-height:82px;
+
+display:flex;
+align-items:center;
+justify-content:space-between;
+
+gap:10px;
+
+padding:10px 18px;
+
+background:
+linear-gradient(
+180deg,
+rgba(10,18,42,.94),
+rgba(3,6,17,.82)
+);
+
+border-bottom:1px solid rgba(100,150,255,.35);
+
+box-shadow:
+0 0 30px rgba(40,90,220,.12),
+inset 0 -1px 0 rgba(255,255,255,.05);
+
+backdrop-filter:blur(8px);
+}
+
+.logoArea{
+display:flex;
+align-items:center;
+gap:12px;
+flex-shrink:0;
+}
+
+.logoArea img{
+width:50px;
+height:50px;
+border-radius:12px;
+object-fit:cover;
+
+border:1px solid rgba(130,170,255,.55);
+
+box-shadow:
+0 0 15px rgba(70,120,255,.35);
+}
+
+.logoName{
+font-size:18px;
+font-weight:bold;
+letter-spacing:1px;
+
+text-shadow:
+0 0 12px rgba(120,170,255,.55);
+}
+
+.topActions{
+display:flex;
+align-items:center;
+gap:7px;
+}
+
+.aboutButton{
+border:1px solid rgba(100,150,255,.5);
+
+background:rgba(15,25,55,.65);
+
+color:white;
+
+padding:10px 15px;
+
+border-radius:10px;
+
+cursor:pointer;
+
+box-shadow:
+inset 0 0 12px rgba(60,100,220,.12),
+0 0 12px rgba(40,90,220,.12);
+
+transition:.25s;
+}
+
+.aboutButton:hover{
+background:rgba(40,65,120,.8);
+transform:translateY(-2px);
+}
+
+
+/* =========================
+TEAM PAGE
+========================= */
+
+#teamSection{
+position:relative;
+z-index:10;
+
+width:100%;
+
+display:flex;
+flex-direction:column;
+align-items:center;
+
+padding:55px 20px 100px;
+}
+
+.teamTitle{
+font-size:30px;
+font-weight:bold;
+
+margin-bottom:12px;
+
+text-align:center;
+
+text-shadow:
+0 0 15px rgba(100,160,255,.55);
+}
+
+.teamDescription{
+max-width:600px;
+
+margin-bottom:35px;
+
+text-align:center;
+
+line-height:2;
+
+font-size:14px;
+
+color:rgba(220,230,255,.72);
+}
+
+
+/* =========================
+TEAM CARDS
+========================= */
+
+#teamList{
+width:min(520px,92vw);
+
+display:flex;
+flex-direction:column;
+
+gap:18px;
+}
+
+.teamCard{
+position:relative;
+
+width:100%;
+
+padding:24px 22px;
+
+border-radius:22px;
+
+background:
+radial-gradient(
+circle at 50% 0%,
+rgba(60,100,190,.22),
+transparent 45%
+),
+linear-gradient(
+145deg,
+rgba(16,24,52,.95),
+rgba(4,7,18,.96)
+);
+
+border:1px solid rgba(100,150,255,.35);
+
+box-shadow:
+0 25px 70px rgba(0,0,0,.75),
+0 0 35px rgba(45,90,210,.13),
+inset 0 0 30px rgba(70,100,190,.07);
+
+cursor:pointer;
+
+overflow:hidden;
+
+transition:.3s;
+}
+
+.teamCard::before,
+.teamCard::after{
+content:"";
+
+position:absolute;
+
+width:55px;
+height:55px;
+
+border-color:rgba(110,160,255,.4);
+border-style:solid;
+
+pointer-events:none;
+}
+
+.teamCard::before{
+top:10px;
+left:10px;
+
+border-width:1px 0 0 1px;
+}
+
+.teamCard::after{
+bottom:10px;
+right:10px;
+
+border-width:0 1px 1px 0;
+}
+
+.teamCard:hover{
+transform:translateY(-4px);
+
+border-color:rgba(170,205,255,.75);
+
+box-shadow:
+0 25px 70px rgba(0,0,0,.75),
+0 0 35px rgba(70,130,255,.28);
+}
+
+.teamName{
+position:relative;
+z-index:3;
+
+font-size:23px;
+font-weight:bold;
+
+margin-bottom:10px;
+
+text-shadow:
+0 0 12px rgba(120,170,255,.5);
+}
+
+.teamRole{
+position:relative;
+z-index:3;
+
+display:inline-block;
+
+padding:6px 10px;
+
+border-radius:9px;
+
+font-size:13px;
+font-weight:bold;
+
+margin-bottom:14px;
+}
+
+.role-creator{
+color:#dca8ff;
+background:rgba(150,60,220,.16);
+border:1px solid rgba(190,100,255,.55);
+box-shadow:0 0 14px rgba(170,70,255,.18);
+}
+
+.role-admin{
+color:#ffe08a;
+background:rgba(220,170,30,.13);
+border:1px solid rgba(255,205,50,.55);
+box-shadow:0 0 14px rgba(255,190,40,.16);
+}
+
+.role-main-creator{
+color:#9affb0;
+background:rgba(40,190,80,.13);
+border:1px solid rgba(70,230,100,.55);
+box-shadow:0 0 14px rgba(50,220,90,.16);
+}
+
+.teamStatus{
+position:relative;
+z-index:3;
+
+margin-bottom:12px;
+
+color:rgba(220,230,255,.82);
+
+font-size:13px;
+}
+
+.teamDescription{
+position:relative;
+z-index:3;
+
+color:rgba(220,230,255,.72);
+
+font-size:14px;
+
+line-height:2;
+}
+
+.teamArrow{
+position:absolute;
+
+left:18px;
+bottom:16px;
+
+font-size:16px;
+
+color:rgba(160,190,255,.55);
+}
+
+
+/* =========================
+EMPTY
+========================= */
+
+#emptyTeam{
+display:none;
+
+width:min(520px,92vw);
+
+padding:28px;
+
+border-radius:20px;
+
+text-align:center;
+
+color:rgba(220,230,255,.65);
+
+border:1px solid rgba(100,150,255,.25);
+
+background:rgba(10,18,40,.65);
+}
+
+
+/* =========================
+BOTTOM
+========================= */
+
+#bottomSpace{
+height:100px;
+}
+
+
+/* =========================
+MOBILE
+========================= */
+
+@media(max-width:600px){
+
+#topBar{
+min-height:74px;
+padding:8px 12px;
+}
+
+.logoArea img{
+width:44px;
+height:44px;
+}
+
+.logoName{
+font-size:16px;
+}
+
+.aboutButton{
+padding:9px 10px;
+font-size:11px;
+}
+
+#teamSection{
+padding:40px 15px 80px;
+}
+
+.teamTitle{
+font-size:24px;
+}
+
+.teamDescription{
+font-size:13px;
+}
+
+.teamCard{
+padding:21px 18px;
+}
+
+.teamName{
+font-size:20px;
+}
+
+.teamDescription{
+font-size:13px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="device">
+
+<div class="spaceDust"></div>
+
+<header id="topBar">
+
+<div class="logoArea">
+
+<img
+src="Logo studio.jpg"
+alt="Digital Studio"
+>
+
+<div class="logoName">
+Digital Studio
+</div>
+
+</div>
+
+<div class="topActions">
+
+<button
+class="aboutButton"
+onclick="location.href='index.html'"
+>
+خانه
+</button>
+
+<button
+class="aboutButton"
+onclick="location.href='about.html'"
+>
+درباره ی ما
+</button>
+
+</div>
+
+</header>
+
+
+<section id="teamSection">
+
+<div class="teamTitle">
+اعضای تیم ما
+</div>
+
+<div class="teamDescription">
+اعضای Digital Studio و نقش هرکدام در استودیو.
+</div>
+
+<div id="teamList"></div>
+
+<div id="emptyTeam">
+در حال حاضر عضو کاملی برای نمایش وجود ندارد.
+</div>
+
+</section>
+
+<div id="bottomSpace"></div>
+
+</div>
+
+
+<script>
+
+/*
+========================================
+اطلاعات اعضای تیم
+========================================
+
+برای نمایش کارت، تمام موارد زیر باید
+کامل باشند:
+
+name
+role
+status
+description
+page
+
+اگر حتی یکی خالی باشد، کارت نمایش داده نمی‌شود.
+
+نقش‌های مجاز:
+
+creator
+admin
+main-creator
+========================================
+*/
+
+
+const TEAM_MEMBERS = [
+
+{
+name:"حامی",
+role:"main-creator",
+status:"فعال",
+description:
+"حامی یک سازنده ی اصلی است که بدبخت همه ی کارا روی دوشه اونه😂😂😔",
+page:"hami.html"
+},
+
+{
+name:"پندار",
+role:"admin",
+status:"غیر فعال",
+description:"برادر عجیبه، یعنی معلوم نیست کیه، یه بار خوبه، یه بار بده، یه بار روح هست",
+page:"pendar.html"
+},
+
+{
+name:"سیروان",
+role:"admin",
+status:"اصلا معلوم نیست",
+description:"آقای سیروان انقدر خودش کار داره، که توی این توضیحات جا نمیشه،و فقط روی یه پروژه درحال ساختیم",
+page:"sirvan.html"
+},
+
+{
+name:"",
+role:"",
+status:"",
+description:"",
+page:""
+},
+
+{
+name:"",
+role:"",
+status:"",
+description:"",
+page:""
+},
+
+{
+name:"",
+role:"",
+status:"",
+description:"",
+page:""
+},
+
+{
+name:"",
+role:"",
+status:"",
+description:"",
+page:""
+},
+
+{
+name:"",
+role:"",
+status:"",
+description:"",
+page:""
+},
+
+{
+name:"",
+role:"",
+status:"",
+description:"",
+page:""
+},
+
+{
+name:"",
+role:"",
+status:"",
+description:"",
+page:""
+}
+
+];
+
+
+/*
+========================================
+تشخیص اطلاعات کامل
+========================================
+*/
+
+function isCompleteMember(member){
+
+if(!member){
+return false;
+}
+
+const requiredFields = [
+"name",
+"role",
+"status",
+"description",
+"page"
+];
+
+return requiredFields.every(function(field){
+
+return (
+typeof member[field] === "string" &&
+member[field].trim() !== ""
+);
+
+});
+
+}
+
+
+/*
+========================================
+نام نقش
+========================================
+*/
+
+function getRoleName(role){
+
+if(role === "creator"){
+return "سازنده";
+}
+
+if(role === "admin"){
+return "ادمین";
+}
+
+if(role === "main-creator"){
+return "سازنده ی اصلی";
+}
+
+return "";
+
+}
+
+
+/*
+========================================
+کلاس رنگ نقش
+========================================
+*/
+
+function getRoleClass(role){
+
+if(role === "creator"){
+return "role-creator";
+}
+
+if(role === "admin"){
+return "role-admin";
+}
+
+if(role === "main-creator"){
+return "role-main-creator";
+}
+
+return "";
+
+}
+
+
+/*
+========================================
+ساخت کارت
+========================================
+*/
+
+function createTeamCard(member){
+
+if(!isCompleteMember(member)){
+return null;
+}
+
+const card =
+document.createElement("div");
+
+card.className =
+"teamCard";
+
+card.onclick = function(){
+
+location.href =
+member.page;
+
+};
+
+
+const name =
+document.createElement("div");
+
+name.className =
+"teamName";
+
+name.textContent =
+member.name;
+
+
+const role =
+document.createElement("div");
+
+role.className =
+"teamRole " +
+getRoleClass(member.role);
+
+role.textContent =
+getRoleName(member.role);
+
+
+const status =
+document.createElement("div");
+
+status.className =
+"teamStatus";
+
+status.textContent =
+"وضعیت: " +
+member.status;
+
+
+const description =
+document.createElement("div");
+
+description.className =
+"teamDescription";
+
+description.textContent =
+member.description;
+
+
+const arrow =
+document.createElement("div");
+
+arrow.className =
+"teamArrow";
+
+arrow.textContent =
+"←";
+
+
+card.appendChild(name);
+card.appendChild(role);
+card.appendChild(status);
+card.appendChild(description);
+card.appendChild(arrow);
+
+
+return card;
+
+}
+
+
+/*
+========================================
+نمایش اعضای کامل
+========================================
+*/
+
+function loadTeam(){
+
+const list =
+document.getElementById("teamList");
+
+const empty =
+document.getElementById("emptyTeam");
+
+
+list.innerHTML = "";
+
+let visibleCount = 0;
+
+
+TEAM_MEMBERS.forEach(function(member){
+
+const card =
+createTeamCard(member);
+
+if(card){
+
+list.appendChild(card);
+
+visibleCount++;
+
+}
+
+});
+
+
+if(visibleCount === 0){
+
+empty.style.display =
+"block";
+
+}else{
+
+empty.style.display =
+"none";
+
+}
+
+}
+
+
+/*
+========================================
+شروع
+========================================
+*/
+
+loadTeam();
+
+</script>
+
+</body>
+
+</html>
