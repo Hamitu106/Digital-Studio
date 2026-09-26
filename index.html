@@ -2000,6 +2000,55 @@ SUPABASE_URL,
 SUPABASE_PUBLISHABLE_KEY
 );
 
+/* ========================================
+   ارسال بازدید ها
+======================================== */
+
+async function sendPageVisit(){
+
+    try{
+
+        await fetch(
+            `${SUPABASE_URL}/rest/v1/site_visits`,
+            {
+                method:"POST",
+
+                headers:{
+                    "apikey":SUPABASE_PUBLISHABLE_KEY,
+                    "Authorization":
+                        `Bearer ${SUPABASE_PUBLISHABLE_KEY}`,
+                    "Content-Type":"application/json",
+                    "Prefer":"return=minimal"
+                },
+
+                body:JSON.stringify({
+                    page_name:"منوی اصلی"
+                })
+            }
+        );
+
+        console.log(
+            "👁 بازدید منوی اصلی ثبت شد"
+        );
+
+    }catch(error){
+
+        console.log(
+            "❌ خطا در ارسال بازدید:",
+            error
+        );
+
+    }
+
+}
+
+sendPageVisit();
+
+/* ========================================
+   پایان ارسال بازدید ها
+======================================== */
+
+
 const ADMIN_EMAIL =
 "hamirastgoo93@gmail.com";
 

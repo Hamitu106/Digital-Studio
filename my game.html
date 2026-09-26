@@ -1240,6 +1240,57 @@ if(
 </script>
 
 
+
+
+
+<!-- ========================================
+     ارسال بازدید ها
+======================================== -->
+
+<script>
+async function sendPageVisit(){
+
+    try{
+
+        await fetch(
+            `${SUPABASE_URL}/rest/v1/site_visits`,
+            {
+                method:"POST",
+
+                headers:{
+                    "apikey":SUPABASE_PUBLISHABLE_KEY,
+                    "Authorization":
+                        `Bearer ${SUPABASE_PUBLISHABLE_KEY}`,
+                    "Content-Type":"application/json",
+                    "Prefer":"return=minimal"
+                },
+
+                body:JSON.stringify({
+                    page_name:"بازی های ما"
+                })
+            }
+        );
+
+        console.log("👁 بازدید بازی های ما ثبت شد");
+
+    }catch(error){
+
+        console.log(
+            "❌ خطا در ارسال بازدید:",
+            error
+        );
+
+    }
+
+}
+
+sendPageVisit();
+</script>
+
+<!-- ========================================
+     پایان ارسال بازدید ها
+======================================== -->
+
 </body>
 
 </html>
