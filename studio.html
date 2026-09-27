@@ -1323,5 +1323,62 @@ if(validNews.length === 0){
 
 </script>
 
+
+<!-- ========================================
+     سیستم ارسال بازدید ها
+======================================== -->
+<script src="VisitorSystem.js"></script>
+
+<script>
+sendPageVisit('اخبار');
+</script>
+
+
+<!-- ========================================
+     Digital Studio Visitor System
+======================================== -->
+
+<script>
+const SUPABASE_URL =
+"https://ltzymbvfntkmgqpjbhof.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+"sb_publishable_JO6nHjAfwTP4ZL_mgIvNHw_UZ7YJRI7";
+
+async function sendPageVisit() {
+
+    try {
+
+        const response = await fetch(
+            `${SUPABASE_URL}/rest/v1/site_visits`,
+            {
+                method: "POST",
+
+                headers: {
+                    "apikey": SUPABASE_PUBLISHABLE_KEY,
+                    "Authorization":
+                        `Bearer ${SUPABASE_PUBLISHABLE_KEY}`,
+                    "Content-Type": "application/json",
+                    "Prefer": "return=minimal"
+                },
+
+                body: JSON.stringify({
+                    page_name: "اخبار"
+                })
+            }
+        );
+
+        console.log("📡 اخبار:", response.status);
+
+    } catch (error) {
+
+        console.error("❌ خطای Visitor اخبار:", error);
+
+    }
+}
+
+sendPageVisit();
+</script>
+
 </body>
 </html>
