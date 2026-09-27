@@ -321,7 +321,7 @@ const SUPABASE_PUBLISHABLE_KEY =
 <script>
 async function sendPageVisit() {
     try {
-        await fetch(
+        const response = await fetch(
             `${SUPABASE_URL}/rest/v1/site_visits`,
             {
                 method: "POST",
@@ -337,7 +337,15 @@ async function sendPageVisit() {
             }
         );
 
-        console.log("👁 بازدید درباره ی ما ثبت شد");
+        console.log("📡 Supabase status:", response.status);
+        console.log("📡 Supabase ok:", response.ok);
+        console.log("📡 Supabase response:", await response.text());
+
+        if (response.ok) {
+            console.log("👁 بازدید درباره ی ما ثبت شد");
+        } else {
+            console.log("❌ Supabase بازدید را قبول نکرد");
+        }
 
     } catch (error) {
         console.log("❌ خطا در ارسال بازدید:", error);
