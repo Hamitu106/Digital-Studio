@@ -1255,63 +1255,46 @@ if(
 ======================================== -->
 
 
+
+
+
 <!-- ========================================
-     سیستم ارسال بازدید ها
+     Digital Studio Visitor System
 ======================================== -->
 
-
 <script>
-sendPageVisit('بازی های ما');
+const SUPABASE_URL =
+"https://ltzymbvfntkmgqpjbhof.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+"sb_publishable_JO6nHjAfwTP4ZL_mgIvNHw_UZ7YJRI7";
 </script>
 
 
-<!-- ========================================
-     ارسال بازدید ها
-======================================== -->
 <script>
-
-
-
-<!-- ========================================
-     ارسال بازدید ها
-======================================== -->
-<script>
-async function sendPageVisit(){
-
-    try{
-
+async function sendPageVisit() {
+    try {
         await fetch(
             `${SUPABASE_URL}/rest/v1/site_visits`,
             {
-                method:"POST",
-
-                headers:{
-                    "apikey":SUPABASE_PUBLISHABLE_KEY,
-                    "Authorization":
-                        `Bearer ${SUPABASE_PUBLISHABLE_KEY}`,
-                    "Content-Type":"application/json",
-                    "Prefer":"return=minimal"
+                method: "POST",
+                headers: {
+                    "apikey": SUPABASE_PUBLISHABLE_KEY,
+                    "Authorization": `Bearer ${SUPABASE_PUBLISHABLE_KEY}`,
+                    "Content-Type": "application/json",
+                    "Prefer": "return=minimal"
                 },
-
-                body:JSON.stringify({
-                    page_name:"بازی های ما"
+                body: JSON.stringify({
+                    page_name: "بازی های ما"
                 })
             }
         );
 
-        console.log(
-            "👁 بازدید بازی های ما ثبت شد"
-        );
+        console.log("👁 بازدید بازی های ما ثبت شد");
 
-    }catch(error){
-
-        console.log(
-            "❌ خطا در ارسال بازدید:",
-            error
-        );
-
+    } catch (error) {
+        console.log("❌ خطا در ارسال بازدید:", error);
     }
-
 }
 
 sendPageVisit();

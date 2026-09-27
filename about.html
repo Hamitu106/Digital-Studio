@@ -302,57 +302,46 @@ Digital Studio هم هنوز اول راهشه.
 
 
 
+
+
+
 <!-- ========================================
-     سیستم ارسال بازدید ها
+     Digital Studio Visitor System
 ======================================== -->
-<script src="VisitorSystem.js"></script>
 
 <script>
-console.log("🚀 VisitorSystem loaded for ABOUT");
-sendPageVisit("درباره ی ما");
+const SUPABASE_URL =
+"https://ltzymbvfntkmgqpjbhof.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+"sb_publishable_JO6nHjAfwTP4ZL_mgIvNHw_UZ7YJRI7";
 </script>
 
 
-<!-- ========================================
-     ارسال بازدید ها
-======================================== -->
 <script>
-async function sendPageVisit(){
-
-    try{
-
+async function sendPageVisit() {
+    try {
         await fetch(
             `${SUPABASE_URL}/rest/v1/site_visits`,
             {
-                method:"POST",
-
-                headers:{
-                    "apikey":SUPABASE_PUBLISHABLE_KEY,
-                    "Authorization":
-                        `Bearer ${SUPABASE_PUBLISHABLE_KEY}`,
-                    "Content-Type":"application/json",
-                    "Prefer":"return=minimal"
+                method: "POST",
+                headers: {
+                    "apikey": SUPABASE_PUBLISHABLE_KEY,
+                    "Authorization": `Bearer ${SUPABASE_PUBLISHABLE_KEY}`,
+                    "Content-Type": "application/json",
+                    "Prefer": "return=minimal"
                 },
-
-                body:JSON.stringify({
-                    page_name:"درباره ی ما"
+                body: JSON.stringify({
+                    page_name: "درباره ی ما"
                 })
             }
         );
 
-        console.log(
-            "👁 بازدید درباره ی ما ثبت شد"
-        );
+        console.log("👁 بازدید درباره ی ما ثبت شد");
 
-    }catch(error){
-
-        console.log(
-            "❌ خطا در ارسال بازدید:",
-            error
-        );
-
+    } catch (error) {
+        console.log("❌ خطا در ارسال بازدید:", error);
     }
-
 }
 
 sendPageVisit();
