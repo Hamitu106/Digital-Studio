@@ -1259,11 +1259,11 @@ const SUPABASE_PUBLISHABLE_KEY =
 async function sendPageVisit() {
 
     console.log("🚨 VISITOR SCRIPT STARTED");
-    alert("VISITOR SCRIPT اجرا شد");
+    alert("VISITOR SCRIPT اجرا شد"); console.log("🚨 قبل از FETCH");
 
     try {
 
-        const response = await fetch(
+        console.log("🚨 FETCH در حال اجراست"); const response = await fetch(
             `${SUPABASE_URL}/rest/v1/site_visits`,
             {
                 method: "POST",
