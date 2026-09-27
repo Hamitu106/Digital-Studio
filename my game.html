@@ -1259,11 +1259,11 @@ const SUPABASE_PUBLISHABLE_KEY =
 async function sendPageVisit() {
 
     console.log("🚨 VISITOR SCRIPT STARTED");
-    alert("VISITOR SCRIPT اجرا شد"); console.log("🚨 قبل از FETCH");
+    console.log("[Visitor] My Games script started"); console.log("[Visitor] Sending visit...");
 
     try {
 
-        console.log("🚨 FETCH در حال اجراست"); const response = await fetch(
+        const response = await fetch(
             `${SUPABASE_URL}/rest/v1/site_visits`,
             {
                 method: "POST",
@@ -1282,7 +1282,7 @@ async function sendPageVisit() {
             }
         );
 
-        console.log("📡 Supabase status:", response.status);
+        console.log("[Visitor] Status:", response.status);
         console.log("📡 Supabase ok:", response.ok);
 
         const result = await response.text();
@@ -1290,7 +1290,7 @@ async function sendPageVisit() {
         console.log("📡 Supabase response:", result);
 
         if (response.ok) {
-            console.log("✅ بازدید بازی های ما ثبت شد");
+            console.log("[Visitor] Visit recorded");
         } else {
             console.log("❌ Supabase درخواست را قبول نکرد");
         }
