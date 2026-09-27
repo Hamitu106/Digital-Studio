@@ -301,6 +301,63 @@ Digital Studio هم هنوز اول راهشه.
     </script>
 
 
+
+<!-- ========================================
+     سیستم ارسال بازدید ها
+======================================== -->
+<script src="VisitorSystem.js"></script>
+
+<script>
+console.log("🚀 VisitorSystem loaded for ABOUT");
+sendPageVisit("درباره ی ما");
+</script>
+
+
+<!-- ========================================
+     ارسال بازدید ها
+======================================== -->
+<script>
+async function sendPageVisit(){
+
+    try{
+
+        await fetch(
+            `${SUPABASE_URL}/rest/v1/site_visits`,
+            {
+                method:"POST",
+
+                headers:{
+                    "apikey":SUPABASE_PUBLISHABLE_KEY,
+                    "Authorization":
+                        `Bearer ${SUPABASE_PUBLISHABLE_KEY}`,
+                    "Content-Type":"application/json",
+                    "Prefer":"return=minimal"
+                },
+
+                body:JSON.stringify({
+                    page_name:"درباره ی ما"
+                })
+            }
+        );
+
+        console.log(
+            "👁 بازدید درباره ی ما ثبت شد"
+        );
+
+    }catch(error){
+
+        console.log(
+            "❌ خطا در ارسال بازدید:",
+            error
+        );
+
+    }
+
+}
+
+sendPageVisit();
+</script>
+
 </body>
 
 </html>
