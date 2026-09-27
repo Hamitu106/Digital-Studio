@@ -315,22 +315,26 @@ const SUPABASE_URL =
 
 const SUPABASE_PUBLISHABLE_KEY =
 "sb_publishable_JO6nHjAfwTP4ZL_mgIvNHw_UZ7YJRI7";
-</script>
 
-
-<script>
 async function sendPageVisit() {
+
+    console.log("🚀 شروع ارسال بازدید درباره ی ما");
+
     try {
+
         const response = await fetch(
             `${SUPABASE_URL}/rest/v1/site_visits`,
             {
                 method: "POST",
+
                 headers: {
                     "apikey": SUPABASE_PUBLISHABLE_KEY,
-                    "Authorization": `Bearer ${SUPABASE_PUBLISHABLE_KEY}`,
+                    "Authorization":
+                        `Bearer ${SUPABASE_PUBLISHABLE_KEY}`,
                     "Content-Type": "application/json",
                     "Prefer": "return=minimal"
                 },
+
                 body: JSON.stringify({
                     page_name: "درباره ی ما"
                 })
@@ -339,16 +343,21 @@ async function sendPageVisit() {
 
         console.log("📡 Supabase status:", response.status);
         console.log("📡 Supabase ok:", response.ok);
-        console.log("📡 Supabase response:", await response.text());
+
+        const result = await response.text();
+
+        console.log("📡 Supabase response:", result);
 
         if (response.ok) {
-            console.log("👁 بازدید درباره ی ما ثبت شد");
+            console.log("✅ بازدید درباره ی ما ثبت شد");
         } else {
-            console.log("❌ Supabase بازدید را قبول نکرد");
+            console.log("❌ Supabase درخواست را قبول نکرد");
         }
 
     } catch (error) {
-        console.log("❌ خطا در ارسال بازدید:", error);
+
+        console.error("❌ خطای واقعی Visitor:", error);
+
     }
 }
 
