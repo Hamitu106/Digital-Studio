@@ -414,6 +414,21 @@ border:1px solid rgba(70,230,100,.55);
 box-shadow:0 0 14px rgba(50,220,90,.16);
 }
 
+.role-audio-provider{
+color:#ff9bd2 !important;
+background:rgba(255,90,170,.18) !important;
+border:1px solid #ff82c3 !important;
+box-shadow:0 0 16px rgba(255,80,170,.35) !important;
+}
+
+.role-helper-member{
+color:#ffffff !important;
+background:rgba(255,255,255,.12) !important;
+border:1px solid rgba(255,255,255,.7) !important;
+box-shadow:0 0 16px rgba(255,255,255,.22) !important;
+}
+
+
 .teamStatus{
 position:relative;
 z-index:3;
@@ -622,6 +637,8 @@ page
 creator
 admin
 main-creator
+audio-provider
+helper-member
 ========================================
 */
 
@@ -639,7 +656,7 @@ page:"hami.html"
 
 {
 name:"پندار",
-role:"admin",
+role:"audio-provider",
 status:"غیر فعال",
 description:"نوشته از خود پندار:پندار یه آدم دیوانه🤣 تاکید می کنم دیوانه! و دوبلور و همین تور گاضی🤣🤣",
 page:"pendar.html"
@@ -647,7 +664,7 @@ page:"pendar.html"
 
 {
 name:"سیروان",
-role:"admin",
+role:"helper-member",
 status:"اصلا معلوم نیست",
 description:"آقای سیروان انقدر خودش کار داره، که توی این توضیحات جا نمیشه،و فقط روی یه پروژه درحال ساختیم",
 page:"sirvan.html"
@@ -764,6 +781,14 @@ if(role === "main-creator"){
 return "سازنده ی اصلی";
 }
 
+if(role === "audio-provider"){
+return "مسئول تأمین صدا";
+}
+
+if(role === "helper-member"){
+return "عضو کمکی";
+}
+
 return "";
 
 }
@@ -787,6 +812,14 @@ return "role-admin";
 
 if(role === "main-creator"){
 return "role-main-creator";
+}
+
+if(role === "audio-provider"){
+return "role-audio-provider";
+}
+
+if(role === "helper-member"){
+return "role-helper-member";
 }
 
 return "";
