@@ -3,136 +3,677 @@
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>درباره ما | Digital Studio</title>
+<title>Digital Studio - درباره ما</title>
 
-    <style>
+<style>
 
-        * {
-            box-sizing: border-box;
-        }
+/* =========================
+   BASIC
+========================= */
 
-        body {
-            margin: 0;
-            background: #000;
-            color: white;
-            font-family: Arial, Tahoma, sans-serif;
-        }
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
 
-        header {
-            width: 100%;
-            min-height: 90px;
-            background: #f2c500;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 15px 25px;
-        }
+html,
+body{
+    width:100%;
+    min-height:100%;
 
-        .studio-name {
-            color: #111;
-            font-size: 28px;
-            font-weight: bold;
-        }
+    background:#02030a;
 
-        .back-button {
-            background: #8b5a2b;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            font-size: 17px;
-            cursor: pointer;
-            border-radius: 4px;
-        }
+    color:white;
 
-        .back-button:hover {
-            background: #70451f;
-        }
+    font-family:Arial,Tahoma,sans-serif;
 
-        main {
-            width: 90%;
-            max-width: 1000px;
-            margin: 40px auto;
-        }
+    overflow-x:hidden;
+}
 
-        .title-box {
-            background: #1e73d8;
-            padding: 20px;
-            text-align: center;
-            margin-bottom: 30px;
-        }
 
-        .title-box h1 {
-            margin: 0;
-            font-size: 32px;
-        }
+/* =========================
+   SPACE BACKGROUND
+========================= */
 
-        .info-box {
-            background: #111;
-            border: 3px solid #f2c500;
-            padding: 30px;
-            margin-bottom: 25px;
-        }
+body{
 
-        .info-box h2 {
-            margin-top: 0;
-            color: #f2c500;
-        }
+    background:
 
-        .info-box p {
-            font-size: 18px;
-            line-height: 2;
-        }
+        radial-gradient(
+            circle at 50% 8%,
+            rgba(65,95,180,.28),
+            transparent 20%
+        ),
 
-        .studio-logo {
-            display: block;
-            width: 180px;
-            max-width: 80%;
-            margin: 0 auto 25px auto;
-        }
+        radial-gradient(
+            circle at 15% 55%,
+            rgba(30,80,160,.16),
+            transparent 25%
+        ),
 
-        .footer {
-            width: 100%;
-            background: #f2c500;
-            color: #111;
-            text-align: center;
-            padding: 20px;
-            margin-top: 50px;
-        }
+        radial-gradient(
+            circle at 85% 75%,
+            rgba(100,30,150,.14),
+            transparent 25%
+        ),
 
-        @media (max-width: 600px) {
+        linear-gradient(
+            180deg,
+            #070914 0%,
+            #02030a 45%,
+            #000106 100%
+        );
+}
 
-            header {
-                padding: 12px;
-            }
 
-            .studio-name {
-                font-size: 21px;
-            }
+/* =========================
+   TOP LIGHT
+========================= */
 
-            .back-button {
-                padding: 10px 15px;
-                font-size: 15px;
-            }
+body::before{
 
-            .title-box h1 {
-                font-size: 25px;
-            }
+    content:"";
 
-            .info-box {
-                padding: 20px;
-            }
+    position:fixed;
 
-            .info-box p {
-                font-size: 16px;
-            }
+    top:0;
+    left:0;
 
-        }
+    width:100%;
 
-    </style>
+    height:10vh;
+
+    min-height:70px;
+    max-height:100px;
+
+    background:
+
+        radial-gradient(
+            ellipse at center top,
+            rgba(100,150,255,.25),
+            rgba(40,70,150,.10) 35%,
+            transparent 75%
+        );
+
+    pointer-events:none;
+
+    z-index:20;
+}
+
+
+/* =========================
+   STARS
+========================= */
+
+#device{
+
+    position:relative;
+
+    min-height:100vh;
+
+    overflow:hidden;
+
+    background-image:
+
+        radial-gradient(
+            circle,
+            rgba(255,255,255,.9) 1px,
+            transparent 1.5px
+        ),
+
+        radial-gradient(
+            circle,
+            rgba(130,170,255,.75) 1px,
+            transparent 1.5px
+        ),
+
+        radial-gradient(
+            circle,
+            rgba(255,255,255,.5) .7px,
+            transparent 1px
+        );
+
+    background-size:
+
+        150px 150px,
+        230px 230px,
+        90px 90px;
+
+    background-position:
+
+        10px 20px,
+        80px 100px,
+        30px 70px;
+}
+
+
+#device::after{
+
+    content:"";
+
+    position:fixed;
+
+    inset:0;
+
+    background-image:
+
+        radial-gradient(
+            circle,
+            rgba(255,255,255,.9) 1px,
+            transparent 2px
+        ),
+
+        radial-gradient(
+            circle,
+            rgba(120,170,255,.7) 1px,
+            transparent 2px
+        );
+
+    background-size:
+
+        310px 310px,
+        410px 410px;
+
+    animation:
+        starsMove 35s linear infinite;
+
+    pointer-events:none;
+
+    z-index:0;
+}
+
+
+@keyframes starsMove{
+
+    from{
+        transform:
+            translate3d(0,0,0);
+    }
+
+    to{
+        transform:
+            translate3d(-120px,180px,0);
+    }
+}
+
+
+/* =========================
+   SPACE DUST
+========================= */
+
+.spaceDust{
+
+    position:fixed;
+
+    inset:0;
+
+    pointer-events:none;
+
+    z-index:1;
+
+    background:
+
+        radial-gradient(
+            circle at 20% 30%,
+            rgba(80,120,255,.10),
+            transparent 8%
+        ),
+
+        radial-gradient(
+            circle at 80% 20%,
+            rgba(180,80,255,.08),
+            transparent 10%
+        ),
+
+        radial-gradient(
+            circle at 70% 80%,
+            rgba(40,130,255,.08),
+            transparent 12%
+        );
+
+    animation:
+        dustPulse 8s ease-in-out infinite alternate;
+}
+
+
+@keyframes dustPulse{
+
+    from{
+        opacity:.55;
+    }
+
+    to{
+        opacity:1;
+    }
+}
+
+
+/* =========================
+   TOP BAR
+========================= */
+
+#topBar{
+
+    position:sticky;
+
+    top:0;
+
+    z-index:50;
+
+    height:82px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:10px 18px;
+
+    background:
+
+        linear-gradient(
+            180deg,
+            rgba(10,18,42,.94),
+            rgba(3,6,17,.82)
+        );
+
+    border-bottom:
+        1px solid
+        rgba(100,150,255,.35);
+
+    box-shadow:
+
+        0 0 30px
+        rgba(40,90,220,.12),
+
+        inset 0 -1px 0
+        rgba(255,255,255,.05);
+
+    backdrop-filter:
+        blur(8px);
+}
+
+
+/* =========================
+   LOGO
+========================= */
+
+.logoArea{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+}
+
+
+.logoArea img{
+
+    width:50px;
+
+    height:50px;
+
+    border-radius:12px;
+
+    object-fit:cover;
+
+    border:
+        1px solid
+        rgba(130,170,255,.55);
+
+    box-shadow:
+
+        0 0 15px
+        rgba(70,120,255,.35);
+}
+
+
+.logoName{
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    letter-spacing:1px;
+
+    text-shadow:
+
+        0 0 12px
+        rgba(120,170,255,.55);
+}
+
+
+/* =========================
+   BACK BUTTON
+========================= */
+
+.backButton{
+
+    border:
+        1px solid
+        rgba(100,150,255,.5);
+
+    background:
+        rgba(15,25,55,.65);
+
+    color:white;
+
+    padding:
+        10px 15px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    text-decoration:none;
+
+    display:inline-block;
+
+    box-shadow:
+
+        inset 0 0 12px
+        rgba(60,100,220,.12),
+
+        0 0 12px
+        rgba(40,90,220,.12);
+
+    transition:.25s;
+}
+
+
+.backButton:hover{
+
+    background:
+        rgba(40,65,120,.8);
+
+    transform:
+        translateY(-2px);
+}
+
+
+/* =========================
+   MAIN
+========================= */
+
+main{
+
+    position:relative;
+
+    z-index:10;
+
+    width:100%;
+
+    min-height:calc(100vh - 82px);
+
+    padding:
+        45px 5% 70px;
+
+    background:
+
+        radial-gradient(
+            ellipse at center,
+            rgba(25,45,100,.12),
+            transparent 60%
+        );
+}
+
+
+/* =========================
+   PAGE TITLE
+========================= */
+
+.pageTitle{
+
+    text-align:center;
+
+    margin-bottom:40px;
+}
+
+
+.pageTitle h2{
+
+    font-size:
+        clamp(
+            30px,
+            6vw,
+            48px
+        );
+
+    color:white;
+
+    text-shadow:
+
+        0 0 10px
+        rgba(100,150,255,.55),
+
+        0 0 25px
+        rgba(60,100,220,.3);
+}
+
+
+.pageTitle p{
+
+    margin-top:12px;
+
+    color:
+        rgba(220,230,255,.65);
+
+    font-size:14px;
+}
+
+
+/* =========================
+   STUDIO LOGO
+========================= */
+
+.studioLogo{
+
+    width:150px;
+
+    height:150px;
+
+    margin:0 auto 35px;
+
+    display:block;
+
+    object-fit:cover;
+
+    border-radius:20px;
+
+    border:
+        1px solid
+        rgba(130,170,255,.55);
+
+    box-shadow:
+
+        0 0 30px
+        rgba(70,120,255,.25);
+}
+
+
+/* =========================
+   INFO BOX
+========================= */
+
+.infoBox{
+
+    width:min(
+        1100px,
+        100%
+    );
+
+    margin:
+        0 auto 25px;
+
+    padding:30px;
+
+    border-radius:20px;
+
+    background:
+
+        radial-gradient(
+            circle at 50% 0%,
+            rgba(60,100,190,.18),
+            transparent 45%
+        ),
+
+        linear-gradient(
+            145deg,
+            rgba(16,24,52,.95),
+            rgba(4,7,18,.96)
+        );
+
+    border:
+        1px solid
+        rgba(100,150,255,.35);
+
+    box-shadow:
+
+        0 20px 50px
+        rgba(0,0,0,.65),
+
+        0 0 30px
+        rgba(45,90,210,.12),
+
+        inset 0 0 25px
+        rgba(70,100,190,.05);
+
+    transition:.3s;
+}
+
+
+.infoBox:hover{
+
+    transform:
+        translateY(-3px);
+
+    border-color:
+        rgba(130,175,255,.65);
+
+    box-shadow:
+
+        0 25px 60px
+        rgba(0,0,0,.75),
+
+        0 0 35px
+        rgba(60,110,230,.2);
+}
+
+
+.infoBox h2{
+
+    margin-bottom:20px;
+
+    color:white;
+
+    font-size:25px;
+
+    text-shadow:
+
+        0 0 8px
+        rgba(100,150,255,.3);
+}
+
+
+.infoBox p{
+
+    color:
+        rgba(230,235,255,.78);
+
+    font-size:17px;
+
+    line-height:2.1;
+
+    white-space:pre-line;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:700px){
+
+    #topBar{
+
+        height:74px;
+
+        padding:
+            8px 12px;
+    }
+
+
+    .logoArea img{
+
+        width:44px;
+
+        height:44px;
+    }
+
+
+    .logoName{
+
+        font-size:16px;
+    }
+
+
+    .backButton{
+
+        padding:
+            9px 12px;
+
+        font-size:12px;
+    }
+
+
+    main{
+
+        padding:
+            35px 15px 60px;
+    }
+
+
+    .studioLogo{
+
+        width:120px;
+
+        height:120px;
+
+        margin-bottom:25px;
+    }
+
+
+    .infoBox{
+
+        padding:22px;
+
+        border-radius:17px;
+    }
+
+
+    .infoBox h2{
+
+        font-size:21px;
+    }
+
+
+    .infoBox p{
+
+        font-size:15px;
+
+        line-height:2;
+    }
+
+}
+
+</style>
 
 </head>
 
@@ -140,75 +681,119 @@
 <body>
 
 
-    <header>
+<div id="device">
 
-        <div class="studio-name">
-            Digital Studio
-        </div>
-
-        <button class="back-button" id="backButton">
-            بازگشت
-        </button>
-
-    </header>
+    <div class="spaceDust"></div>
 
 
-    <main>
+    <!-- =========================
+         TOP BAR
+    ========================= -->
 
+    <header id="topBar">
 
-        <section class="title-box">
+        <div class="logoArea">
 
             <img
-                class="studio-logo"
                 src="Logo studio.jpg"
                 alt="Digital Studio"
             >
 
-            <h1>
+            <div class="logoName">
+                Digital Studio
+            </div>
+
+        </div>
+
+
+        <a
+            class="backButton"
+            href="index.html"
+        >
+            برگشت
+        </a>
+
+    </header>
+
+
+    <!-- =========================
+         MAIN
+    ========================= -->
+
+    <main>
+
+
+        <section class="pageTitle">
+
+            <img
+                class="studioLogo"
+                src="Logo studio.jpg"
+                alt="Digital Studio"
+            >
+
+            <h2>
                 درباره ما
-            </h1>
+            </h2>
+
+            <p>
+                آشنایی با Digital Studio و داستان شروع آن
+            </p>
 
         </section>
 
-        <section class="info-box">
+
+        <!-- =========================
+             داستان استودیو
+        ========================= -->
+
+        <section class="infoBox">
 
             <h2>
                 داستان استودیو
             </h2>
 
             <p>
-             در 1405/2/5،من حوصله ام سر رفته بود و پشت سر هم به خودم میگفتم
-             چقدر بازی های الان چرته،بعد ایده ی اینکه چرا خودم نیام بازی ای 
-             که دوست دارم رو بسازم و بعد اولین پروژم یعنی تبدیل سرور پاپی پلی
-             تایم چپتر ؟ رو تبدیل به خود بازی ی واقعی کنم،از اونجا بود که شروع
-             به ساخت استودیو کردم که با بقیه یک بازی ای بسازیم که هم شما ازش
-             لذت ببرید و هم ما که سازنده هستیم
+در 1405/2/5،من حوصله ام سر رفته بود و پشت سر هم به خودم میگفتم
+چقدر بازی های الان چرته،بعد ایده ی اینکه چرا خودم نیام بازی ای
+که دوست دارم رو بسازم و بعد اولین پروژم یعنی تبدیل سرور پاپی پلی
+تایم چپتر ؟ رو تبدیل به خود بازی ی واقعی کنم،از اونجا بود که شروع
+به ساخت استودیو کردم که با بقیه یک بازی ای بسازیم که هم شما ازش
+لذت ببرید و هم ما که سازنده هستیم
             </p>
 
         </section>
 
 
-        <section class="info-box">
+        <!-- =========================
+             هدف ما
+        ========================= -->
+
+        <section class="infoBox">
 
             <h2>
                 هدف ما
             </h2>
 
             <p>
-             هدف ما از ساخت استودیو و بازی این است که شما را راضی نگه داریم
-             .شما راضی باشید انگار ما راضی هستیم و تلاشمون رو میکنیم که شما را شاد نگه داریم
+هدف ما از ساخت استودیو و بازی این است که شما را راضی نگه داریم
+.شما راضی باشید انگار ما راضی هستیم و تلاشمون رو میکنیم که شما را شاد نگه داریم
             </p>
 
         </section>
 
-        <section class="info-box">
+
+        <!-- =========================
+             درباره من
+        ========================= -->
+
+        <section class="infoBox">
 
             <h2>
                 درباره ی من
             </h2>
 
             <p>
-                سلام، من حامی هستم، یه پسر 15 ساله که یک عالمه آرزو داره، مثل شما.
+سلام، من حامی هستم، یه پسر 12 ساله که یک عالمه آرزو داره، مثل شما.
 
 من عاشق برنامه‌نویسی‌ام، ولی می‌دونید که بازی‌سازی یا برنامه‌نویسی داستان‌هایی داره که تک‌نفره نمی‌شه. من خودم 1 سال بدون کمک هیچ شخصی در حال ساخت بازی بودم، ولی خیلی سخت بود؛ چون کارهایی مثل کدنویسی، مدل‌سازی سه‌بعدی، تولید صدا و... کارهای سختی هستن و معمولاً برای ساخت یک پروژه‌ی بزرگ، چند نفر باید کنار هم کار کنن.
 
@@ -279,6 +864,7 @@ Digital Studio هم هنوز اول راهشه.
 داستان چیزی که هنوز تموم نشده...
 
 چون تازه شروع شده. 🚀
+
 نوشته شده در:۱۴٠۵/۶/۱۹
             </p>
 
@@ -288,81 +874,7 @@ Digital Studio هم هنوز اول راهشه.
     </main>
 
 
-    <script>
-
-        document
-            .getElementById("backButton")
-            .addEventListener("click", function() {
-
-                window.location.href = "index.html";
-
-            });
-
-    </script>
-
-
-
-
-
-
-<!-- ========================================
-     Digital Studio Visitor System
-======================================== -->
-
-<script>
-const SUPABASE_URL =
-"https://ltzymbvfntkmgqpjbhof.supabase.co";
-
-const SUPABASE_PUBLISHABLE_KEY =
-"sb_publishable_JO6nHjAfwTP4ZL_mgIvNHw_UZ7YJRI7";
-
-async function sendPageVisit() {
-
-    console.log("🚀 شروع ارسال بازدید درباره ی ما");
-
-    try {
-
-        const response = await fetch(
-            `${SUPABASE_URL}/rest/v1/site_visits`,
-            {
-                method: "POST",
-
-                headers: {
-                    "apikey": SUPABASE_PUBLISHABLE_KEY,
-                    "Authorization":
-                        `Bearer ${SUPABASE_PUBLISHABLE_KEY}`,
-                    "Content-Type": "application/json",
-                    "Prefer": "return=minimal"
-                },
-
-                body: JSON.stringify({
-                    page_name: "درباره ی ما"
-                })
-            }
-        );
-
-        console.log("📡 Supabase status:", response.status);
-        console.log("📡 Supabase ok:", response.ok);
-
-        const result = await response.text();
-
-        console.log("📡 Supabase response:", result);
-
-        if (response.ok) {
-            console.log("✅ بازدید درباره ی ما ثبت شد");
-        } else {
-            console.log("❌ Supabase درخواست را قبول نکرد");
-        }
-
-    } catch (error) {
-
-        console.error("❌ خطای واقعی Visitor:", error);
-
-    }
-}
-
-sendPageVisit();
-</script>
+</div>
 
 </body>
 
