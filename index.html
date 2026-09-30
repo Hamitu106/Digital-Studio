@@ -1992,7 +1992,7 @@ const SUPABASE_URL =
 "https://ltzymbvfntkmgqpjbhof.supabase.co";
 
 const SUPABASE_PUBLISHABLE_KEY =
-"sb_publishable_JO6nHjAfwTP4ZL_mgIvNHw_UZ7YJRI7";
+"sb_publishable_qZM5pqboI9-Dq7BLay4L0Q_-A2UCVcj";
 
 const supabaseClient =
 window.supabase.createClient(
@@ -2000,53 +2000,7 @@ SUPABASE_URL,
 SUPABASE_PUBLISHABLE_KEY
 );
 
-/* ========================================
-   ارسال بازدید ها
-======================================== */
 
-async function sendPageVisit(){
-
-    try{
-
-        await fetch(
-            `${SUPABASE_URL}/rest/v1/site_visits`,
-            {
-                method:"POST",
-
-                headers:{
-                    "apikey":SUPABASE_PUBLISHABLE_KEY,
-                    "Authorization":
-                        `Bearer ${SUPABASE_PUBLISHABLE_KEY}`,
-                    "Content-Type":"application/json",
-                    "Prefer":"return=minimal"
-                },
-
-                body:JSON.stringify({
-                    page_name:"منوی اصلی"
-                })
-            }
-        );
-
-        console.log(
-            "👁 بازدید منوی اصلی ثبت شد"
-        );
-
-    }catch(error){
-
-        console.log(
-            "❌ خطا در ارسال بازدید:",
-            error
-        );
-
-    }
-
-}
-
-sendPageVisit();
-
-/* ========================================
-   پایان ارسال بازدید ها
-======================================== */
 
 
 const ADMIN_EMAIL =
@@ -2288,18 +2242,9 @@ let studioJoinStatus = "lock";
 
 function joinStudio(){
 
-if(studioJoinStatus === "unlock"){
-
-location.href =
-"https://rubika.ir/DigitalSupportBot";
-
-}else{
-
 showMessage(
-"این سرویس درحال ساخت است"
+"این سرویس کامل شده و درحال حاضر قفل است.🔒"
 );
-
-}
 
 }
 
@@ -2543,7 +2488,7 @@ const DIGITAL_STUDIO_SUPABASE_URL =
 "https://ltzymbvfntkmgqpjbhof.supabase.co";
 
 const DIGITAL_STUDIO_SUPABASE_KEY =
-"sb_publishable_JO6nHjAfwTP4ZL_mgIvNHw_UZ7YJRI7";
+"sb_publishable_qZM5pqboI9-Dq7BLay4L0Q_-A2UCVcj";
 
 const digitalStudioSupabase =
 supabase.createClient(
@@ -2699,7 +2644,7 @@ const ADMIN_SUPABASE_URL =
 "https://ltzymbvfntkmgqpjbhof.supabase.co";
 
 const ADMIN_SUPABASE_KEY =
-"sb_publishable_JO6nHjAfwTP4ZL_mgIvNHw_UZ7YJRI7";
+"sb_publishable_qZM5pqboI9-Dq7BLay4L0Q_-A2UCVcj";
 
 const adminSupabase =
 window.supabase.createClient(
@@ -3043,6 +2988,18 @@ verifyAdminToken();
 </script>
 
 <!-- /DIGITAL_STUDIO_ADMIN_ACCESS -->
+
+
+<!-- ========================================
+     سیستم ارسال بازدید ها
+======================================== -->
+<script src="VisitorSystem.js"></script>
+
+<script>
+sendPageVisit('منوی اصلی');
+</script>
+
+
 
 </body>
 
