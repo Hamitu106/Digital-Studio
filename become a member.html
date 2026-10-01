@@ -1,0 +1,2503 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Digital Studio - عضو شدن در استودیو</title>
+
+<style>
+
+/* =========================
+   BASIC
+========================= */
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html,
+body{
+    width:100%;
+    min-height:100%;
+    background:#02030a;
+    color:white;
+    font-family:Arial,Tahoma,sans-serif;
+    overflow-x:hidden;
+}
+
+
+/* =========================
+   SPACE BACKGROUND
+========================= */
+
+body{
+
+    background:
+
+        radial-gradient(
+            circle at 50% 8%,
+            rgba(65,95,180,.28),
+            transparent 20%
+        ),
+
+        radial-gradient(
+            circle at 15% 55%,
+            rgba(30,80,160,.16),
+            transparent 25%
+        ),
+
+        radial-gradient(
+            circle at 85% 75%,
+            rgba(100,30,150,.14),
+            transparent 25%
+        ),
+
+        linear-gradient(
+            180deg,
+            #070914 0%,
+            #02030a 45%,
+            #000106 100%
+        );
+}
+
+
+/* =========================
+   TOP LIGHT
+========================= */
+
+body::before{
+
+    content:"";
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:100%;
+
+    height:10vh;
+
+    min-height:70px;
+    max-height:100px;
+
+    background:
+
+        radial-gradient(
+            ellipse at center top,
+            rgba(100,150,255,.25),
+            rgba(40,70,150,.10) 35%,
+            transparent 75%
+        );
+
+    pointer-events:none;
+
+    z-index:20;
+}
+
+
+/* =========================
+   SPACE
+========================= */
+
+#device{
+
+    position:relative;
+
+    min-height:100vh;
+
+    overflow:hidden;
+
+    background-image:
+
+        radial-gradient(
+            circle,
+            rgba(255,255,255,.9) 1px,
+            transparent 1.5px
+        ),
+
+        radial-gradient(
+            circle,
+            rgba(130,170,255,.75) 1px,
+            transparent 1.5px
+        ),
+
+        radial-gradient(
+            circle,
+            rgba(255,255,255,.5) .7px,
+            transparent 1px
+        );
+
+    background-size:
+        150px 150px,
+        230px 230px,
+        90px 90px;
+
+    background-position:
+        10px 20px,
+        80px 100px,
+        30px 70px;
+}
+
+
+#device::after{
+
+    content:"";
+
+    position:fixed;
+
+    inset:0;
+
+    background-image:
+
+        radial-gradient(
+            circle,
+            rgba(255,255,255,.9) 1px,
+            transparent 2px
+        ),
+
+        radial-gradient(
+            circle,
+            rgba(120,170,255,.7) 1px,
+            transparent 2px
+        );
+
+    background-size:
+        310px 310px,
+        410px 410px;
+
+    animation:
+        starsMove 35s linear infinite;
+
+    pointer-events:none;
+
+    z-index:0;
+}
+
+
+@keyframes starsMove{
+
+    from{
+        transform:
+            translate3d(0,0,0);
+    }
+
+    to{
+        transform:
+            translate3d(-120px,180px,0);
+    }
+}
+
+
+/* =========================
+   DUST
+========================= */
+
+.spaceDust{
+
+    position:fixed;
+
+    inset:0;
+
+    pointer-events:none;
+
+    z-index:1;
+
+    background:
+
+        radial-gradient(
+            circle at 20% 30%,
+            rgba(80,120,255,.10),
+            transparent 8%
+        ),
+
+        radial-gradient(
+            circle at 80% 20%,
+            rgba(180,80,255,.08),
+            transparent 10%
+        ),
+
+        radial-gradient(
+            circle at 70% 80%,
+            rgba(40,130,255,.08),
+            transparent 12%
+        );
+
+    animation:
+        dustPulse 8s ease-in-out infinite alternate;
+}
+
+
+@keyframes dustPulse{
+
+    from{
+        opacity:.55;
+    }
+
+    to{
+        opacity:1;
+    }
+}
+
+
+/* =========================
+   TOP BAR
+========================= */
+
+#topBar{
+
+    position:sticky;
+
+    top:0;
+
+    z-index:50;
+
+    height:82px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:10px 18px;
+
+    background:
+
+        linear-gradient(
+            180deg,
+            rgba(10,18,42,.94),
+            rgba(3,6,17,.82)
+        );
+
+    border-bottom:
+        1px solid
+        rgba(100,150,255,.35);
+
+    box-shadow:
+
+        0 0 30px
+        rgba(40,90,220,.12),
+
+        inset 0 -1px 0
+        rgba(255,255,255,.05);
+
+    backdrop-filter:
+        blur(8px);
+}
+
+
+/* =========================
+   LOGO
+========================= */
+
+.logoArea{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+}
+
+
+.logoArea img{
+
+    width:50px;
+
+    height:50px;
+
+    border-radius:12px;
+
+    object-fit:cover;
+
+    border:
+        1px solid
+        rgba(130,170,255,.55);
+
+    box-shadow:
+
+        0 0 15px
+        rgba(70,120,255,.35);
+}
+
+
+.logoName{
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    letter-spacing:1px;
+
+    text-shadow:
+        0 0 12px
+        rgba(120,170,255,.55);
+}
+
+
+/* =========================
+   BACK BUTTON
+========================= */
+
+.backButton{
+
+    border:
+        1px solid
+        rgba(100,150,255,.5);
+
+    background:
+        rgba(15,25,55,.65);
+
+    color:white;
+
+    padding:
+        10px 15px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    text-decoration:none;
+
+    display:inline-block;
+
+    box-shadow:
+
+        inset 0 0 12px
+        rgba(60,100,220,.12),
+
+        0 0 12px
+        rgba(40,90,220,.12);
+
+    transition:.25s;
+}
+
+
+.backButton:hover{
+
+    background:
+        rgba(40,65,120,.8);
+
+    transform:
+        translateY(-2px);
+}
+
+
+/* =========================
+   MAIN
+========================= */
+
+main{
+
+    position:relative;
+
+    z-index:10;
+
+    width:100%;
+
+    min-height:calc(100vh - 82px);
+
+    padding:
+        45px 5% 70px;
+
+    background:
+
+        radial-gradient(
+            ellipse at center,
+            rgba(25,45,100,.12),
+            transparent 60%
+        );
+}
+
+
+/* =========================
+   TITLE
+========================= */
+
+.pageTitle{
+
+    text-align:center;
+
+    margin-bottom:40px;
+}
+
+
+.pageTitle h2{
+
+    font-size:
+        clamp(
+            30px,
+            6vw,
+            48px
+        );
+
+    color:white;
+
+    text-shadow:
+
+        0 0 10px
+        rgba(100,150,255,.55),
+
+        0 0 25px
+        rgba(60,100,220,.3);
+}
+
+
+.pageTitle p{
+
+    margin-top:12px;
+
+    color:
+        rgba(220,230,255,.65);
+
+    font-size:14px;
+}
+
+
+/* =========================
+   SECTIONS
+========================= */
+
+.memberList{
+
+    width:min(
+        900px,
+        100%
+    );
+
+    margin:auto;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:25px;
+}
+
+
+.memberCard{
+
+    position:relative;
+
+    overflow:hidden;
+
+    border-radius:20px;
+
+    background:
+
+        radial-gradient(
+            circle at 50% 0%,
+            rgba(60,100,190,.18),
+            transparent 45%
+        ),
+
+        linear-gradient(
+            145deg,
+            rgba(16,24,52,.95),
+            rgba(4,7,18,.96)
+        );
+
+    border:
+        1px solid
+        rgba(100,150,255,.35);
+
+    box-shadow:
+
+        0 20px 50px
+        rgba(0,0,0,.65),
+
+        0 0 30px
+        rgba(45,90,210,.12),
+
+        inset 0 0 25px
+        rgba(70,100,190,.05);
+
+    padding:25px;
+
+    transition:.3s;
+}
+
+
+.memberCard:hover{
+
+    transform:
+        translateY(-3px);
+
+    border-color:
+        rgba(130,175,255,.65);
+
+    box-shadow:
+
+        0 25px 60px
+        rgba(0,0,0,.75),
+
+        0 0 35px
+        rgba(60,110,230,.2);
+}
+
+
+.memberCard h3{
+
+    text-align:center;
+
+    font-size:23px;
+
+    margin-bottom:17px;
+
+    text-shadow:
+        0 0 8px
+        rgba(100,150,255,.3);
+}
+
+
+.memberCard p,
+.memberCard li{
+
+    color:
+        rgba(220,230,255,.75);
+
+    line-height:2;
+}
+
+
+.memberCard ul{
+
+    padding-right:22px;
+}
+
+
+/* =========================
+   BUTTON
+========================= */
+
+.actionButton{
+
+    display:block;
+
+    width:100%;
+
+    padding:12px;
+
+    text-align:center;
+
+    text-decoration:none;
+
+    color:white;
+
+    border-radius:10px;
+
+    background:
+        rgba(15,25,55,.65);
+
+    border:
+        1px solid
+        rgba(100,150,255,.5);
+
+    box-shadow:
+
+        inset 0 0 12px
+        rgba(60,100,220,.12),
+
+        0 0 12px
+        rgba(40,90,220,.12);
+
+    transition:.25s;
+
+    cursor:pointer;
+
+    font-size:16px;
+}
+
+
+.actionButton:hover{
+
+    background:
+        rgba(40,65,120,.8);
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+
+        inset 0 0 14px
+        rgba(60,100,220,.16),
+
+        0 0 18px
+        rgba(40,90,220,.2);
+}
+
+
+.actionButton:disabled{
+
+    opacity:.35;
+
+    cursor:not-allowed;
+
+    transform:none;
+}
+
+
+/* =========================
+   VERIFICATION
+========================= */
+
+.challenge{
+
+    margin:25px auto;
+
+    width:min(
+        500px,
+        100%
+    );
+
+    min-height:150px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:15px;
+
+    background:
+        rgba(0,0,0,.35);
+
+    border:
+        1px solid
+        rgba(100,150,255,.2);
+
+    font-size:32px;
+
+    user-select:none;
+}
+
+
+.challenge button{
+
+    font-size:22px;
+
+    margin:7px;
+
+    min-width:55px;
+
+    min-height:55px;
+
+    border-radius:12px;
+
+    border:
+        1px solid
+        rgba(100,150,255,.35);
+
+    background:
+        rgba(15,25,55,.65);
+
+    color:white;
+
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+
+.challenge button:hover{
+
+    background:
+        rgba(40,65,120,.8);
+
+    transform:
+        translateY(-2px);
+}
+
+
+.verifyStatus{
+
+    min-height:25px;
+
+    margin-top:15px;
+
+    font-weight:bold;
+}
+
+
+.success{
+
+    color:#54e58b;
+}
+
+
+.error{
+
+    color:#ff6060;
+}
+
+
+/* =========================
+   POPUP
+========================= */
+
+#registrationPopup{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:100;
+
+    display:none;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:20px;
+
+    background:
+        rgba(0,0,0,.78);
+
+    backdrop-filter:
+        blur(8px);
+}
+
+
+#registrationPopup.active{
+
+    display:flex;
+}
+
+
+.registrationBox{
+
+    width:min(
+        600px,
+        100%
+    );
+
+    max-height:90vh;
+
+    overflow:auto;
+
+    background:
+
+        radial-gradient(
+            circle at 50% 0%,
+            rgba(60,100,190,.18),
+            transparent 45%
+        ),
+
+        linear-gradient(
+            145deg,
+            #101832,
+            #040712
+        );
+
+    border:
+        1px solid
+        rgba(100,150,255,.4);
+
+    border-radius:20px;
+
+    padding:25px;
+
+    box-shadow:
+
+        0 20px 70px
+        rgba(0,0,0,.7),
+
+        0 0 35px
+        rgba(45,90,210,.18);
+}
+
+
+.registrationHeader{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    margin-bottom:20px;
+}
+
+
+.registrationHeader h2{
+
+    text-shadow:
+        0 0 10px
+        rgba(100,150,255,.35);
+}
+
+
+.closeButton{
+
+    border:0;
+
+    background:transparent;
+
+    color:white;
+
+    font-size:28px;
+
+    cursor:pointer;
+}
+
+
+/* =========================
+   FORM
+========================= */
+
+.formGroup{
+
+    margin-bottom:16px;
+}
+
+
+.formGroup label{
+
+    display:block;
+
+    margin-bottom:7px;
+
+    color:
+        rgba(230,235,255,.85);
+}
+
+
+.formGroup input,
+.formGroup textarea,
+.formGroup select{
+
+    width:100%;
+
+    padding:12px;
+
+    border-radius:10px;
+
+    border:
+        1px solid
+        rgba(100,150,255,.25);
+
+    background:
+        rgba(5,10,25,.8);
+
+    color:white;
+
+    outline:none;
+
+    font-family:inherit;
+}
+
+
+.formGroup input:focus,
+.formGroup textarea:focus,
+.formGroup select:focus{
+
+    border-color:
+        rgba(100,150,255,.7);
+
+    box-shadow:
+        0 0 12px
+        rgba(60,100,220,.15);
+}
+
+
+.contractInfo{
+
+    font-size:13px;
+
+    color:#aaa;
+
+    line-height:1.8;
+
+    margin-top:6px;
+}
+
+
+#registrationStatus{
+
+    min-height:28px;
+
+    margin-top:15px;
+
+    line-height:1.8;
+
+    white-space:pre-line;
+}
+
+
+.registrationSuccess{
+
+    color:#55e58a;
+}
+
+
+.registrationError{
+
+    color:#ff6565;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:700px){
+
+    #topBar{
+
+        height:74px;
+
+        padding:
+            8px 12px;
+    }
+
+
+    .logoArea img{
+
+        width:44px;
+
+        height:44px;
+    }
+
+
+    .logoName{
+
+        font-size:16px;
+    }
+
+
+    .backButton{
+
+        padding:
+            9px 12px;
+
+        font-size:12px;
+    }
+
+
+    main{
+
+        padding:
+            35px 15px 60px;
+    }
+
+
+    .memberList{
+
+        gap:20px;
+    }
+
+
+    .memberCard{
+
+        padding:20px;
+    }
+
+
+    .memberCard h3{
+
+        font-size:20px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div id="device">
+
+    <div class="spaceDust"></div>
+
+
+    <header id="topBar">
+
+        <div class="logoArea">
+
+            <img
+                src="Logo studio.jpg"
+                alt="Digital Studio"
+            >
+
+            <div class="logoName">
+                Digital Studio
+            </div>
+
+        </div>
+
+
+        <a
+            class="backButton"
+            href="index.html"
+        >
+            برگشت
+        </a>
+
+    </header>
+
+
+    <main>
+
+
+        <section class="pageTitle">
+
+            <h2>
+                عضو شدن در استودیو
+            </h2>
+
+            <p>
+                برای پیوستن به Digital Studio ابتدا شرایط را مطالعه کنید.
+            </p>
+
+        </section>
+
+
+        <section class="memberList">
+
+
+            <article class="memberCard">
+
+                <h3>
+                    توضیحات
+                </h3>
+
+                <p>
+                    Digital Studio یک استودیو برای ساخت پروژه‌ها و بازی‌های مختلف است.
+                    برای عضویت، اطلاعات خود را ثبت کرده و قرارداد مربوطه را ارسال کنید.
+                </p>
+
+            </article>
+
+
+            <article class="memberCard">
+
+                <h3>
+                    شرایط عضویت
+                </h3>
+
+                <ul>
+
+                    <li>
+                        اطلاعات واردشده باید صحیح باشد.
+                    </li>
+
+                    <li>
+                        قرارداد باید کامل ارسال شود.
+                    </li>
+
+                    <li>
+                        درخواست پس از بررسی توسط مدیریت تأیید یا رد خواهد شد.
+                    </li>
+
+                    <li>
+                        ثبت درخواست به معنی عضویت قطعی در استودیو نیست.
+                    </li>
+
+                </ul>
+
+            </article>
+
+
+            <article class="memberCard">
+
+                <h3>
+                    تأیید کنید ربات نیستید
+                </h3>
+
+                <p style="text-align:center">
+
+                    مراحل نمایش داده‌شده را انجام دهید.
+
+                </p>
+
+
+                <div
+                    id="challenge"
+                    class="challenge"
+                ></div>
+
+
+                <button
+                    id="verifyButton"
+                    class="actionButton"
+                    onclick="checkVerificationInput()"
+                    style="display:none"
+                >
+                    تأیید
+                </button>
+
+
+                <div
+                    id="verifyStatus"
+                    class="verifyStatus"
+                ></div>
+
+            </article>
+
+
+            <article class="memberCard">
+
+                <h3>
+                    ثبت نام
+                </h3>
+
+                <p style="text-align:center;margin-bottom:18px">
+
+                    پس از تأیید انسان بودن،
+                    دکمه ثبت درخواست فعال می‌شود.
+
+                </p>
+
+
+                <button
+                    id="openRegistrationButton"
+                    class="actionButton"
+                    onclick="openRegistration()"
+                    disabled
+                >
+                    ثبت درخواست عضویت
+                </button>
+
+            </article>
+
+
+        </section>
+
+
+    </main>
+
+
+</div>
+
+
+<!-- =========================
+     REGISTRATION POPUP
+========================= -->
+
+<div id="registrationPopup">
+
+    <div class="registrationBox">
+
+
+        <div class="registrationHeader">
+
+            <h2>
+                ثبت درخواست عضویت
+            </h2>
+
+
+            <button
+                class="closeButton"
+                onclick="closeRegistration()"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <form id="registrationForm">
+
+
+            <div class="formGroup">
+
+                <label for="firstName">
+                    نام
+                </label>
+
+                <input
+                    id="firstName"
+                    name="firstName"
+                    type="text"
+                    required
+                >
+
+            </div>
+
+
+            <div class="formGroup">
+
+                <label for="lastName">
+                    نام خانوادگی
+                </label>
+
+                <input
+                    id="lastName"
+                    name="lastName"
+                    type="text"
+                    required
+                >
+
+            </div>
+
+
+            <div class="formGroup">
+
+                <label for="experience">
+                    سابقه فعالیت
+                </label>
+
+                <textarea
+                    id="experience"
+                    name="experience"
+                    rows="4"
+                    placeholder="مثلاً برنامه‌نویسی، طراحی، دوبله و..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="formGroup">
+
+                <label for="email">
+                    ایمیل
+                </label>
+
+                <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    required
+                >
+
+            </div>
+
+
+            <div class="formGroup">
+
+                <label for="contract">
+                    قرارداد
+                </label>
+
+                <input
+                    id="contract"
+                    name="contract"
+                    type="file"
+                    accept="image/*,.pdf"
+                    required
+                >
+
+                <div class="contractInfo">
+                    حداکثر حجم فایل: ۵۰ مگابایت
+                </div>
+
+            </div>
+
+
+            <button
+                id="submitRegistration"
+                class="actionButton"
+                type="submit"
+            >
+                ارسال درخواست
+            </button>
+
+
+            <div id="registrationStatus"></div>
+
+
+        </form>
+
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   SUPABASE
+========================= */
+
+const SUPABASE_URL =
+    "https://ltzymbvfntkmgqpjbhof.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_qZM5pqboI9-Dq7BLay4L0Q_-A2UCVcj";
+
+
+/* =========================
+   HUMAN VERIFICATION
+========================= */
+
+const originalVerificationQuestions = [
+
+    {
+        type:"choice",
+        question:"کدام شکل با بقیه متفاوت است؟",
+        options:["▲","▲","◆","▲"],
+        answer:2
+    },
+
+    {
+        type:"choice",
+        question:"کدام عدد بزرگ‌تر است؟",
+        options:["7","12","9","5"],
+        answer:1
+    },
+
+    {
+        type:"choice",
+        question:"کدام فلش رو به بالا است؟",
+        options:["←","↓","↑","→"],
+        answer:2
+    },
+
+    {
+        type:"choice",
+        question:"کدام مورد عدد است؟",
+        options:["A","B","8","C"],
+        answer:2
+    },
+
+    {
+        type:"choice",
+        question:"کدام شکل دایره است؟",
+        options:["■","▲","●","◆"],
+        answer:2
+    },
+
+    {
+        type:"choice",
+        question:"کدام عدد زوج است؟",
+        options:["7","9","11","8"],
+        answer:3
+    },
+
+    {
+        type:"choice",
+        question:"کدام فلش به سمت راست است؟",
+        options:["←","↑","→","↓"],
+        answer:2
+    },
+
+    {
+        type:"choice",
+        question:"کدام حرف با بقیه متفاوت است؟",
+        options:["B","B","8","B"],
+        answer:2
+    },
+
+    {
+        type:"choice",
+        question:"کدام شکل مربع است؟",
+        options:["●","◆","▲","■"],
+        answer:3
+    },
+
+    {
+        type:"choice",
+        question:"کدام عدد کوچک‌تر است؟",
+        options:["19","4","12","8"],
+        answer:1
+    },
+
+    {
+        type:"choice",
+        question:"کدام فلش به سمت پایین است؟",
+        options:["↓","→","↑","←"],
+        answer:0
+    },
+
+    {
+        type:"choice",
+        question:"کدام مورد حرف انگلیسی است؟",
+        options:["7","4","K","9"],
+        answer:2
+    },
+
+    {
+        type:"inputNumber",
+        question:"عدد روبرو را وارد کنید: 27",
+        answer:"27"
+    },
+
+    {
+        type:"inputNumber",
+        question:"عدد روبرو را وارد کنید: 64",
+        answer:"64"
+    },
+
+    {
+        type:"inputNumber",
+        question:"عدد روبرو را وارد کنید: 91",
+        answer:"91"
+    },
+
+    {
+        type:"inputWord",
+        question:"کلمه روبرو را وارد کنید: STAR",
+        answer:"STAR"
+    },
+
+    {
+        type:"inputWord",
+        question:"کلمه روبرو را وارد کنید: DIGITAL",
+        answer:"DIGITAL"
+    },
+
+    {
+        type:"inputWord",
+        question:"کلمه روبرو را وارد کنید: STUDIO",
+        answer:"STUDIO"
+    },
+
+    {
+        type:"choice",
+        question:"کدام گزینه با بقیه متفاوت است؟",
+        options:["●","●","■","●"],
+        answer:2
+    },
+
+    {
+        type:"choice",
+        question:"کدام عدد مضرب 5 است؟",
+        options:["13","18","25","32"],
+        answer:2
+    }
+
+];
+
+const verificationQuestions = [
+  // 20 سؤال فعلی را اینجا نگه دار
+  ...originalVerificationQuestions,
+
+  {
+    type:"inputNumber",
+    question:"عدد روبه‌رو را وارد کنید: 47 + 18",
+    answer:"65"
+  },
+  {
+    type:"choice",
+    question:"کدام مورد یک رنگ است؟",
+    options:["آبی","میز","ساعت","پنجره"],
+    answer:0
+  },
+  {
+    type:"inputWord",
+    question:"کلمه روبه‌رو را وارد کنید: ابر",
+    answer:"ابر"
+  },
+  {
+    type:"choice",
+    question:"کدام مورد برای نوشتن استفاده می‌شود؟",
+    options:["مداد","صندلی","پنجره","کفش"],
+    answer:0
+  },
+  {
+    type:"inputNumber",
+    question:"عدد روبه‌رو را وارد کنید: 90 - 37",
+    answer:"53"
+  },
+  {
+    type:"choice",
+    question:"کدام مورد یک حیوان است؟",
+    options:["خرگوش","کتاب","چراغ","میز"],
+    answer:0
+  },
+  {
+    type:"inputWord",
+    question:"کلمه روبه‌رو را وارد کنید: دریا",
+    answer:"دریا"
+  },
+  {
+    type:"inputNumber",
+    question:"عدد روبه‌رو را وارد کنید: 6 × 8",
+    answer:"48"
+  },
+  {
+    type:"choice",
+    question:"کدام مورد یک میوه است؟",
+    options:["سیب","صندلی","مداد","چراغ"],
+    answer:0
+  },
+  {
+    type:"choice",
+    question:"کدام مورد وسیلهٔ نقلیه است؟",
+    options:["دوچرخه","کتاب","لیوان","بالش"],
+    answer:0
+  },
+  {
+    type:"inputNumber",
+    question:"عدد روبه‌رو را وارد کنید: 100 ÷ 4",
+    answer:"25"
+  },
+  {
+    type:"inputWord",
+    question:"کلمه روبه‌رو را وارد کنید: ستاره",
+    answer:"ستاره"
+  },
+  {
+    type:"choice",
+    question:"کدام مورد در آسمان دیده می‌شود؟",
+    options:["ماه","میز","کفش","کتاب"],
+    answer:0
+  },
+  {
+    type:"inputNumber",
+    question:"عدد روبه‌رو را وارد کنید: 29 + 34",
+    answer:"63"
+  },
+  {
+    type:"choice",
+    question:"کدام مورد برای اندازه‌گیری زمان استفاده می‌شود؟",
+    options:["ساعت","مداد","صندلی","قاشق"],
+    answer:0
+  },
+  {
+    type:"inputWord",
+    question:"کلمه روبه‌رو را وارد کنید: جنگل",
+    answer:"جنگل"
+  },
+  {
+    type:"inputNumber",
+    question:"عدد روبه‌رو را وارد کنید: 72 - 28",
+    answer:"44"
+  },
+  {
+    type:"choice",
+    question:"کدام مورد یک وسیلهٔ الکترونیکی است؟",
+    options:["گوشی","کتاب","صندلی","کفش"],
+    answer:0
+  },
+  {
+    type:"inputWord",
+    question:"کلمه روبه‌رو را وارد کنید: باران",
+    answer:"باران"
+  },
+  {
+    type:"choice",
+    question:"کدام مورد معمولاً برای نشستن استفاده می‌شود؟",
+    options:["صندلی","چراغ","کتاب","مداد"],
+    answer:0
+  }
+];
+
+
+let selectedQuestions = [];
+
+let currentQuestionIndex = 0;
+
+let currentQuestion = null;
+
+let verificationLocked = false;
+
+let verificationComplete = false;
+
+
+const challengeElement =
+    document.getElementById("challenge");
+
+
+const verifyStatus =
+    document.getElementById("verifyStatus");
+
+
+const openRegistrationButton =
+    document.getElementById(
+        "openRegistrationButton"
+    );
+
+const verifyButton =
+    document.getElementById(
+        "verifyButton"
+    );
+
+
+/* =========================
+   RANDOM 5 QUESTIONS
+========================= */
+
+function shuffleArray(array){
+
+    const copy = [...array];
+
+    for(
+        let i = copy.length - 1;
+        i > 0;
+        i--
+    ){
+
+        const j =
+            Math.floor(
+                Math.random() * (i + 1)
+            );
+
+        [
+            copy[i],
+            copy[j]
+        ] =
+        [
+            copy[j],
+            copy[i]
+        ];
+
+    }
+
+    return copy;
+
+}
+
+
+function startVerification(){
+
+    selectedQuestions =
+        shuffleArray(
+            verificationQuestions
+        ).slice(0,5);
+
+    currentQuestionIndex = 0;
+
+    verificationLocked = false;
+
+    verificationComplete = false;
+
+    openRegistrationButton.disabled =
+        true;
+
+    verifyStatus.className =
+        "verifyStatus";
+
+    verifyStatus.textContent =
+        "";
+
+    showCurrentQuestion();
+
+}
+
+
+/* =========================
+   SHOW QUESTION
+========================= */
+
+function showCurrentQuestion(){
+
+    if(verificationLocked){
+        return;
+    }
+
+
+    if(
+        currentQuestionIndex >=
+        selectedQuestions.length
+    ){
+
+        completeVerification();
+
+        return;
+
+    }
+
+
+    currentQuestion =
+        selectedQuestions[
+            currentQuestionIndex
+        ];
+
+
+    const number =
+        currentQuestionIndex + 1;
+
+    if(
+        currentQuestion.type === "choice"
+    ){
+
+        verifyButton.style.display =
+            "none";
+
+    }
+    else{
+
+        verifyButton.style.display =
+            "block";
+
+    }
+
+
+    if(
+        currentQuestion.type ===
+        "choice"
+    ){
+
+        let buttons = "";
+
+
+        currentQuestion.options.forEach(
+            (option,index) => {
+
+                buttons += `
+
+                    <button
+                        type="button"
+                        onclick="answerChoice(${index})"
+                    >
+                        ${option}
+                    </button>
+
+                `;
+
+            }
+        );
+
+
+        challengeElement.innerHTML = `
+
+            <div style="width:100%;text-align:center">
+
+                <div style="
+                    font-size:16px;
+                    margin-bottom:15px;
+                    color:rgba(230,235,255,.85);
+                ">
+                    سؤال ${number} از 5
+                </div>
+
+                <div style="
+                    font-size:21px;
+                    margin-bottom:22px;
+                ">
+                    ${currentQuestion.question}
+                </div>
+
+                <div style="
+                    display:flex;
+                    flex-wrap:wrap;
+                    justify-content:center;
+                    gap:10px;
+                ">
+                    ${buttons}
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    else if(
+        currentQuestion.type ===
+        "inputNumber"
+    ){
+
+        challengeElement.innerHTML = `
+
+            <div style="
+                width:100%;
+                text-align:center;
+            ">
+
+                <div style="
+                    font-size:16px;
+                    margin-bottom:15px;
+                    color:rgba(230,235,255,.85);
+                ">
+                    سؤال ${number} از 5
+                </div>
+
+                <div style="
+                    font-size:21px;
+                    margin-bottom:20px;
+                ">
+                    ${currentQuestion.question}
+                </div>
+
+                <input
+                    id="verificationInput"
+                    type="number"
+                    inputmode="numeric"
+                    autocomplete="off"
+                    style="
+                        padding:12px;
+                        width:min(220px,80%);
+                        text-align:center;
+                        border-radius:10px;
+                        border:1px solid rgba(100,150,255,.35);
+                        background:#050a19;
+                        color:#fff;
+                        outline:none;
+                        font-size:20px;
+                    "
+                >
+
+            </div>
+
+        `;
+
+    }
+
+
+    else if(
+        currentQuestion.type ===
+        "inputWord"
+    ){
+
+        challengeElement.innerHTML = `
+
+            <div style="
+                width:100%;
+                text-align:center;
+            ">
+
+                <div style="
+                    font-size:16px;
+                    margin-bottom:15px;
+                    color:rgba(230,235,255,.85);
+                ">
+                    سؤال ${number} از 5
+                </div>
+
+                <div style="
+                    font-size:21px;
+                    margin-bottom:20px;
+                ">
+                    ${currentQuestion.question}
+                </div>
+
+                <input
+                    id="verificationInput"
+                    type="text"
+                    autocomplete="off"
+                    autocapitalize="characters"
+                    style="
+                        padding:12px;
+                        width:min(280px,85%);
+                        text-align:center;
+                        border-radius:10px;
+                        border:1px solid rgba(100,150,255,.35);
+                        background:#050a19;
+                        color:#fff;
+                        outline:none;
+                        font-size:20px;
+                        direction:ltr;
+                    "
+                >
+
+            </div>
+
+        `;
+
+    }
+
+
+    const input =
+        document.getElementById(
+            "verificationInput"
+        );
+
+
+    if(input){
+
+        input.focus();
+
+
+        input.addEventListener(
+            "keydown",
+            function(event){
+
+                if(event.key === "Enter"){
+
+                    checkVerificationInput();
+
+                }
+
+            }
+        );
+
+    }
+
+}
+
+
+/* =========================
+   CHOICE ANSWER
+========================= */
+
+function answerChoice(index){
+
+    if(
+        !currentQuestion ||
+        currentQuestion.type !==
+        "choice"
+    ){
+        return;
+    }
+
+
+    if(
+        index ===
+        currentQuestion.answer
+    ){
+
+        nextVerificationQuestion();
+
+    }
+
+    else{
+
+        verifyStatus.className =
+            "verifyStatus error";
+
+        verifyStatus.textContent =
+            "پاسخ اشتباه است؛ دوباره انتخاب کنید.";
+
+    }
+
+}
+
+
+/* =========================
+   INPUT ANSWER
+========================= */
+
+function checkVerificationInput(){
+
+    if(
+        !currentQuestion ||
+        (
+            currentQuestion.type !==
+            "inputNumber" &&
+            currentQuestion.type !==
+            "inputWord"
+        )
+    ){
+
+        return;
+
+    }
+
+
+    const input =
+        document.getElementById(
+            "verificationInput"
+        );
+
+
+    if(!input){
+        return;
+    }
+
+
+    const value =
+        input.value.trim();
+
+
+    let correct = false;
+
+
+    if(
+        currentQuestion.type ===
+        "inputNumber"
+    ){
+
+        correct =
+            value ===
+            currentQuestion.answer;
+
+    }
+
+
+    else{
+
+        correct =
+            value.toUpperCase() ===
+            currentQuestion.answer.toUpperCase();
+
+    }
+
+
+    if(correct){
+
+        nextVerificationQuestion();
+
+    }
+
+    else{
+
+        verifyStatus.className =
+            "verifyStatus error";
+
+        verifyStatus.textContent =
+            "پاسخ اشتباه است.";
+
+    }
+
+}
+
+
+/* =========================
+   NEXT QUESTION
+========================= */
+
+function nextVerificationQuestion(){
+
+    verifyStatus.className =
+        "verifyStatus success";
+
+    verifyStatus.textContent =
+        "✓ پاسخ درست است.";
+
+
+    currentQuestionIndex++;
+
+
+    setTimeout(
+        showCurrentQuestion,
+        250
+    );
+
+}
+
+
+/* =========================
+   COMPLETE
+========================= */
+
+function completeVerification(){
+
+    verificationComplete =
+        true;
+
+
+    verifyButton.style.display =
+        "none";
+
+
+    challengeElement.innerHTML = `
+
+        <strong style="
+            color:#55e58a;
+            font-size:22px;
+        ">
+            ✓ انسان تأیید شد
+        </strong>
+
+    `;
+
+
+    verifyStatus.className =
+        "verifyStatus success";
+
+
+    verifyStatus.textContent =
+        "✓ هر ۵ سؤال با موفقیت پاسخ داده شد.";
+
+
+    openRegistrationButton.disabled =
+        false;
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+startVerification();
+
+
+
+/* =========================
+   REGISTRATION POPUP
+========================= */
+
+function openRegistration(){
+
+    if(!verificationComplete){
+        return;
+    }
+
+
+    document
+        .getElementById("registrationPopup")
+        .classList.add("active");
+
+}
+
+
+function closeRegistration(){
+
+    document
+        .getElementById("registrationPopup")
+        .classList.remove("active");
+
+}
+
+
+/* =========================
+   REGISTRATION
+========================= */
+
+const registrationForm =
+    document.getElementById(
+        "registrationForm"
+    );
+
+
+registrationForm.addEventListener(
+    "submit",
+    async function(event){
+
+        event.preventDefault();
+
+
+        const submitButton =
+            document.getElementById(
+                "submitRegistration"
+            );
+
+
+        const status =
+            document.getElementById(
+                "registrationStatus"
+            );
+
+
+        const firstName =
+            document
+                .getElementById("firstName")
+                .value
+                .trim();
+
+
+        const lastName =
+            document
+                .getElementById("lastName")
+                .value
+                .trim();
+
+
+        const experience =
+            document
+                .getElementById("experience")
+                .value
+                .trim()
+                ||
+                "بدون سابقه";
+
+
+        const email =
+            document
+                .getElementById("email")
+                .value
+                .trim();
+
+
+        const contract =
+            document
+                .getElementById("contract")
+                .files[0];
+
+
+        if(
+            !firstName ||
+            !lastName ||
+            !email ||
+            !contract
+        ){
+
+            status.className =
+                "registrationError";
+
+            status.textContent =
+                "لطفاً تمام اطلاعات لازم را وارد کنید.";
+
+            return;
+
+        }
+
+
+        if(
+            contract.size >
+            50 * 1024 * 1024
+        ){
+
+            status.className =
+                "registrationError";
+
+            status.textContent =
+                "حجم قرارداد نباید بیشتر از ۵۰ مگابایت باشد.";
+
+            return;
+
+        }
+
+
+        submitButton.disabled =
+            true;
+
+
+        status.className = "";
+
+
+        status.textContent =
+            "در حال ارسال قرارداد...";
+
+
+        let contractPath = null;
+
+
+        try{
+
+
+            const extension =
+                contract.name.includes(".")
+                ?
+                contract.name
+                    .substring(
+                        contract.name.lastIndexOf(".")
+                    )
+                    .toLowerCase()
+                :
+                "";
+
+
+            const fileId =
+                crypto.randomUUID();
+
+
+            contractPath =
+                fileId + extension;
+
+
+            const uploadResponse =
+                await fetch(
+
+                    SUPABASE_URL +
+                    "/storage/v1/object/contracts/" +
+                    encodeURIComponent(
+                        contractPath
+                    ),
+
+                    {
+
+                        method:"POST",
+
+                        headers:{
+
+                            "apikey":
+                                SUPABASE_KEY,
+
+                            "Authorization":
+                                "Bearer " +
+                                SUPABASE_KEY,
+
+                            "Content-Type":
+                                contract.type ||
+                                "application/octet-stream",
+
+                            "x-upsert":
+                                "false"
+
+                        },
+
+                        body:
+                            contract
+
+                    }
+
+                );
+
+
+            if(!uploadResponse.ok){
+
+                const errorText =
+                    await uploadResponse.text();
+
+
+                throw new Error(
+                    "UPLOAD_ERROR: " +
+                    errorText
+                );
+
+            }
+
+
+            status.textContent =
+                "قرارداد ارسال شد؛ در حال ثبت درخواست...";
+
+
+            const databaseResponse =
+                await fetch(
+
+                    SUPABASE_URL +
+                    "/rest/v1/membership_requests",
+
+                    {
+
+                        method:"POST",
+
+                        headers:{
+
+                            "apikey":
+                                SUPABASE_KEY,
+
+                            "Authorization":
+                                "Bearer " +
+                                SUPABASE_KEY,
+
+                            "Content-Type":
+                                "application/json",
+
+                            "Prefer":
+                                "return=minimal"
+
+                        },
+
+                        body:
+                            JSON.stringify({
+
+                                first_name:
+                                    firstName,
+
+                                last_name:
+                                    lastName,
+
+                                experience:
+                                    experience,
+
+                                email:
+                                    email,
+
+                                contract_url:
+                                    contractPath,
+
+                                email_verified:
+                                    false,
+
+                                status:
+                                    "pending"
+
+                            })
+
+                    }
+
+                );
+
+
+            if(!databaseResponse.ok){
+
+                const errorText =
+                    await databaseResponse.text();
+
+
+                await fetch(
+
+                    SUPABASE_URL +
+                    "/storage/v1/object/contracts/" +
+                    encodeURIComponent(
+                        contractPath
+                    ),
+
+                    {
+
+                        method:"DELETE",
+
+                        headers:{
+
+                            "apikey":
+                                SUPABASE_KEY,
+
+                            "Authorization":
+                                "Bearer " +
+                                SUPABASE_KEY
+
+                        }
+
+                    }
+
+                );
+
+
+                throw new Error(
+                    "DATABASE_ERROR: " +
+                    errorText
+                );
+
+            }
+
+
+            status.className =
+                "registrationSuccess";
+
+
+            status.textContent =
+                "✓ درخواست شما با موفقیت ثبت شد.";
+
+
+            registrationForm.reset();
+
+
+            alert(
+                "درخواست شما ثبت شد.\n\n" +
+                "در ساعات آینده درخواست شما بررسی خواهد شد."
+            );
+
+
+        }
+
+
+        catch(error){
+
+            console.error(
+                "Membership registration error:",
+                error
+            );
+
+
+            status.className =
+                "registrationError";
+
+
+            status.textContent =
+                "✕ ارسال درخواست انجام نشد.\n" +
+                "جزئیات: " +
+                error.message;
+
+        }
+
+
+        finally{
+
+            submitButton.disabled =
+                false;
+
+        }
+
+    }
+
+);
+
+
+/* =========================
+   START
+========================= */
+
+createChallenge();
+
+</script>
+
+
+<script src="VisitorSystem.js"></script>
+
+<script>
+sendPageVisit("عضو شدن در استودیو");
+</script>
+
+
+</body>
+
+</html>
