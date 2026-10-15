@@ -1459,10 +1459,10 @@ font-size:12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: absolute;
-    top: 50%;
+    position: fixed;
+    top: 50vh;
     transform: translateY(-50%);
-    z-index: 60;
+    z-index: 9999;
     width: 50px;
     height: 70px;
     border: 1px solid rgba(120,170,255,.65);
@@ -1480,8 +1480,13 @@ font-size:12px;
     border-color: rgba(170,205,255,.95);
   }
 
-  #pagePrev { right: 20px; }
-  #pageNext { left: 20px; }
+  #pagePrev {
+    right: 18px;
+  }
+
+  #pageNext {
+    left: 18px;
+  }
 
   #pages.desktop-3d .page.exitLeft {
     transform: translateX(-72%) rotateY(22deg) scale(.84);
@@ -1503,12 +1508,12 @@ font-size:12px;
 
   @keyframes dsDesktopEnterLeft {
     from { opacity: 0; transform: translateX(72%) rotateY(-22deg) scale(.84); }
-    to   { opacity: 1; transform: translateX(0) rotateY(0) scale(1); }
+    to { opacity: 1; transform: translateX(0) rotateY(0) scale(1); }
   }
 
   @keyframes dsDesktopEnterRight {
     from { opacity: 0; transform: translateX(-72%) rotateY(22deg) scale(.84); }
-    to   { opacity: 1; transform: translateX(0) rotateY(0) scale(1); }
+    to { opacity: 1; transform: translateX(0) rotateY(0) scale(1); }
   }
 }
 
