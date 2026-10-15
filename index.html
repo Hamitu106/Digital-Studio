@@ -1459,8 +1459,8 @@ font-size:12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: fixed;
-    top: 50vh;
+    position: absolute;
+    top: 50%;
     transform: translateY(-50%);
     z-index: 9999;
     width: 50px;
@@ -1481,11 +1481,11 @@ font-size:12px;
   }
 
   #pagePrev {
-    right: 18px;
+    right: calc(50% + 225px);
   }
 
   #pageNext {
-    left: 18px;
+    left: calc(50% + 225px);
   }
 
   #pages.desktop-3d .page.exitLeft {
