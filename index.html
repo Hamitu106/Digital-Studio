@@ -1443,53 +1443,82 @@ font-size:12px;
 
 
 
+
 /* DS_DESKTOP_3D_CAROUSEL */
-const desktopMoveQueue = [];
-let desktopQueueRunning = false;
+.pageNavArrow {
+  display: none;
+}
 
-function requestDesktopMove(direction) {
-  if (window.matchMedia("(max-width:600px)").matches) return;
-
-  if (desktopMoveQueue.length < 20) {
-    desktopMoveQueue.push(direction);
+@media (min-width: 601px) {
+  #pages {
+    perspective: 1400px;
+    perspective-origin: 50% 45%;
   }
 
-  if (!desktopQueueRunning) {
-    desktopQueueRunning = true;
-    processDesktopMoveQueue();
+  #pages .pageNavArrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 60;
+    width: 50px;
+    height: 70px;
+    border: 1px solid rgba(120,170,255,.65);
+    border-radius: 14px;
+    background: rgba(10,20,45,.92);
+    color: white;
+    font-size: 36px;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(50,100,230,.25);
+  }
+
+  #pages .pageNavArrow:hover {
+    background: rgba(40,65,120,.98);
+    border-color: rgba(170,205,255,.95);
+  }
+
+  #pagePrev { right: 20px; }
+  #pageNext { left: 20px; }
+
+  #pages.desktop-3d .page.exitLeft {
+    transform: translateX(-72%) rotateY(22deg) scale(.84);
+    transform-origin: right center;
+  }
+
+  #pages.desktop-3d .page.exitRight {
+    transform: translateX(72%) rotateY(-22deg) scale(.84);
+    transform-origin: left center;
+  }
+
+  #pages.desktop-3d .page.enterLeft {
+    animation: dsDesktopEnterLeft .65s cubic-bezier(.16,1,.3,1) forwards;
+  }
+
+  #pages.desktop-3d .page.enterRight {
+    animation: dsDesktopEnterRight .65s cubic-bezier(.16,1,.3,1) forwards;
+  }
+
+  @keyframes dsDesktopEnterLeft {
+    from { opacity: 0; transform: translateX(72%) rotateY(-22deg) scale(.84); }
+    to   { opacity: 1; transform: translateX(0) rotateY(0) scale(1); }
+  }
+
+  @keyframes dsDesktopEnterRight {
+    from { opacity: 0; transform: translateX(-72%) rotateY(22deg) scale(.84); }
+    to   { opacity: 1; transform: translateX(0) rotateY(0) scale(1); }
   }
 }
 
-function processDesktopMoveQueue() {
-  if (desktopMoveQueue.length === 0) {
-    desktopQueueRunning = false;
-    return;
+@media (max-width: 600px) {
+  #pages .pageNavArrow {
+    display: none !important;
   }
-
-  if (isChanging) {
-    setTimeout(processDesktopMoveQueue, 40);
-    return;
-  }
-
-  const direction = desktopMoveQueue.shift();
-  const nextPage = currentPage + (direction === "next" ? 1 : -1);
-
-  if (nextPage >= 0 && nextPage < pages.length) {
-    pagesArea.classList.add("desktop-3d");
-    goToPage(nextPage, direction === "next" ? "left" : "right");
-  }
-
-  setTimeout(processDesktopMoveQueue, 720);
 }
-
-document.getElementById("pagePrev").addEventListener("click", function() {
-  requestDesktopMove("prev");
-});
-
-document.getElementById("pageNext").addEventListener("click", function() {
-  requestDesktopMove("next");
-});
 /* /DS_DESKTOP_3D_CAROUSEL */
+
 
 </style>
 
@@ -2293,11 +2322,7 @@ location.href = "party.html";
 let studioJoinStatus = "lock";
 
 function joinStudio(){
-
-showMessage(
-"این سرویس کامل شده و درحال قفل است."
-);
-
+  window.location.href = "become%20a%20member.html";
 }
 
 function showMessage(text){
@@ -2527,47 +2552,52 @@ passive:true
 );
 
 
+
 /* DS_DESKTOP_3D_CAROUSEL */
 const desktopMoveQueue = [];
 let desktopQueueRunning = false;
 
-function requestDesktopMove(direction){
-  if(window.matchMedia("(max-width:600px)").matches) return;
-  if(desktopMoveQueue.length < 8) desktopMoveQueue.push(direction);
-  if(!desktopQueueRunning){
+function requestDesktopMove(direction) {
+  if (window.matchMedia("(max-width:600px)").matches) return;
+  if (desktopMoveQueue.length < 20) desktopMoveQueue.push(direction);
+
+  if (!desktopQueueRunning) {
     desktopQueueRunning = true;
     processDesktopMoveQueue();
   }
 }
 
-function processDesktopMoveQueue(){
-  if(desktopMoveQueue.length === 0){
+function processDesktopMoveQueue() {
+  if (desktopMoveQueue.length === 0) {
     desktopQueueRunning = false;
     return;
   }
-  if(isChanging){
-    setTimeout(processDesktopMoveQueue,40);
+
+  if (isChanging) {
+    setTimeout(processDesktopMoveQueue, 40);
     return;
   }
 
   const direction = desktopMoveQueue.shift();
-  const nextIndex = currentPage + (direction === "next" ? 1 : -1);
+  const nextPage = currentPage + (direction === "next" ? 1 : -1);
 
-  if(nextIndex >= 0 && nextIndex < pages.length){
+  if (nextPage >= 0 && nextPage < pages.length) {
     pagesArea.classList.add("desktop-3d");
-    goToPage(nextIndex,direction === "next" ? "left" : "right");
+    goToPage(nextPage, direction === "next" ? "left" : "right");
   }
 
-  setTimeout(processDesktopMoveQueue,720);
+  setTimeout(processDesktopMoveQueue, 720);
 }
 
-document.getElementById("pagePrev").addEventListener("click",function(){
+document.getElementById("pagePrev").addEventListener("click", function() {
   requestDesktopMove("prev");
 });
-document.getElementById("pageNext").addEventListener("click",function(){
+
+document.getElementById("pageNext").addEventListener("click", function() {
   requestDesktopMove("next");
 });
 /* /DS_DESKTOP_3D_CAROUSEL */
+
 
 
 checkCurrentUser();
