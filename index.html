@@ -2554,12 +2554,18 @@ passive:true
 
 
 /* DS_DESKTOP_3D_CAROUSEL */
+
 const desktopMoveQueue = [];
 let desktopQueueRunning = false;
 
+const pagePrevButton = document.getElementById("pagePrev");
+const pageNextButton = document.getElementById("pageNext");
+
 function requestDesktopMove(direction) {
-  if (window.matchMedia("(max-width:600px)").matches) return;
-  if (desktopMoveQueue.length < 20) desktopMoveQueue.push(direction);
+  if (window.matchMedia("(max-width: 600px)").matches) return;
+  if (desktopMoveQueue.length >= 20) return;
+
+  desktopMoveQueue.push(direction);
 
   if (!desktopQueueRunning) {
     desktopQueueRunning = true;
@@ -2589,13 +2595,11 @@ function processDesktopMoveQueue() {
   setTimeout(processDesktopMoveQueue, 720);
 }
 
-document.getElementById("pagePrev").addEventListener("click", function() {
-  requestDesktopMove("prev");
-});
+if (pagePrevButton && pageNextButton) {
+  pagePrevButton.addEventListener("click", () => requestDesktopMove("prev"));
+  pageNextButton.addEventListener("click", () => requestDesktopMove("next"));
+}
 
-document.getElementById("pageNext").addEventListener("click", function() {
-  requestDesktopMove("next");
-});
 /* /DS_DESKTOP_3D_CAROUSEL */
 
 
