@@ -1441,6 +1441,83 @@ font-size:12px;
 
 }
 
+
+
+/* DS_DESKTOP_3D_CAROUSEL */
+.pageNavArrow{display:none}
+
+@media(min-width:601px){
+  #pages{
+    perspective:1400px;
+    perspective-origin:50% 45%;
+  }
+
+  .pageNavArrow{
+    display:flex;
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    z-index:40;
+    width:54px;
+    height:70px;
+    align-items:center;
+    justify-content:center;
+    border:1px solid rgba(120,170,255,.55);
+    border-radius:16px;
+    color:#e5eeff;
+    background:linear-gradient(145deg,rgba(30,55,110,.82),rgba(4,9,25,.94));
+    box-shadow:0 0 22px rgba(55,110,255,.18);
+    font-size:34px;
+    cursor:pointer;
+    transition:background .25s,border-color .25s,box-shadow .25s;
+  }
+
+  .pageNavArrow:hover{
+    background:rgba(45,75,145,.9);
+    border-color:rgba(180,210,255,.95);
+    box-shadow:0 0 30px rgba(70,130,255,.4);
+  }
+
+  #pagePrev{right:24px}
+  #pageNext{left:24px}
+
+  #pages.desktop-3d .page{
+    transform-style:preserve-3d;
+    backface-visibility:hidden;
+  }
+
+  #pages.desktop-3d .page.exitLeft{
+    transform:translateX(-72%) rotateY(22deg) scale(.84);
+    transform-origin:right center;
+    opacity:0;
+  }
+
+  #pages.desktop-3d .page.exitRight{
+    transform:translateX(72%) rotateY(-22deg) scale(.84);
+    transform-origin:left center;
+    opacity:0;
+  }
+
+  #pages.desktop-3d .page.enterLeft{
+    animation:dsDesktopEnterLeft .65s cubic-bezier(.16,1,.3,1) forwards;
+  }
+
+  #pages.desktop-3d .page.enterRight{
+    animation:dsDesktopEnterRight .65s cubic-bezier(.16,1,.3,1) forwards;
+  }
+
+  @keyframes dsDesktopEnterLeft{
+    from{opacity:0;transform:translateX(72%) rotateY(-22deg) scale(.84)}
+    to{opacity:1;transform:translateX(0) rotateY(0) scale(1)}
+  }
+
+  @keyframes dsDesktopEnterRight{
+    from{opacity:0;transform:translateX(-72%) rotateY(22deg) scale(.84)}
+    to{opacity:1;transform:translateX(0) rotateY(0) scale(1)}
+  }
+}
+/* /DS_DESKTOP_3D_CAROUSEL */
+
 </style>
 
 </head>
@@ -1539,6 +1616,8 @@ PAGES
 ========================= -->
 
 <main id="pages">
+<button type="button" id="pagePrev" class="pageNavArrow" aria-label="صفحه قبلی" title="صفحه قبلی">›</button>
+<button type="button" id="pageNext" class="pageNavArrow" aria-label="صفحه بعدی" title="صفحه بعدی">‹</button>
 
 
 <!-- PAGE 1 -->
@@ -2242,7 +2321,9 @@ let studioJoinStatus = "lock";
 
 function joinStudio(){
 
-window.location.href = "become a member.html";
+showMessage(
+"این سرویس کامل شده و درحال قفل است."
+);
 
 }
 
@@ -2471,6 +2552,50 @@ currentPage - 1,
 passive:true
 }
 );
+
+
+/* DS_DESKTOP_3D_CAROUSEL */
+const desktopMoveQueue = [];
+let desktopQueueRunning = false;
+
+function requestDesktopMove(direction){
+  if(window.matchMedia("(max-width:600px)").matches) return;
+  if(desktopMoveQueue.length < 8) desktopMoveQueue.push(direction);
+  if(!desktopQueueRunning){
+    desktopQueueRunning = true;
+    processDesktopMoveQueue();
+  }
+}
+
+function processDesktopMoveQueue(){
+  if(desktopMoveQueue.length === 0){
+    desktopQueueRunning = false;
+    return;
+  }
+  if(isChanging){
+    setTimeout(processDesktopMoveQueue,40);
+    return;
+  }
+
+  const direction = desktopMoveQueue.shift();
+  const nextIndex = currentPage + (direction === "next" ? 1 : -1);
+
+  if(nextIndex >= 0 && nextIndex < pages.length){
+    pagesArea.classList.add("desktop-3d");
+    goToPage(nextIndex,direction === "next" ? "left" : "right");
+  }
+
+  setTimeout(processDesktopMoveQueue,720);
+}
+
+document.getElementById("pagePrev").addEventListener("click",function(){
+  requestDesktopMove("prev");
+});
+document.getElementById("pageNext").addEventListener("click",function(){
+  requestDesktopMove("next");
+});
+/* /DS_DESKTOP_3D_CAROUSEL */
+
 
 checkCurrentUser();
 
