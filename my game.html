@@ -2,6 +2,7 @@
 <html lang="fa" dir="rtl">
 
 <head>
+<link rel="icon" href="/Digital-Studio/Logo%20studio.jpg" type="image/jpeg">
 
 <meta charset="UTF-8">
 
@@ -1245,66 +1246,11 @@ if(
 
 
 
-<!-- ========================================
-     Digital Studio Visitor System
-======================================== -->
 
-<script>
-const SUPABASE_URL =
-"https://ltzymbvfntkmgqpjbhof.supabase.co";
 
-const SUPABASE_PUBLISHABLE_KEY =
-"sb_publishable_JO6nHjAfwTP4ZL_mgIvNHw_UZ7YJRI7";
 
-async function sendPageVisit() {
-
-    console.log("🚨 VISITOR SCRIPT STARTED");
-    console.log("[Visitor] My Games script started"); console.log("[Visitor] Sending visit...");
-
-    try {
-
-        const response = await fetch(
-            `${SUPABASE_URL}/rest/v1/site_visits`,
-            {
-                method: "POST",
-
-                headers: {
-                    "apikey": SUPABASE_PUBLISHABLE_KEY,
-                    "Authorization":
-                        `Bearer ${SUPABASE_PUBLISHABLE_KEY}`,
-                    "Content-Type": "application/json",
-                    "Prefer": "return=minimal"
-                },
-
-                body: JSON.stringify({
-                    page_name: "بازی های ما"
-                })
-            }
-        );
-
-        console.log("[Visitor] Status:", response.status);
-        console.log("📡 Supabase ok:", response.ok);
-
-        const result = await response.text();
-
-        console.log("📡 Supabase response:", result);
-
-        if (response.ok) {
-            console.log("[Visitor] Visit recorded");
-        } else {
-            console.log("❌ Supabase درخواست را قبول نکرد");
-        }
-
-    } catch (error) {
-
-        console.error("❌ خطای واقعی Visitor:", error);
-
-    }
-}
-
-sendPageVisit();
-</script>
-
+<script src="VisitorSystem.js"></script>
+<script>sendPageVisit("بازی های ما");</script>
 </body>
 
 </html>
