@@ -1528,6 +1528,62 @@ font-size:12px;
 
 </style>
 
+
+
+<style id="ds-login-options-style">
+.ds-login-options {
+  display: flex;
+  justify-content: center;
+  width: min(100%, 360px);
+  margin: 22px auto;
+}
+.ds-login-github {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 54px;
+  padding: 13px 20px;
+  overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid rgba(125, 110, 255, .85);
+  color: #fff;
+  background:
+    radial-gradient(ellipse at top left,
+      rgba(103, 74, 255, .45), transparent 65%),
+    linear-gradient(135deg, #11152f, #080b1b 65%, #211345);
+  box-shadow:
+    0 0 12px rgba(106, 91, 255, .35),
+    inset 0 0 14px rgba(111, 89, 255, .12);
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.ds-login-github img {
+  display: block;
+  flex-shrink: 0;
+  width: 25px;
+  height: 25px;
+  object-fit: contain;
+  filter: invert(1);
+}
+.ds-login-github:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 20px rgba(125, 110, 255, .65),
+    inset 0 0 18px rgba(111, 89, 255, .2);
+}
+.ds-login-github:focus-visible {
+  outline: 3px solid #9edcff;
+  outline-offset: 4px;
+}
+</style>
+
+
 </head>
 
 
@@ -2016,7 +2072,22 @@ aria-label="بستن"
 </div>
 
 <div class="registerText">
-سیستم بزودی ساخته میشه
+
+
+<div class="ds-login-options" dir="rtl">
+  <button type="button" class="ds-login-github"
+    onclick="window.dispatchEvent(new Event('ds-login-github'))">
+    <img
+      src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+      alt="GitHub"
+      width="25"
+      height="25"
+    >
+    <span>ادامه با GitHub</span>
+  </button>
+</div>
+
+
 </div>
 
 </div>
@@ -2090,8 +2161,10 @@ SUPABASE_PUBLISHABLE_KEY
 
 
 
-const ADMIN_EMAIL =
-"hamirastgoo93@gmail.com";
+const ADMIN_EMAILS = [
+  "hamirastgoo93@gmail.com",
+  "parsianeependar@gmail.com"
+];
 
 let currentUser = null;
 
@@ -2141,7 +2214,7 @@ avatar.src = avatarURL;
 const email =
 (user.email || "").toLowerCase();
 
-if(email === ADMIN_EMAIL.toLowerCase()){
+if(ADMIN_EMAILS.includes(email.trim().toLowerCase())){
 
 adminBadge.classList.add("show");
 
@@ -2239,9 +2312,9 @@ const role =
 document.getElementById("accountRole");
 
 if(
-(currentUser.email || "").toLowerCase()
-===
-ADMIN_EMAIL.toLowerCase()
+ADMIN_EMAILS.includes(
+  (currentUser.email || "").trim().toLowerCase()
+)
 ){
 
 role.textContent =
@@ -2771,372 +2844,179 @@ console.log(
 
 
 <!-- DIGITAL_STUDIO_ADMIN_ACCESS -->
-
 <script>
+(function () {
+  "use strict";
+
+  const ADMIN_EMAILS = [
+    "hamirastgoo93@gmail.com",
+    "parsianeependar@gmail.com"
+  ];
+
+  const client = digitalStudioSupabase;
+
+  let authCheckNumber = 0;
+
+  function setAdminAccess(isAdmin, email) {
+    window.digitalStudioIsAdmin = isAdmin;
+
+    const panel = document.getElementById("adminPanel");
+    const badge = document.getElementById("adminBadge");
+    const registerButton = document.getElementById("registerButton");
+    const status = document.getElementById("adminStatus");
 
-console.log("👑 Admin system started");
+    if (panel) {
+      panel.classList.toggle("admin-active", isAdmin);
+      panel.style.display = isAdmin ? "flex" : "none";
+    }
 
-const ADMIN_SUPABASE_URL =
-"https://ltzymbvfntkmgqpjbhof.supabase.co";
-
-const ADMIN_SUPABASE_KEY =
-"sb_publishable_qZM5pqboI9-Dq7BLay4L0Q_-A2UCVcj";
-
-const adminSupabase =
-window.supabase.createClient(
-ADMIN_SUPABASE_URL,
-ADMIN_SUPABASE_KEY
-);
-
-window.digitalStudioIsAdmin = false;
-
-const adminURL =
-new URLSearchParams(window.location.search);
-
-let adminToken =
-adminURL.get("admin_token");
-
-if (!adminToken) {
-adminToken =
-sessionStorage.getItem(
-"digital_studio_admin_token"
-);
-}
-
-function activateAdminPanel(expiresAt) {
-
-window.digitalStudioIsAdmin = true;
-
-console.log("👑 ADMIN PANEL ACTIVATED");
-
-const adminPanel =
-document.getElementById("adminPanel");
-
-if (adminPanel) {
-adminPanel.classList.add("admin-active");
-adminPanel.style.display = "flex";
-}
-
-const badge =
-document.getElementById("adminBadge");
-
-if (badge) {
-badge.classList.add("show");
-}
-
-const registerButton =
-document.getElementById("registerButton");
-
-if (registerButton) {
-registerButton.style.display = "none";
-}
-
-const status =
-document.getElementById("adminStatus");
-
-if (status) {
-
-let statusText =
-"🟢 پنل ادمین فعال است";
-
-if (expiresAt) {
-
-const date =
-new Date(expiresAt);
-
-if (!Number.isNaN(date.getTime())) {
-
-statusText +=
-" • اعتبار تا " +
-date.toLocaleString("fa-IR");
-
-}
-}
-
-status.textContent =
-statusText;
-
-}
-
-const message =
-document.createElement("div");
-
-message.textContent =
-"👑 پنل ادمین فعال شد";
-
-message.style.position = "fixed";
-message.style.top = "20px";
-message.style.left = "50%";
-message.style.transform = "translateX(-50%)";
-message.style.zIndex = "999999";
-message.style.padding = "14px 22px";
-message.style.borderRadius = "14px";
-message.style.background = "#111";
-message.style.color = "#fff";
-message.style.fontWeight = "bold";
-message.style.boxShadow =
-"0 0 25px rgba(255,255,255,.25)";
-
-document.body.appendChild(message);
-
-setTimeout(() => {
-
-message.style.opacity = "0";
-message.style.transition =
-"opacity 1s ease";
-
-setTimeout(() => {
-
-if (message.parentNode) {
-message.parentNode.removeChild(message);
-}
-
-}, 1000);
-
-}, 3000);
-
-if (
-window.location.search.includes(
-"admin_token"
-)
-) {
-
-window.history.replaceState(
-{},
-document.title,
-window.location.pathname +
-window.location.hash
-);
-}
-
-window.dispatchEvent(
-new CustomEvent(
-"digitalStudioAdminActivated"
-)
-);
-
-}
-
-async function verifyAdminToken() {
-
-if (!adminToken) {
-
-console.log(
-"❌ هیچ Admin Token ای وجود ندارد"
-);
-
-return;
-}
-
-console.log(
-"🔎 در حال بررسی Admin Token..."
-);
-
-try {
-
-const { data, error } =
-await adminSupabase.rpc(
-"verify_admin_token",
-{
-p_token: adminToken
-}
-);
-
-console.log(
-"📦 RPC result:",
-data,
-error
-);
-
-if (error) {
-
-console.error(
-"❌ خطای RPC:",
-error
-);
-
-showMessage(
-"❌ خطا در بررسی مجوز ادمین"
-);
-
-return;
-}
-
-const result =
-Array.isArray(data)
-? data[0]
-: data;
-
-if (!result || !result.valid) {
-
-console.log(
-"❌ Admin Token نامعتبر یا منقضی است"
-);
-
-sessionStorage.removeItem(
-"digital_studio_admin_token"
-);
-
-showMessage(
-"❌ مجوز ادمین معتبر نیست"
-);
-
-return;
-}
-
-console.log(
-"✅ Admin Token معتبر است"
-);
-
-sessionStorage.setItem(
-"digital_studio_admin_token",
-adminToken
-);
-
-activateAdminPanel(
-result.expires_at
-);
-
-const expires =
-new Date(
-result.expires_at
-).getTime();
-
-const remaining =
-expires - Date.now();
-
-if (remaining > 0) {
-
-setTimeout(() => {
-
-window.digitalStudioIsAdmin =
-false;
-
-sessionStorage.removeItem(
-"digital_studio_admin_token"
-);
-
-const panel =
-document.getElementById(
-"adminPanel"
-);
-
-if (panel) {
-
-panel.style.display =
-"none";
-
-panel.classList.remove(
-"admin-active"
-);
-
-}
-
-const badge =
-document.getElementById(
-"adminBadge"
-);
-
-if (badge) {
-badge.classList.remove("show");
-}
-
-console.log(
-"⌛ Admin session expired"
-);
-
-showMessage(
-"⌛ دسترسی ادمین منقضی شد"
-);
-
-}, remaining);
-
-}
-
-} catch (error) {
-
-console.error(
-"❌ خطای غیرمنتظره:",
-error
-);
-
-showMessage(
-"❌ خطای غیرمنتظره در سیستم ادمین"
-);
-
-}
-
-}
-
-function toggleAdminMenu(menuId, arrowId) {
-
-if (!window.digitalStudioIsAdmin) {
-
-showMessage(
-"⛔ دسترسی ادمین ندارید"
-);
-
-return;
-}
-
-const menu =
-document.getElementById(menuId);
-
-const arrow =
-document.getElementById(arrowId);
-
-if (!menu) return;
-
-menu.classList.toggle("open");
-
-if (arrow) {
-arrow.classList.toggle("rotate");
-}
-
-}
-
-function adminAction(action) {
-
-if (!window.digitalStudioIsAdmin) {
-
-showMessage(
-"⛔ دسترسی ادمین ندارید"
-);
-
-return;
-}
-
-console.log(
-"👑 Admin Action:",
-action
-);
-
-showMessage(
-"👑 بخش «" +
-action +
-"» انتخاب شد"
-);
-
-}
-
-verifyAdminToken();
-
+    if (badge) {
+      badge.classList.toggle("show", isAdmin);
+    }
+
+    if (registerButton && isAdmin) {
+      registerButton.style.display = "none";
+    }
+
+    if (status) {
+      status.textContent = isAdmin
+        ? "🟢 پنل مدیریت فعال است"
+        : "🔒 برای دسترسی به پنل، با حساب مجاز وارد شوید";
+    }
+
+    document.documentElement.classList.toggle(
+      "ds-admin-active",
+      isAdmin
+    );
+
+    window.dispatchEvent(new CustomEvent("ds-admin-status", {
+      detail: {
+        isAdmin: isAdmin,
+        email: email || ""
+      }
+    }));
+
+    if (isAdmin) {
+      window.dispatchEvent(
+        new CustomEvent("digitalStudioAdminActivated")
+      );
+    }
+  }
+
+  async function updateAdminAccess(userFromSession) {
+    const checkNumber = ++authCheckNumber;
+
+    try {
+      let user = userFromSession || null;
+
+      if (userFromSession === undefined) {
+        const { data, error } = await client.auth.getUser();
+
+        if (error) throw error;
+        user = data && data.user ? data.user : null;
+      }
+
+      // اگر بررسی جدیدتری شروع شده، نتیجه قدیمی را اعمال نکن
+      if (checkNumber !== authCheckNumber) return;
+
+      const email = (user && user.email || "")
+        .trim()
+        .toLowerCase();
+
+      const isAdmin = Boolean(
+        user && ADMIN_EMAILS.includes(email)
+      );
+
+      setAdminAccess(isAdmin, email);
+    } catch (error) {
+      console.error("Digital Studio admin check failed:", error);
+
+      if (checkNumber === authCheckNumber) {
+        setAdminAccess(false, "");
+      }
+    }
+  }
+
+  window.DigitalStudioCheckAdmin = function () {
+    return updateAdminAccess(undefined);
+  };
+
+  // پنل تا زمان تأیید حساب، بسته می‌ماند
+  setAdminAccess(false, "");
+
+  client.auth.onAuthStateChange(function (_event, session) {
+    updateAdminAccess(session && session.user ? session.user : null);
+  });
+
+  updateAdminAccess(undefined);
+
+  window.toggleAdminMenu = function (menuId, arrowId) {
+    if (!window.digitalStudioIsAdmin) {
+      showMessage("⛔ دسترسی ادمین ندارید");
+      return;
+    }
+
+    const menu = document.getElementById(menuId);
+    const arrow = document.getElementById(arrowId);
+
+    if (!menu) return;
+
+    menu.classList.toggle("open");
+
+    if (arrow) {
+      arrow.classList.toggle("rotate");
+    }
+  };
+
+  window.adminAction = function (action) {
+    if (!window.digitalStudioIsAdmin) {
+      showMessage("⛔ دسترسی ادمین ندارید");
+      return;
+    }
+
+    console.log("Digital Studio admin action:", action);
+    showMessage("👑 بخش «" + action + "» انتخاب شد");
+  };
+})();
 </script>
-
 <!-- /DIGITAL_STUDIO_ADMIN_ACCESS -->
 
 
-<!-- ========================================
-     سیستم ارسال بازدید ها
-======================================== -->
-<script src="VisitorSystem.js"></script>
+<script id="ds-login-button-events">
+window.addEventListener('ds-login-continue', function () {
+  alert('مسیر ورود یا ثبت‌نام هنوز به این دکمه متصل نشده است.');
+});
 
-<script>
-sendPageVisit('منوی اصلی');
+window.addEventListener('ds-login-github', function () {
+  if (!window.supabaseClient && typeof supabaseClient === 'undefined') {
+    alert('اتصال Supabase در دسترس نیست.');
+    return;
+  }
+
+  var client = window.supabaseClient ||
+    (typeof supabaseClient !== 'undefined' ? supabaseClient : null);
+
+  if (!client || !client.auth) {
+    alert('اتصال ورود Supabase پیدا نشد.');
+    return;
+  }
+
+  client.auth.signInWithOAuth({
+    provider: 'github',
+    options: {
+      redirectTo: 'https://hamitu106.github.io/Digital-Studio/'
+    }
+  }).then(function (result) {
+    if (result.error) {
+      console.error(result.error);
+      alert('ورود با GitHub انجام نشد. تنظیمات OAuth را بررسی کن.');
+    }
+  }).catch(function (error) {
+    console.error(error);
+    alert('خطا در اتصال به GitHub.');
+  });
+});
 </script>
-
-
-
 </body>
 
 </html>
