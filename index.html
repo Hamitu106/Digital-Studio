@@ -2163,7 +2163,8 @@ SUPABASE_PUBLISHABLE_KEY
 
 const ADMIN_EMAILS = [
   "hamirastgoo93@gmail.com",
-  "parsianeependar@gmail.com"
+  "parsianeependar@gmail.com",
+  "sirvantaghikhani9@gmail.com"
 ];
 
 let currentUser = null;
@@ -2850,7 +2851,8 @@ console.log(
 
   const ADMIN_EMAILS = [
     "hamirastgoo93@gmail.com",
-    "parsianeependar@gmail.com"
+    "parsianeependar@gmail.com",
+    "sirvantaghikhani9@gmail.com"
   ];
 
   const client = digitalStudioSupabase;
@@ -2923,9 +2925,23 @@ console.log(
         .trim()
         .toLowerCase();
 
-      const isAdmin = Boolean(
+      let isAdmin = Boolean(
         user && ADMIN_EMAILS.includes(email)
       );
+
+      // تأیید ایمیل از طریق تابع Supabase
+      if (user && isAdmin) {
+        const { data, error } = await client.rpc(
+          "is_current_user_admin"
+        );
+
+        if (error) {
+          console.error("Supabase admin verification failed:", error);
+          isAdmin = false;
+        } else {
+          isAdmin = data === true;
+        }
+      }
 
       setAdminAccess(isAdmin, email);
     } catch (error) {
@@ -2995,6 +3011,10 @@ window.addEventListener('ds-login-github', function () {
 
   var client = window.supabaseClient ||
     (typeof supabaseClient !== 'undefined' ? supabaseClient : null);
+
+  if (!client && window.digitalStudioSupabase) {
+    client = window.digitalStudioSupabase;
+  }
 
   if (!client || !client.auth) {
     alert('اتصال ورود Supabase پیدا نشد.');
