@@ -1584,6 +1584,70 @@ font-size:12px;
 </style>
 
 
+
+
+
+
+
+
+
+
+
+<style id="dsTestBannerStyle">
+#dsTestBanner {
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    height: 56px;
+    margin: 0;
+    padding: 4px 42px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+    overflow: hidden;
+    direction: rtl;
+    text-align: center;
+    cursor: pointer;
+    color: white;
+    background: linear-gradient(100deg, #4268dc, #8155d9, #16aaa9);
+    border-bottom: 1px solid rgba(255,255,255,.35);
+    font-family: inherit;
+    z-index: 51;
+}
+
+#dsTestBanner .dsTestTitle {
+    margin: 0;
+    font-size: 13px;
+    line-height: 17px;
+    font-weight: bold;
+}
+
+#dsTestBanner .dsTestLink {
+    font-size: 11px;
+    line-height: 14px;
+    font-weight: bold;
+    text-decoration: underline;
+    color: #ffffff;
+}
+
+#dsTestClose {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 25px;
+    height: 25px;
+    border: 1px solid rgba(255,255,255,.5);
+    border-radius: 50%;
+    background: rgba(255,255,255,.2);
+    color: white;
+    font-size: 19px;
+    cursor: pointer;
+}
+</style>
+
 </head>
 
 
@@ -1610,6 +1674,16 @@ font-size:12px;
 <!-- =========================
 TOP BAR
 ========================= -->
+
+
+
+
+<!-- DIGITAL_STUDIO_TEST_BANNER_V4 -->
+<div id="dsTestBanner">
+    <button id="dsTestClose" type="button" aria-label="بستن">×</button>
+    <div class="dsTestTitle">آیا می‌خواهید وضعیت فعلیتان را تست کنید؟</div>
+    <div class="dsTestLink">پس روی این بزن</div>
+</div>
 
 <header id="topBar">
 
@@ -1860,11 +1934,11 @@ onclick="location.href='admin.html'"
 
 <div class="pageDescription">
 
-ورود به صفحه مدیریت Digital Studio.
+
 
 <br>
 
-این بخش برای مدیریت و کنترل امکانات استودیو ساخته شده است.
+با اعضای تیم Digital Studio آشنا شوید؛ افرادی که در توسعه و مدیریت پروژه‌های استودیو فعالیت می‌کنند.
 
 </div>
 
@@ -2401,8 +2475,21 @@ location.href = "party.html";
 
 let studioJoinStatus = "lock";
 
-function joinStudio(){
-  window.location.href = "become%20a%20member.html";
+async function joinStudio(){
+  try {
+    const { data, error } = await supabaseClient.auth.getUser();
+
+    if (error || !data || !data.user) {
+      showMessage("🔐 برای عضویت در استودیو، ابتدا وارد حساب شوید");
+      openRegister();
+      return;
+    }
+
+    window.location.href = "become%20a%20member.html";
+  } catch (error) {
+    console.error("بررسی حساب کاربری ناموفق بود:", error);
+    showMessage("⚠️ بررسی حساب انجام نشد؛ دوباره تلاش کنید");
+  }
 }
 
 function showMessage(text){
@@ -2984,7 +3071,22 @@ console.log(
     }
   };
 
-  window.adminAction = function (action) {
+  window.adminAction = async function (action) {
+    let user = null;
+
+    try {
+      const { data, error } = await client.auth.getUser();
+      if (error) throw error;
+      user = data?.user ?? null;
+    } catch (error) {
+      console.error("Digital Studio auth check failed:", error);
+    }
+
+    if (!user) {
+      showMessage("ابتدا باید وارد حساب کاربری شوید");
+      return;
+    }
+
     if (!window.digitalStudioIsAdmin) {
       showMessage("⛔ دسترسی ادمین ندارید");
       return;
@@ -3037,6 +3139,267 @@ window.addEventListener('ds-login-github', function () {
   });
 });
 </script>
+
+<!-- DIGITAL_STUDIO_DEMO_STORE_V2 -->
+<style id="ds-demo-store-style">
+#dsStoreOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(0,0,8,.82);
+  backdrop-filter: blur(7px);
+  direction: rtl;
+}
+#dsStorePanel {
+  width: min(850px, 100%);
+  max-height: 90dvh;
+  overflow: auto;
+  padding: 22px;
+  color: #edf2ff;
+  border: 1px solid rgba(110,165,255,.4);
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(70,100,200,.18), transparent 55%),
+    linear-gradient(145deg, rgba(15,25,55,.99), rgba(3,7,18,.995));
+  box-shadow: 0 18px 65px rgba(0,0,0,.65), 0 0 25px rgba(65,100,220,.12);
+}
+#dsStorePanel * { box-sizing: border-box; }
+#dsStorePanel .ds-store-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+#dsStorePanel h2 {
+  margin: 0;
+  color: #dce7ff;
+  font-size: 24px;
+}
+#dsStorePanel .ds-store-sub {
+  color: #aab9d8;
+  font-size: 14px;
+  line-height: 1.8;
+  margin: 8px 0 16px;
+}
+#dsStorePanel .ds-store-close {
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  color: #e8efff;
+  background: rgba(35,50,85,.7);
+  border: 1px solid rgba(120,165,255,.35);
+  cursor: pointer;
+  font-size: 20px;
+}
+#dsStorePanel .ds-store-balance {
+  padding: 12px 15px;
+  margin-bottom: 18px;
+  border: 1px solid rgba(110,155,255,.28);
+  border-radius: 14px;
+  background: rgba(8,15,35,.75);
+  color: #dce7ff;
+}
+#dsStorePanel .ds-store-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 13px;
+}
+#dsStorePanel .ds-store-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid rgba(100,150,255,.25);
+  border-radius: 16px;
+  background: rgba(8,16,38,.78);
+}
+#dsStorePanel .ds-store-item h3 {
+  margin: 0;
+  color: #dce7ff;
+  font-size: 17px;
+}
+#dsStorePanel .ds-store-item p {
+  margin: 0;
+  color: #aebbd5;
+  font-size: 13px;
+  line-height: 1.8;
+}
+#dsStorePanel .ds-store-price {
+  color: #b9ccff;
+  font-weight: bold;
+  margin-top: auto;
+}
+#dsStorePanel .ds-store-buy {
+  padding: 9px 14px;
+  font-size: 13px;
+  cursor: pointer;
+}
+#dsStorePanel .ds-store-notice {
+  display: none;
+  margin-top: 16px;
+  padding: 12px;
+  border: 1px solid rgba(100,160,255,.3);
+  border-radius: 12px;
+  background: rgba(10,25,55,.85);
+  color: #e2ebff;
+  line-height: 1.8;
+  font-size: 13px;
+}
+@media (max-width: 520px) {
+  #dsStorePanel { padding: 15px; }
+  #dsStorePanel h2 { font-size: 20px; }
+  #dsStorePanel .ds-store-grid { grid-template-columns: 1fr; }
+}
+</style>
+
+<div id="dsStoreOverlay" role="dialog" aria-modal="true"
+     aria-labelledby="dsStoreTitle">
+  <section id="dsStorePanel">
+    <div class="ds-store-head">
+      <h2 id="dsStoreTitle">🛒 فروشگاه فضایی</h2>
+      <button type="button" class="ds-store-close"
+              id="dsStoreClose" aria-label="بستن فروشگاه">×</button>
+    </div>
+    <p class="ds-store-sub">
+      به فروشگاه آزمایشی دیجیتال استودیو خوش آمدی.
+      این نسخه فقط برای نمایش ظاهر و عملکرد اولیه است.
+    </p>
+    <div class="ds-store-balance">
+      موجودی نمایشی: <strong>۱۰۰۰ توکن آزمایشی</strong>
+    </div>
+    <div class="ds-store-grid">
+      <article class="ds-store-item">
+        <h3>🥈 کارت عضویت نقره‌ای</h3>
+        <p>یک کارت عضویت برای حساب فرضی تو.</p>
+        <div class="ds-store-price">۲۵۰ توکن</div>
+        <button class="aboutButton ds-store-buy" type="button"
+                data-product="کارت عضویت نقره‌ای">انتخاب محصول</button>
+      </article>
+      <article class="ds-store-item">
+        <h3>🌌 قاب فضایی پروفایل</h3>
+        <p>یک قاب با حال‌وهوای کهکشانی.</p>
+        <div class="ds-store-price">۱۵۰ توکن</div>
+        <button class="aboutButton ds-store-buy" type="button"
+                data-product="قاب فضایی پروفایل">انتخاب محصول</button>
+      </article>
+      <article class="ds-store-item">
+        <h3>⭐ عنوان ستارهٔ کهکشان</h3>
+        <p>یک عنوان تزئینی برای نمایش در پروفایل فرضی.</p>
+        <div class="ds-store-price">۳۰۰ توکن</div>
+        <button class="aboutButton ds-store-buy" type="button"
+                data-product="عنوان ستارهٔ کهکشان">انتخاب محصول</button>
+      </article>
+      <article class="ds-store-item">
+        <h3>🎁 بستهٔ اسرارآمیز</h3>
+        <p>یک بستهٔ نمایشی با محتوای نامشخص.</p>
+        <div class="ds-store-price">۱۰۰ توکن</div>
+        <button class="aboutButton ds-store-buy" type="button"
+                data-product="بستهٔ اسرارآمیز">انتخاب محصول</button>
+      </article>
+    </div>
+    <div id="dsStoreNotice" class="ds-store-notice" role="status"></div>
+  </section>
+</div>
+
+<script>
+(function () {
+    const STORE_ENABLED = false; // true = ON | false = OFF
+    if (!STORE_ENABLED) return;
+
+  const overlay = document.getElementById("dsStoreOverlay");
+  const closeButton = document.getElementById("dsStoreClose");
+  const notice = document.getElementById("dsStoreNotice");
+
+  if (!overlay || !closeButton) return;
+
+  function closeStore() {
+    overlay.style.display = "none";
+  }
+
+  function openStore() {
+    overlay.style.display = "flex";
+    closeButton.focus();
+  }
+
+  const aboutButton = Array.from(document.querySelectorAll(".aboutButton"))
+    .find(button => button.textContent.includes("درباره"));
+
+  if (!aboutButton) {
+    console.warn("Digital Studio: دکمهٔ درباره پیدا نشد؛ دکمهٔ فروشگاه ساخته نشد.");
+    return;
+  }
+
+  if (!document.getElementById("dsStoreOpen")) {
+    const storeButton = document.createElement("button");
+    storeButton.type = "button";
+    storeButton.id = "dsStoreOpen";
+    storeButton.className = "aboutButton";
+    storeButton.textContent = "🛒 فروشگاه";
+    storeButton.addEventListener("click", openStore);
+    aboutButton.parentNode.insertBefore(storeButton, aboutButton);
+  }
+
+  closeButton.addEventListener("click", closeStore);
+
+  overlay.addEventListener("click", function (event) {
+    if (event.target === overlay) closeStore();
+  });
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape" && overlay.style.display === "flex") {
+      closeStore();
+    }
+  });
+
+  document.querySelectorAll("#dsStorePanel [data-product]").forEach(button => {
+    button.addEventListener("click", function () {
+      notice.textContent =
+        "🧪 «" + button.dataset.product +
+        "» انتخاب شد! این خرید فقط نمایشی است؛ توکنی کم نشد و آیتمی به حساب اضافه نشد.";
+      notice.style.display = "block";
+    });
+  });
+})();
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script id="dsTestBannerScript">
+(function () {
+    const banner = document.getElementById("dsTestBanner");
+    const close = document.getElementById("dsTestClose");
+
+    if (!banner || !close) return;
+
+    banner.addEventListener("click", function () {
+        window.location.href = "test.html";
+    });
+
+    close.addEventListener("click", function (event) {
+        event.stopPropagation();
+        banner.remove();
+    });
+})();
+</script>
+
 </body>
 
 </html>

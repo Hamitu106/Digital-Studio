@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Digital Studio | ابزارهای عملکرد</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+ min-height:100vh;
+ background:radial-gradient(circle at 50% 10%,rgba(65,95,180,.25),transparent 35%),linear-gradient(180deg,#070914,#02030a,#000106);
+ color:white;font-family:Arial,Tahoma,sans-serif;
+ display:flex;justify-content:center;padding:20px;
+}
+.panel{
+ width:100%;max-width:600px;padding:25px 18px;
+ border-radius:25px;text-align:center;
+ background:linear-gradient(145deg,#101832,#040712);
+ border:1px solid rgba(100,150,255,.4);
+ box-shadow:0 20px 70px #000;margin:auto;
+}
+.logo{color:#83aaff;font-size:13px;letter-spacing:3px;margin-bottom:12px}
+h1{font-size:25px;margin-bottom:10px}
+.subtitle{color:#8999bb;font-size:13px;margin-bottom:22px}
+.tabs{
+ display:grid;grid-template-columns:repeat(2,1fr);
+ gap:9px;margin-bottom:25px;
+}
+.tab{
+ padding:12px 7px;color:#aab9d8;background:#101b36;
+ border:1px solid #34466c;border-radius:12px;
+ cursor:pointer;font-weight:bold;font-size:13px;
+}
+.tab.active{color:white;background:#234477;border-color:#83aaff;box-shadow:0 0 15px #2455a455}
+.tool{display:none}.tool.active{display:block}
+h2{font-size:19px;margin-bottom:22px}
+.gauge{width:100%;max-width:330px;margin:auto}
+.gauge svg{width:100%}
+.needle{transform-origin:150px 150px;transition:transform .5s ease}
+.number{font-size:50px;font-weight:bold;color:#22dd88;text-shadow:0 0 20px currentColor;margin-top:-5px}
+.unit{color:#aab9d8;font-size:15px;margin-top:5px}
+.status{
+ display:inline-block;margin-top:18px;padding:10px 20px;
+ border-radius:30px;border:1px solid #22dd88;
+ color:#22dd88;background:#22dd8818;font-size:13px;
+}
+.info{margin-top:20px;color:#8292b5;font-size:12px;line-height:2}
+.footer{margin-top:28px;color:#52658b;font-size:11px}
+.fpsBox,.box{
+ padding:25px 12px;border:1px solid #34466c;
+ border-radius:18px;background:#080f21;margin-bottom:15px;
+}
+.fpsNumber{font-size:65px;font-weight:bold;color:#22dd88;text-shadow:0 0 25px currentColor}
+.fpsLabel{color:#9aadd0;margin-top:10px}
+.fpsDetails{margin-top:25px;display:flex;justify-content:space-around;color:#9aadd0;font-size:12px;line-height:2}
+.fpsDetails strong{display:block;font-size:19px;color:white}
+.bigValue{font-size:30px;font-weight:bold;color:#83aaff;margin:12px 0}
+.muted{color:#8292b5;font-size:12px;line-height:2}
+button.action{
+ border:0;border-radius:12px;padding:12px 20px;
+ background:#28518a;color:white;font-weight:bold;
+ cursor:pointer;margin:8px 4px;font-size:13px;
+}
+button.action:disabled{opacity:.5;cursor:wait}
+input{
+ width:100%;padding:13px;border-radius:10px;
+ border:1px solid #34466c;background:#080f21;
+ color:white;text-align:left;direction:ltr;margin:10px 0;
+}
+.result{
+ background:#080f21;border:1px solid #263858;
+ border-radius:12px;padding:13px;margin-top:12px;
+ color:#b9c9e8;font-size:13px;line-height:2;
+ overflow-wrap:anywhere;
+}
+.row{
+ display:flex;justify-content:space-between;gap:10px;
+ padding:10px 3px;border-bottom:1px solid #263858;
+ color:#aab9d8;font-size:13px;text-align:right;
+}
+.row strong{color:white;text-align:left;direction:ltr;overflow-wrap:anywhere}
+.good{color:#22dd88!important}
+.warn{color:#ffbd45!important}
+.bad{color:#ff5555!important}
+.footerNote{font-size:11px;color:#687b9f;line-height:2;margin-top:15px}
+@media(min-width:500px){.tabs{grid-template-columns:repeat(4,1fr)}}
+
+</style>
+</head>
+
+<body>
+<div class="panel">
+
+ <div class="logo">DIGITAL STUDIO</div>
+ <h1>مرکز ابزارهای عملکرد</h1>
+ <div class="subtitle">بررسی اتصال، سرعت و اطلاعات دستگاه</div>
+
+ <div class="tabs">
+  <button class="tab active" onclick="showTool('ping',this)">تست پینگ</button>
+  <button class="tab" onclick="showTool('fps',this)">تست FPS</button>
+  <button class="tab" onclick="showTool('speed',this)">سرعت اینترنت</button>
+  <button class="tab" onclick="showTool('dns',this)">DNS</button>
+  <button class="tab" onclick="showTool('website',this)">وضعیت سایت</button>
+  <button class="tab" onclick="showTool('device',this)">اطلاعات دستگاه</button>
+  <button class="tab" onclick="showTool('security',this)">امنیت اتصال</button>
+  <button class="tab" onclick="showTool('traffic',this)">مصرف اینترنت</button>
+ </div>
+
+ <!-- PING -->
+ <section id="ping" class="tool active">
+  <h2>تست زنده پینگ</h2>
+  <div class="gauge">
+   <svg viewBox="0 0 300 180">
+    <defs>
+     <linearGradient id="gradient">
+      <stop offset="0%" stop-color="#22dd88"/>
+      <stop offset="40%" stop-color="#d4df38"/>
+      <stop offset="70%" stop-color="#ff9c30"/>
+      <stop offset="100%" stop-color="#ff3030"/>
+     </linearGradient>
+    </defs>
+    <path d="M30 150 A120 120 0 0 1 270 150" fill="none" stroke="#26334f" stroke-width="17" stroke-linecap="round"/>
+    <path d="M30 150 A120 120 0 0 1 270 150" fill="none" stroke="url(#gradient)" stroke-width="17" stroke-linecap="round"/>
+    <g fill="#aab9d8" font-size="11">
+     <text x="25" y="170">0</text>
+     <text x="150" y="19" text-anchor="middle">150</text>
+     <text x="275" y="170" text-anchor="end">300+</text>
+    </g>
+    <g id="needle" class="needle">
+     <line x1="150" y1="150" x2="150" y2="45" stroke="#22dd88" stroke-width="5" stroke-linecap="round"/>
+    </g>
+    <circle cx="150" cy="150" r="9" fill="white"/>
+   </svg>
+  </div>
+  <div id="pingNumber" class="number">--</div>
+  <div class="unit">میلی‌ثانیه (ms)</div>
+  <div id="pingStatus" class="status">در حال اتصال...</div>
+  <div class="info"><span id="pingInfo">در حال بررسی اتصال اینترنت</span><br>مقصد آزمایش: گوگل</div>
+ </section>
+
+ <!-- FPS -->
+ <section id="fps" class="tool">
+  <h2>تست زنده نرخ فریم</h2>
+  <div class="fpsBox">
+   <div id="fpsNumber" class="fpsNumber">--</div>
+   <div class="fpsLabel">فریم در ثانیه</div>
+   <div class="fpsDetails">
+    <div><strong id="fpsMin">--</strong>کمترین نرخ فریم</div>
+    <div><strong id="fpsMax">--</strong>بیشترین نرخ فریم</div>
+   </div>
+  </div>
+  <div id="fpsStatus" class="status">در حال اندازه‌گیری...</div>
+  <div class="info">این ابزار نرخ فریم نمایش همین صفحه را اندازه می‌گیرد، نه بازی‌ها را.</div>
+ </section>
+
+ <!-- SPEED -->
+ <section id="speed" class="tool">
+  <h2>تست خودکار سرعت اینترنت</h2>
+  <div class="box">
+   <div class="muted">سرعت دانلود</div>
+   <div class="bigValue" id="downloadValue">در حال بررسی...</div>
+   <div class="muted">سرعت آپلود</div>
+   <div class="bigValue" id="uploadValue">در حال بررسی...</div>
+   <div class="result" id="speedResult">آماده‌سازی تست خودکار</div>
+  </div>
+  <div class="footerNote">نتایج به‌صورت خودکار به‌روز می‌شوند. اندازه‌گیری سرعت ممکن است کمی اینترنت مصرف کند.</div>
+ </section>
+
+ <!-- DNS -->
+ <section id="dns" class="tool">
+  <h2>تست خودکار DNS</h2>
+  <div class="box">
+   <div class="muted">دامنه مورد بررسی</div>
+   <input id="dnsInput" value="example.com" placeholder="نام دامنه">
+   <div class="bigValue" id="dnsValue">در حال بررسی...</div>
+   <div class="result" id="dnsResult">در انتظار پاسخ DNS</div>
+  </div>
+ </section>
+
+ <!-- WEBSITE -->
+ <section id="website" class="tool">
+  <h2>بررسی خودکار آنلاین بودن سایت</h2>
+  <div class="box">
+   <div class="muted">آدرس سایت مورد بررسی</div>
+   <input id="siteInput" value="https://example.com" placeholder="https://example.com">
+   <div class="bigValue" id="siteValue">در حال بررسی...</div>
+   <div class="result" id="siteResult">در انتظار بررسی سایت</div>
+  </div>
+  <div class="footerNote">محدودیت‌های امنیتی مرورگر ممکن است مانع تشخیص قطعی وضعیت سایت شوند.</div>
+ </section>
+
+ <!-- DEVICE -->
+ <section id="device" class="tool">
+  <h2>اطلاعات زنده دستگاه</h2>
+  <div class="box" id="deviceInfo">
+   <div class="muted">در حال خواندن اطلاعات دستگاه...</div>
+  </div>
+ </section>
+
+ <!-- SECURITY -->
+ <section id="security" class="tool">
+  <h2>بررسی امنیت اتصال</h2>
+  <div class="box" id="securityInfo">
+   <div class="muted">در حال بررسی...</div>
+  </div>
+  <div class="footerNote">این بررسی ساده است و اسکن کامل امنیت سایت نیست.</div>
+ </section>
+
+ <!-- TRAFFIC -->
+ <section id="traffic" class="tool">
+  <h2>آمار زنده مصرف اینترنت صفحه</h2>
+  <div class="box">
+   <div class="muted">حجم انتقال ثبت‌شده</div>
+   <div class="bigValue" id="trafficValue">در حال محاسبه...</div>
+   <div class="result" id="trafficDetails"></div>
+  </div>
+  <div class="footerNote">این آمار تقریبی است و مصرف کل اینترنت دستگاه را نشان نمی‌دهد.</div>
+ </section>
+
+ 
+<div class="footer">DIGITAL STUDIO • ابزارهای عملکرد</div>
+</div>
+
+
+<script>
+function showTool(name,button){
+ document.querySelectorAll(".tool").forEach(x=>x.classList.remove("active"));
+ document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+ document.getElementById(name).classList.add("active");
+ button.classList.add("active");
+}
+
+/* PING */
+const pingNumber=document.getElementById("pingNumber");
+const needle=document.getElementById("needle");
+const pingStatus=document.getElementById("pingStatus");
+const pingInfo=document.getElementById("pingInfo");
+let pingBusy=false;
+
+function updatePing(value){
+ let angle=Math.min(value,300)/300*180;
+ needle.style.transform=`rotate(${angle}deg)`;
+ let color,message;
+ if(value<=60){color="#22dd88";message="اتصال عالی"}
+ else if(value<=120){color="#d4df38";message="اتصال خوب"}
+ else if(value<=200){color="#ff9c30";message="اتصال متوسط"}
+ else{color="#ff3030";message="اتصال ضعیف"}
+ pingNumber.style.color=color;
+ needle.querySelector("line").style.stroke=color;
+ pingStatus.style.color=color;
+ pingStatus.style.borderColor=color;
+ pingStatus.textContent=message;
+ pingNumber.textContent=Math.round(value);
+}
+async function testPing(){
+ if(pingBusy)return;
+ pingBusy=true;
+ const controller=new AbortController();
+ const timeout=setTimeout(()=>controller.abort(),4500);
+ const start=performance.now();
+ try{
+  await fetch("https://www.google.com/generate_204?t="+Date.now(),
+   {mode:"no-cors",cache:"no-store",signal:controller.signal});
+  updatePing(performance.now()-start);
+  pingInfo.textContent="آخرین بررسی: "+new Date().toLocaleTimeString();
+ }catch(error){
+  pingNumber.textContent="--";
+  pingStatus.textContent="خطا در اتصال";
+  pingStatus.style.color="#ff3030";
+  pingStatus.style.borderColor="#ff3030";
+  pingInfo.textContent="مقصد آزمایش پاسخ نداد";
+ }finally{
+  clearTimeout(timeout);
+  pingBusy=false;
+ }
+}
+testPing();
+setInterval(testPing,1000);
+
+/* FPS */
+let frames=0,lastTime=performance.now(),minFPS=Infinity,maxFPS=0;
+function measureFPS(now){
+ frames++;
+ if(now-lastTime>=1000){
+  let fps=Math.round(frames*1000/(now-lastTime));
+  frames=0;
+  lastTime=now;
+  minFPS=Math.min(minFPS,fps);
+  maxFPS=Math.max(maxFPS,fps);
+  document.getElementById("fpsNumber").textContent=fps;
+  document.getElementById("fpsMin").textContent=minFPS;
+  document.getElementById("fpsMax").textContent=maxFPS;
+  let color=fps>=50?"#22dd88":fps>=30?"#d4df38":"#ff3030";
+  let msg=fps>=50?"عملکرد عالی":fps>=30?"عملکرد متوسط":"عملکرد ضعیف";
+  document.getElementById("fpsNumber").style.color=color;
+  let s=document.getElementById("fpsStatus");
+  s.style.color=color;
+  s.style.borderColor=color;
+  s.textContent=msg;
+ }
+ requestAnimationFrame(measureFPS);
+}
+requestAnimationFrame(measureFPS);
+
+/* ابزارهای خودکار */
+const $=id=>document.getElementById(id);
+const set=(id,value)=>{if($(id))$(id).textContent=value};
+const timeNow=()=>new Date().toLocaleTimeString();
+const safeText=s=>String(s).replace(/[&<>"']/g,c=>({
+ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+}[c]));
+
+function formatBytes(bytes){
+ if(bytes<1024)return bytes.toFixed(0)+" بایت";
+ if(bytes<1048576)return (bytes/1024).toFixed(2)+" KB";
+ return (bytes/1048576).toFixed(2)+" MB";
+}
+
+/* سرعت دانلود */
+let speedBusy=false;
+async function speedTest(){
+ if(speedBusy||!navigator.onLine)return;
+ speedBusy=true;
+ set("speedResult","در حال اندازه‌گیری دانلود...");
+ try{
+  const size=500000;
+  const start=performance.now();
+  const r=await fetch("https://speed.cloudflare.com/__down?bytes="+size+"&t="+Date.now(),{cache:"no-store"});
+  if(!r.ok)throw Error("پاسخ نامعتبر");
+  const data=await r.arrayBuffer();
+  const seconds=(performance.now()-start)/1000;
+  const mbps=data.byteLength*8/seconds/1000000;
+  set("downloadValue",mbps.toFixed(2)+" Mbps");
+  set("speedResult","آخرین تست دانلود: "+timeNow());
+ }catch(e){
+  set("downloadValue","نامشخص");
+  set("speedResult","تست دانلود در دسترس نیست.");
+ }finally{speedBusy=false}
+}
+
+/* سرعت آپلود */
+let uploadBusy=false;
+async function uploadTest(){
+ if(uploadBusy||!navigator.onLine)return;
+ uploadBusy=true;
+ try{
+  const size=100000;
+  const body=new Blob([new Uint8Array(size)]);
+  const start=performance.now();
+  const r=await fetch("https://speed.cloudflare.com/__up",{
+   method:"POST",body,cache:"no-store"
+  });
+  if(!r.ok)throw Error("پاسخ نامعتبر");
+  const seconds=(performance.now()-start)/1000;
+  const mbps=size*8/seconds/1000000;
+  set("uploadValue",mbps.toFixed(2)+" Mbps");
+  set("speedResult","آخرین تست آپلود: "+timeNow());
+ }catch(e){
+  set("uploadValue","نامشخص");
+  set("speedResult","تست آپلود توسط سرویس یا مرورگر پشتیبانی نشد.");
+ }finally{uploadBusy=false}
+}
+
+/* DNS خودکار */
+let dnsBusy=false;
+async function dnsTest(){
+ if(dnsBusy)return;
+ dnsBusy=true;
+ const domain=$("dnsInput").value.trim().replace(/^https?:\/\//,"").split("/")[0];
+ try{
+  if(!domain)throw Error("نام دامنه خالی است");
+  const start=performance.now();
+  const r=await fetch("https://dns.google/resolve?name="+encodeURIComponent(domain)+"&type=A&t="+Date.now());
+  if(!r.ok)throw Error("پاسخ DNS دریافت نشد");
+  const data=await r.json();
+  const ms=Math.round(performance.now()-start);
+  const ips=(data.Answer||[]).filter(x=>x.type===1).map(x=>x.data);
+  set("dnsValue",ms+" ms");
+  set("dnsResult",ips.length?"IP: "+ips.join(" | ")+" | زمان: "+timeNow():"رکورد IPv4 پیدا نشد | زمان: "+timeNow());
+ }catch(e){
+  set("dnsValue","نامشخص");
+  set("dnsResult",e.message);
+ }finally{dnsBusy=false}
+}
+
+/* بررسی سایت خودکار */
+let siteBusy=false;
+async function websiteTest(){
+ if(siteBusy)return;
+ siteBusy=true;
+ let address=$("siteInput").value.trim();
+ if(!address){set("siteValue","آدرس خالی است");siteBusy=false;return}
+ if(!/^https?:\/\//i.test(address))address="https://"+address;
+ try{
+  const start=performance.now();
+  await fetch(address,{mode:"no-cors",cache:"no-store",signal:AbortSignal.timeout(7000)});
+  set("siteValue","پاسخ شبکه دریافت شد");
+  set("siteResult","زمان تقریبی: "+Math.round(performance.now()-start)+" ms | "+timeNow()+" | تأیید قطعی وضعیت سایت ممکن نیست.");
+ }catch(e){
+  set("siteValue","دسترسی ناموفق");
+  set("siteResult","سایت پاسخ قابل دریافت نداد یا مرورگر دسترسی را محدود کرد. | "+timeNow());
+ }finally{siteBusy=false}
+}
+
+/* اطلاعات دستگاه */
+function deviceInfo(){
+ const nav=navigator;
+ const conn=nav.connection||nav.mozConnection||nav.webkitConnection;
+ const rows=[
+  ["سیستم‌عامل",nav.userAgentData?.platform||nav.platform||"نامشخص"],
+  ["مرورگر",nav.userAgent],
+  ["زبان",nav.language||"نامشخص"],
+  ["هسته پردازنده",nav.hardwareConcurrency||"نامشخص"],
+  ["حافظه تقریبی",nav.deviceMemory?nav.deviceMemory+" GB":"نامشخص"],
+  ["اندازه صفحه",screen.width+" × "+screen.height],
+  ["اندازه پنجره",innerWidth+" × "+innerHeight],
+  ["وضعیت اینترنت",nav.onLine?"متصل":"قطع"],
+  ["نوع اتصال",conn?.effectiveType||"نامشخص"],
+  ["سرعت تخمینی",conn?.downlink?conn.downlink+" Mbps":"نامشخص"]
+ ];
+ $("deviceInfo").innerHTML=rows.map(r=>
+  `<div class="row"><span>${safeText(r[0])}</span><strong>${safeText(r[1])}</strong></div>`
+ ).join("");
+}
+
+/* امنیت اتصال */
+function securityInfo(){
+ const https=location.protocol==="https:";
+ const secure=window.isSecureContext;
+ const rows=[
+  ["نوع اتصال",https?"HTTPS":"HTTP"],
+  ["محیط امن مرورگر",secure?"بله":"خیر"],
+  ["وضعیت اینترنت",navigator.onLine?"متصل":"قطع"],
+  ["بررسی گواهی","جزئیات گواهی از این صفحه قابل خواندن نیست."]
+ ];
+ $("securityInfo").innerHTML=rows.map(r=>
+  `<div class="row"><span>${safeText(r[0])}</span><strong>${safeText(r[1])}</strong></div>`
+ ).join("");
+}
+
+/* مصرف اینترنت صفحه */
+function trafficInfo(){
+ const entries=performance.getEntriesByType("resource");
+ let total=0,encoded=0;
+ for(const e of entries){
+  total+=e.transferSize||0;
+  encoded+=e.encodedBodySize||0;
+ }
+ set("trafficValue",formatBytes(total));
+ set("trafficDetails",
+  "تعداد منابع: "+entries.length+
+  "<br>حجم انتقال ثبت‌شده: "+formatBytes(total)+
+  "<br>حجم محتوای ثبت‌شده: "+formatBytes(encoded)+
+  "<br>آخرین به‌روزرسانی: "+timeNow()
+ );
+}
+
+/* به‌روزرسانی نمایش هر ثانیه */
+function refreshAll(){
+ deviceInfo();
+ securityInfo();
+ trafficInfo();
+}
+refreshAll();
+setInterval(refreshAll,1000);
+
+/* زمان‌بندی تست‌های شبکه */
+speedTest();
+setInterval(speedTest,10000);
+
+uploadTest();
+setInterval(uploadTest,20000);
+
+dnsTest();
+setInterval(dnsTest,5000);
+
+websiteTest();
+setInterval(websiteTest,5000);
+
+$("dnsInput").addEventListener("change",dnsTest);
+$("siteInput").addEventListener("change",websiteTest);
+</script>
+
+</body>
+</html>
