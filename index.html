@@ -1526,7 +1526,25 @@ font-size:12px;
 /* /DS_DESKTOP_3D_CAROUSEL */
 
 
-</style>
+
+.oauthButton{
+    width:100%;
+    margin-top:20px;
+    padding:12px 20px;
+    border-radius:10px;
+    border:1px solid rgba(145,190,255,.65);
+    background:rgba(55,95,155,.8);
+    color:white;
+    font-size:14px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.25s;
+}
+.oauthButton:hover{
+    background:rgba(80,130,195,.95);
+    transform:translateY(-2px);
+}
+\n</style>
 
 
 
@@ -2197,6 +2215,13 @@ alt="Account"
 <div id="accountRole">
 حساب کاربری
 </div>
+
+<button
+class="oauthButton"
+onclick="location.href='OAuth%202.0.html'"
+>
+برنامه‌ی OAuth 2.0
+</button>
 
 <button
 class="logoutButton"
